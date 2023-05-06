@@ -56,5 +56,19 @@ const styles = {
     width: "100%",
     aspectRatio: 1,
   },
+  modalContainer: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalText: {
+    fontSize: 20,
+    marginBottom: 16,
+  },
+  modalButton: {
+    marginTop: 16,
+  },
 };
 export default styles;

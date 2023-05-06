@@ -12,7 +12,8 @@ import {
 //import AsyncStorage from "@react-native-community/async-storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, ButtonGroup, withTheme } from "@rneui/themed";
-import { Icon, Input } from "@rneui/themed";
+import { Icon } from "@rneui/themed";
+import { Input } from "@ui-kitten/components";
 import {
   EvilIcons,
   AntDesign,
@@ -82,6 +83,9 @@ export default function Login({ navigation }) {
           placeholder="Password"
           secureTextEntry={true}
           onChangeText={(userPasse) => setuserPasse(userPasse)}
+          accessoryRight={
+            <MaterialCommunityIcons name="eye" size={24} color="black" />
+          }
           leftIcon={
             <MaterialCommunityIcons name="lock" size={24} color="black" />
           }

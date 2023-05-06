@@ -18,6 +18,8 @@ import EditProfile from "../screens/EditProfile";
 import ProfilResto from "../screens/ProfilResto";
 import Bottomnav from "./Bottomnav";
 import TokenContext from "../store/tokencontext";
+import UIUserProfile from "../screens/UIProfile";
+import UIOnboarding from "../screens/uionboarding";
 const Stack = createNativeStackNavigator();
 export default function Authnav() {
   const [token, setToken] = useState("");
@@ -29,6 +31,17 @@ export default function Authnav() {
           component={Welcome}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="UIOnboarding"
+          component={UIOnboarding}
+          //options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UIUserProfile"
+          component={UIUserProfile}
+          //options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="Login"
           component={Login}
@@ -64,7 +77,6 @@ export default function Authnav() {
           component={Addmenu}
           //options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="EditProfile"
           component={EditProfile}

@@ -17,6 +17,8 @@ import {
   FlatList,
 } from "react-native";
 import { API_URL } from "../utils/config";
+import * as Icon from "react-native-feather";
+import { themeColors } from "../theme/theme";
 export default function Home({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;

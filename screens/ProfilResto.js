@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, ScrollView, Image, Text, TouchableOpacity } from "react-native";
-import { Button } from "@rneui/themed";
+import { View, ScrollView, Image, TouchableOpacity } from "react-native";
+import { Card, Modal, Layout } from "@ui-kitten/components";
+import { Button, Text } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
+
 import {
   EvilIcons,
   Feather,
@@ -20,6 +22,8 @@ import styles from "../style/ProfiRestostyle";
 const ProfilResto = ({ navigation, route }) => {
   const [restodata, setRestodata] = useState([]);
   const [imageUri, setImageUri] = useState(null);
+  const [visible, setVisible] = React.useState(false);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -30,6 +34,7 @@ const ProfilResto = ({ navigation, route }) => {
 
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
+      setVisible(true);
     }
   };
 
@@ -113,6 +118,32 @@ const ProfilResto = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <Modal
+        visible={visible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setVisible(false)}
+      >
+        <Layout style={styles.modalContainer}>
+          <Card disabled={true}>
+            <Text>laarbi amroune duchen matchi d la sorciaire 😻</Text>
+
+            {imageUri ? (
+              <Image
+                source={{ uri: imageUri }}
+                style={{ width: 304, height: 300 }}
+              />
+            ) : (
+              <View>
+                <Text>upload image</Text>
+              </View>
+            )}
+          </Card>
+
+          <Button style={styles.modalButton} onPress={() => setVisible(false)}>
+            send
+          </Button>
+        </Layout>
+      </Modal>
       <ScrollView>
         <View style={styles.header}>
           <View style={styles.headerContent}>

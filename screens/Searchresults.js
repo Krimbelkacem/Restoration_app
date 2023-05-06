@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Searchbar from "react-native-paper";
+import { Card, Title, Paragraph } from "react-native-paper";
 
 import {
   EvilIcons,
@@ -100,6 +101,29 @@ const Searchkey = ({ navigation }) => {
                 })
               }
             >
+              <Card key={resto.id} style={{ margin: 16, elevation: 4 }}>
+                <Card.Cover
+                  source={{
+                    uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+                  }}
+                />
+                <Card.Content>
+                  <Title
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {resto.name}
+                  </Title>
+                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
+                    This is a beautiful card view created using React Native
+                    Paper.
+                  </Paragraph>
+                </Card.Content>
+              </Card>
+              {/*
               <View key={resto.id} style={styles.card}>
                 <Image
                   source={{
@@ -111,7 +135,7 @@ const Searchkey = ({ navigation }) => {
 
                 <Text style={styles.name}>Name:{resto.name}</Text>
                 <Text style={styles.name}>owner :{resto.owner}</Text>
-              </View>
+                </View>*/}
             </TouchableOpacity>
           ))}
         </View>

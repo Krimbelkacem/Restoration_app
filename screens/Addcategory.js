@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, TextInput, Text, Button } from "react-native";
+import { View, StyleSheet, TextInput, Text } from "react-native";
+import { Input, Button, Layout } from "@ui-kitten/components";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { API_URL } from "../utils/config";
+
 export default function Addmenuitem({ navigation, route }) {
   const [cats, setCats] = useState([]);
 
@@ -71,33 +73,20 @@ export default function Addmenuitem({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text></Text>
-      <Text style={styles.label}>choose category:</Text>
-      <Picker
-        selectedValue={selectedCat?._id}
-        onValueChange={handleCatChange}
-        style={{
-          height: 50, // set the height to 50 pixels
-          width: 300, // set the width to 200 pixels
-          backgroundColor: "#fff",
-          borderRadius: 8,
-          padding: 10,
-          borderWidth: 1,
-          borderColor: "#ccc",
-          fontSize: 16,
-        }}
-      >
-        {cats.map((cat) => (
-          <Picker.Item
-            key={cat._id}
-            label={cat.name}
-            value={cat._id}
-            style={{ fontSize: 16, color: "#333" }}
-          />
-        ))}
-      </Picker>
-      {selectedCat ? (
-        <View
+      <Layout style={styles.formContainer}>
+        <Text>choose category:</Text>
+        <Picker
+          selectedValue={selectedCat?._id}
+          onValueChange={handleCatChange}
           style={{
+            height: 50, // set the height to 50 pixels
+            width: 300, // set the width to 200 pixels
+            backgroundColor: "#fff",
+            borderRadius: 8,
+            padding: 10,
+            borderWidth: 1,
+            borderColor: "#ccc",
+            fontSize: 16,
             borderWidth: 1,
             borderColor: "#ccc",
             borderRadius: 8,
@@ -105,67 +94,71 @@ export default function Addmenuitem({ navigation, route }) {
             width: 300,
           }}
         >
-          <Text>{selectedCat.name}</Text>
+          {cats.map((cat) => (
+            <Picker.Item
+              key={cat._id}
+              label={cat.name}
+              value={cat._id}
+              style={{ fontSize: 16, color: "#333" }}
+            />
+          ))}
+        </Picker>
+
+        <View>
+          <Text>Name:</Text>
+          <Input
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter name"
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 8,
+              padding: 10,
+              width: 300,
+            }}
+          />
+          <Text>Price:</Text>
+          <Input
+            value={price}
+            onChangeText={setPrice}
+            placeholder="Enter price"
+            keyboardType="numeric"
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 8,
+              padding: 10,
+              width: 300,
+            }}
+          />
+          <Text>Description:</Text>
+          <Input
+            value={description}
+            onChangeText={setDescription}
+            placeholder="Enter description"
+            multiline={true}
+            numberOfLines={4}
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 8,
+              margin: 10,
+            }}
+          />
+          <Button
+            style={{
+              backgroundColor: "black",
+              borderRadius: 8,
+              borderColor: "#ccc",
+              margin: 10,
+            }}
+            onPress={addItem}
+          >
+            add
+          </Button>
         </View>
-      ) : (
-        <Text>Please select a category</Text>
-      )}
-
-      {/* <Picker
-     
-      >
-        <Picker.Item label="JavaScript" value="JavaScript" />
-        <Picker.Item label="TypeScript" value="TypeScript" />
-        <Picker.Item label="Python" value="Python" />
-        <Picker.Item label="Java" value="Java" />
-        <Picker.Item label="C++" value="C++" />
-        <Picker.Item label="C" value="C" />
-        </Picker>*/}
-
-      <View>
-        <Text>Name:</Text>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          placeholder="Enter name"
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 8,
-            padding: 10,
-            width: 300,
-          }}
-        />
-        <Text>Price:</Text>
-        <TextInput
-          value={price}
-          onChangeText={setPrice}
-          placeholder="Enter price"
-          keyboardType="numeric"
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 8,
-            padding: 10,
-            width: 300,
-          }}
-        />
-        <Text>Description:</Text>
-        <TextInput
-          value={description}
-          onChangeText={setDescription}
-          placeholder="Enter description"
-          multiline={true}
-          numberOfLines={4}
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 8,
-            padding: 10,
-          }}
-        />
-        <Button title="Submit" onPress={addItem} />
-      </View>
+      </Layout>
     </View>
   );
 }
