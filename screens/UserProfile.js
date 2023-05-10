@@ -38,6 +38,7 @@ export default function Profile({ navigation }) {
 
         if (!token) {
           navigation.navigate("Login");
+          alert("notoken");
           return;
         }
       });
@@ -65,7 +66,7 @@ export default function Profile({ navigation }) {
     setRestoData(userData.Restos);
   };
   const getuprofilResto = async (resto) => {
-    navigation.navigate("ProfilResto", { resto });
+    navigation.navigate("ProfileView", { resto });
   };
   const submit = async (token) => {
     navigation.navigate("EditProfile", { userData }, { token });
@@ -154,8 +155,9 @@ export default function Profile({ navigation }) {
               {restoData.map((resto) => (
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("ProfilResto", {
-                      rest: resto,
+                    navigation.navigate("ProfileView", {
+                      // rest: resto,
+                      idR: resto._id,
                       id: userData._id,
                     })
                   }

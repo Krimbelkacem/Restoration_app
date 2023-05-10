@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
           "session",
           JSON.stringify({ userId: "123", token: token })
         );
-        //await AsyncStorage.setItem("token", "token");
+        // await AsyncStorage.setItem("token", "token");
         navigation.navigate("Profile", { token: token });
       } catch (error) {
         console.error(error);

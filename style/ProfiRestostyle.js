@@ -46,6 +46,7 @@ const styles = {
     padding: 30,
     flexDirection: "row",
     flexWrap: "wrap",
+    backgroundColor: "#fff",
   },
   imageContainer: {
     width: "33%",
@@ -69,6 +70,23 @@ const styles = {
   },
   modalButton: {
     marginTop: 16,
+  },
+
+  item: {
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagecar: {
+    width: 400,
+    height: 250,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 };
 export default styles;

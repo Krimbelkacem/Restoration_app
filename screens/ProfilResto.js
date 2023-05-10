@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { Card, Modal, Layout } from "@ui-kitten/components";
 import { Button, Text } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
@@ -19,6 +25,7 @@ import { useRoute } from "@react-navigation/native";
 import TokenContext from "../store/tokencontext";
 import axios from "axios";
 import styles from "../style/ProfiRestostyle";
+import Carousel from "react-native-snap-carousel";
 const ProfilResto = ({ navigation, route }) => {
   const [restodata, setRestodata] = useState([]);
   const [imageUri, setImageUri] = useState(null);
@@ -116,6 +123,51 @@ const ProfilResto = ({ navigation, route }) => {
 
   // Function to fetch user data from API
 
+  const data = [
+    {
+      id: "1",
+      title: "Item 1",
+      imageUrl: "https://picsum.photos/id/11/200/300",
+    },
+    {
+      id: "2",
+      title: "Item 2",
+      imageUrl: "https://picsum.photos/id/12/200/300",
+    },
+    {
+      id: "3",
+      title: "Item 3",
+      imageUrl: "https://picsum.photos/id/13/200/300",
+    },
+  ];
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Image source={{ uri: item.imageUrl }} style={styles.imagecar} />
+    </View>
+  );
+
+  const Header = (props) => (
+    <View {...props}>
+      <Text category="h6">Maldives</Text>
+      <Text category="s1">By Wikipedia</Text>
+    </View>
+  );
+
+  const Footer = (props) => (
+    <View
+      {...props}
+      // eslint-disable-next-line react/prop-types
+      style={[props.style, styles.footerContainer]}
+    >
+      <Button style={styles.footerControl} size="small" status="basic">
+        CANCEL
+      </Button>
+      <Button style={styles.footerControl} size="small">
+        ACCEPT
+      </Button>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Modal
@@ -145,6 +197,26 @@ const ProfilResto = ({ navigation, route }) => {
         </Layout>
       </Modal>
       <ScrollView>
+        <Carousel
+          data={data}
+          renderItem={renderItem}
+          sliderWidth={400}
+          itemWidth={400}
+          autoplay={true}
+          loop={true}
+        />
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Add Photo</Text>
+          </TouchableOpacity>
+          <FlatList
+            data={photos}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={3}
+            style={styles.list}
+          />
+        </View>
+
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View>
@@ -163,7 +235,10 @@ const ProfilResto = ({ navigation, route }) => {
                 <Text style={styles.name}>{resto.address}</Text>
                 {display ? (
                   <View>
-                    <Button title="edit profile" />
+                    <Button
+                      title="edit profile"
+                      onPress={() => navigation.navigate("UIUserProfile")}
+                    />
                     <Button
                       buttonStyle={{
                         backgroundColor: "grey",
@@ -255,6 +330,18 @@ const ProfilResto = ({ navigation, route }) => {
               <Image style={styles.image} source={{ uri: image }} />
             </View>
           ))}
+
+          <Card style={styles.item} status="basic">
+            <Text>
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged.
+            </Text>
+          </Card>
           {photos.map((photo, index) => (
             <View key={index} style={styles.imageContainer}>
               <Image

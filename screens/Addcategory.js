@@ -1,13 +1,45 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, TextInput, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Input, Button, Layout } from "@ui-kitten/components";
 import { Picker } from "@react-native-picker/picker";
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { API_URL } from "../utils/config";
+import {
+  EvilIcons,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  Ionicons,
+} from "react-native-vector-icons";
 
 export default function Addmenuitem({ navigation, route }) {
   const [cats, setCats] = useState([]);
 
+  const [imageUri, setImageUri] = useState(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.2,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
   //  alert(restoid);
   useEffect(() => {
     fetchData();
@@ -34,8 +66,15 @@ export default function Addmenuitem({ navigation, route }) {
 
   async function addItem() {
     const restoid = route.params.idresto;
+
+    const idC = selectedCat._id;
+    alert(idC);
     const formData = new FormData();
-    formData.append("category", selectedCat);
+    formData.append("image", {
+      uri: imageUri,
+      type: "image/jpeg",
+      name: "image.jpg",
+    });
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
@@ -47,13 +86,13 @@ export default function Addmenuitem({ navigation, route }) {
       console.log(price);
       // console.log(formData.get("category"));
       const response = await axios.post(
-        `${API_URL}/additem?id=${restoid}`,
-        {
+        `${API_URL}/additem?id=${restoid}&idC=${idC}`,
+        /* {
           name: name,
           category: selectedCat,
           description: description,
           price: price,
-        },
+        },*/ formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -61,6 +100,7 @@ export default function Addmenuitem({ navigation, route }) {
         }
       );
       console.log(response.data);
+      alert("added item");
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +112,33 @@ export default function Addmenuitem({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Text></Text>
+      <View style={styles.container2}>
+        <View style={styles.container3}>
+          <TouchableOpacity onPress={pickImage}>
+            <Feather
+              name="camera"
+              size={30}
+              color={"gray"}
+              style={{
+                position: "absolute",
+                flex: 1,
+                zIndex: 2,
+                bottom: 0,
+                right: 0,
+              }}
+            />
+
+            {imageUri ? (
+              <Image source={{ uri: imageUri }} style={styles.imgback} />
+            ) : (
+              <Image
+                source={require("../assets/chef.png")}
+                style={styles.imgback}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      </View>
       <Layout style={styles.formContainer}>
         <Text>choose category:</Text>
         <Picker
@@ -185,5 +251,31 @@ const styles = StyleSheet.create({
   selection: {
     fontSize: 16,
     marginTop: 20,
+  },
+  container2: {
+    borderColor: "gray",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "lightgray",
+    borderRadius: 0,
+    marginBottom: 100,
+  },
+  container3: {
+    position: "absolute",
+    zIndex: 1,
+    bottom: -80,
+    flex: 1,
+    alignItems: "center",
+    borderRadius: 75,
+    justifyContent: "center",
+
+    // backgroundColor: "lightskyblue",
+  },
+  imgback: {
+    width: 150,
+    height: 150,
+    borderRadius: 80,
+    borderWidth: 2,
+    borderColor: "lightgray",
   },
 });
