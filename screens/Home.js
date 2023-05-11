@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Image,
@@ -17,59 +17,125 @@ import {
   Button,
   FlatList,
 } from "react-native";
+import axios from "axios";
+import { Modal } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { API_URL } from "../utils/config";
 import * as Icon from "react-native-feather";
-import Carousel from "react-native-snap-carousel";
+import MyAppbar from "../components/Appbar";
+//import Carousel from "react-native-snap-carousel";
 
-import { MyModal } from "../components/Modal";
+import MyModal from "../components/Modal";
 export default function Home({ navigation }) {
+  const [userData, setUserData] = useState(null);
+
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const data = [
-    {
-      id: "1",
-      title: "Item 1",
-      imageUrl: "https://picsum.photos/id/11/200/300",
-    },
-    {
-      id: "2",
-      title: "Item 2",
-      imageUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      id: "3",
-      title: "Item 3",
-      imageUrl: "https://picsum.photos/id/13/200/300",
-    },
-  ];
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+  const [isconnected, setIsconnected] = useState(0);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const sessionData = await AsyncStorage.getItem("session");
+        if (sessionData) {
+          const { token } = JSON.parse(sessionData);
+          setToken(token);
+          const response = await fetch(`${API_URL}/profile`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const user = await response.json();
+          setUserData(user);
+          setIsconnected(1);
+          console.log(user);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Image source={{ uri: item.imageUrl }} style={styles.image} />
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
-  );
+    fetchUser();
+
+    /*
+    const getData = async () => {
+      const unsubscribe = navigation.addListener("focus", async () => {
+        const sessionString = await AsyncStorage.getItem("session");
+        if (sessionString) {
+          const sessionData = JSON.parse(sessionString);
+          setUserId(sessionData.userId);
+          setToken(sessionData.token);
+        }
+        if (token) {
+          getUserProfile(token);
+        }
+      });
+
+      return unsubscribe;
+    };
+    getData();*/
+  }, [navigation]);
+  const getUserProfile = async (token) => {
+    try {
+      const response = await axios.get(`${API_URL}/profile`, {
+        headers: { Authorization: "Bearer " + token },
+      });
+      console.log("ok");
+      console.log(response.data);
+      setUserData(response.data);
+      setIsconnected(1);
+    } catch (error) {
+      console.log(error);
+      alert("no");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      alert("nn");
+      await AsyncStorage.removeItem("session");
+      // userData(null);
+      setIsconnected(0);
+      // navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View>
-      <MyModal />
-      {/*<Carousel
+      <MyAppbar
+        isconnected={isconnected}
+        userData={userData}
+        handleLogout={handleLogout}
+        navigation={navigation}
+        token={token}
+      />
+      <Text>HH</Text>
+      <View>
+        {userData ? (
+          <View>
+            <Text> {userData.username}</Text>
+          </View>
+        ) : (
+          <View>
+            <Text>no</Text>
+          </View>
+        )}
+      </View>
+    </View>
+
+    /*<Carousel
         data={data}
         renderItem={renderItem}
         sliderWidth={400}
         itemWidth={200}
         autoplay={true}
         loop={true}
-  />*/}
-
-      <ScrollView
-        vertical={true}
-        style={styles.contentContainer}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      ></ScrollView>
-    </View>
+  />*/
   );
 }
 

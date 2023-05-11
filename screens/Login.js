@@ -42,13 +42,15 @@ export default function Login({ navigation }) {
         const res = await axios.post(`${API_URL}/login`, data);
 
         const token = res.data.token;
+        const idU = res.data.idU;
+        alert(idU);
         setToken(token);
         await AsyncStorage.setItem(
           "session",
-          JSON.stringify({ userId: "123", token: token })
+          JSON.stringify({ userId: idU, token: token })
         );
         // await AsyncStorage.setItem("token", "token");
-        navigation.navigate("Profile", { token: token });
+        navigation.navigate("Bottomnav", { token: token });
       } catch (error) {
         console.error(error);
         return null;

@@ -32,6 +32,7 @@ export default function Profile({ navigation }) {
         const sessionData = await AsyncStorage.getItem("session");
         const session = JSON.parse(sessionData);
         const token = session.token;
+
         if (token) {
           getUserProfile(token);
         }

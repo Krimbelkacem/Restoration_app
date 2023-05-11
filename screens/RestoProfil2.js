@@ -5,14 +5,18 @@ import Carousel from "../components/ProfilTab/Carousel";
 import { Card, Text, Avatar, IconButton } from "react-native-paper";
 import { Button } from "@rneui/themed";
 import MenuResto from "../components/menuresto/MenuResto";
-
+import RestoFollowers from "../components/RestoFollowers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../utils/config";
 const ProfileView = ({ route, navigation }) => {
   const [display, setDisplay] = useState(null);
+  const [isfollowing, setIsfollowing] = useState(0);
+  const [followerss, setfollowerss] = useState([]);
   const [slicedPhotos, setSlicedPhotos] = useState([]);
   const [photos, setphotos] = useState([]);
   const [Resto, setResto] = useState({});
-  const [menu, setMenu] = useState([]);
+  const [UserId, setUserId] = useState(null);
+
   useEffect(() => {
     const idR = route.params.idR;
     console.log("idR: " + idR);
@@ -31,17 +35,27 @@ const ProfileView = ({ route, navigation }) => {
         setResto(response.data);
         setphotos(response.data.photos);
         const sliced = response.data.photos.slice(0, 3);
-        console.log(Resto.Avatar);
+
+        setfollowerss(Resto.followers);
+        console.log("followers : " + followerss);
 
         // set state variable with sliced array of photos
         setSlicedPhotos(sliced);
 
-        if (route.params.id && route.params.id === response.data.owner) {
-          setDisplay(route.params.id);
-          alert("owner");
+        const sessionData = await AsyncStorage.getItem("session");
+        if (sessionData) {
+          const { userId } = JSON.parse(sessionData);
+          setUserId(userId);
+          if (userId && userId === response.data.owner) {
+            setDisplay("owner");
+          }
+        }
+
+        alert(response.data.followers);
+        if (response.data.followers.includes(UserId)) {
+          setIsfollowing(1);
         }
       }
-      console.log(Resto.name);
 
       // slice first 3 photos
     } catch (error) {
@@ -50,21 +64,129 @@ const ProfileView = ({ route, navigation }) => {
     }
   };
 
+  const handleFollow = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/addfollower?idU=${UserId}&idR=${route.params.idR}  `
+      );
+      console.log(response.data);
+      setIsfollowing(1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const followers = [
+    {
+      id: 1,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
+      name: "John Doe",
+      age: "30",
+    },
+    {
+      id: 2,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
+      name: "John Doe",
+      age: "30",
+    },
+    {
+      id: 3,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
+      name: "John Doe",
+      age: "30",
+    },
+    {
+      id: 4,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
+      name: "John Doe",
+      age: "30",
+    },
+    {
+      id: 5,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
+      name: "John Doe",
+      age: "30",
+    },
+    {
+      id: 6,
+      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
+      name: "John Doe",
+      age: "30",
+    },
+  ];
+
   return (
     <ScrollView>
+      <Text>{UserId}</Text>
+      <Text>{isfollowing}</Text>
       <View style={styles.headerContainer}>
         <Carousel photos={slicedPhotos} />
         <View style={styles.profileContainer}></View>
       </View>
 
-      <View style={styles.section}>
-        <View>
-          <ScrollView
-            horizontal
-            contentContainerStyle={styles.friendsScroll}
-          ></ScrollView>
+      <ScrollView style={styles.container}>
+        <View style={styles.section}>
+          <Text style={styles.statCount}>1234</Text>
+          <Text style={styles.statLabel}>Friends</Text>
         </View>
-      </View>
+
+        <View style={styles.section}>
+          <View>
+            <ScrollView horizontal contentContainerStyle={styles.friendsScroll}>
+              {followers.map(({ avatar, id }) => (
+                <View style={styles.friendCard} key={id}>
+                  <Image style={styles.friendImage} source={{ uri: avatar }} />
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.bioText}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
+            ullamcorper nisi.
+          </Text>
+        </View>
+
+        <View style={styles.section}>
+          <View>
+            {UserId ? (
+              <View>
+                {display ? (
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Owner</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View>
+                    <View>
+                      {isfollowing === 1 ? (
+                        <View>
+                          <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleFollow}
+                          >
+                            <Text style={styles.buttonText}>abonnée</Text>
+                          </TouchableOpacity>
+                        </View>
+                      ) : (
+                        <View>
+                          <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>s'abonnée</Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                )}
+              </View>
+            ) : (
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>veuillez creer un compte</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      </ScrollView>
 
       <View>
         <Card>

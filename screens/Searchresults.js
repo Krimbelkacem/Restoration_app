@@ -96,8 +96,9 @@ const Searchkey = ({ navigation }) => {
           {Data.map((resto) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("ProfilResto", {
-                  rest: resto,
+                navigation.navigate("ProfileView", {
+                  // rest: resto,
+                  idR: resto._id,
                 })
               }
             >
