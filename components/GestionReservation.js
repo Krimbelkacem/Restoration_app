@@ -3,13 +3,31 @@ import { View, Text, ScrollView, Button, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import { Avatar } from "react-native-paper";
 import { API_URL } from "../utils/config";
+import axios from "axios";
 
-const ReservationList = ({ RestoReservation }) => {
+const ReservationList = ({ RestoReservation, UserId, display }) => {
   const [reservations, setReservations] = useState([]);
+
+  async function acceptReservation(id) {
+    try {
+      const response = await axios.put(`${API_URL}/acceptReservation?id=${id}`);
+      alert("Accepted");
+    } catch (error) {
+      throw error;
+    }
+  }
+  async function rejectReservation(id) {
+    try {
+      const response = await axios.put(`${API_URL}/acceptReservation?id=${id}`);
+      alert("refused");
+    } catch (error) {
+      throw error;
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text>gestions Reservations</Text>
+      <Text>Reservations</Text>
       {RestoReservation?.map((reservation) => (
         <Card key={reservation._id} containerStyle={styles.card}>
           <Text>Date: {reservation.date}</Text>
@@ -23,11 +41,25 @@ const ReservationList = ({ RestoReservation }) => {
           />
           <Text>User: {reservation.user.username}</Text>
 
-          <Text>Status: {reservation.state}</Text>
+          <Text>
+            Status : <Text style={{ color: "grey" }}>{reservation.state}</Text>
+          </Text>
           {reservation.state === "pending" && (
-            <View style={styles.buttonContainer}>
-              <Button title="Accept" />
-              <Button title="Reject" />
+            <View>
+              {display ? (
+                <View style={styles.buttonContainer}>
+                  <Button
+                    title="Accept"
+                    onPress={acceptReservation(reservation._id)}
+                  />
+                  <Button
+                    title="Reject"
+                    onPress={rejectReservation(reservation._id)}
+                  />
+                </View>
+              ) : (
+                <Text></Text>
+              )}
             </View>
           )}
         </Card>

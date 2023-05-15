@@ -118,7 +118,7 @@ export default function Authnav() {
         <Stack.Screen
           name="Bottomnav"
           component={Bottomnav}
-          //options={{ headerShown: false }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Profile"

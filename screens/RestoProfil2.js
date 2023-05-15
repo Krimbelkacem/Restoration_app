@@ -20,7 +20,7 @@ import { MD3Colors } from "react-native-paper";
 import MyModal from "../components/Modal";
 import ModalResto from "../components/menuresto/ModalResto";
 import RestoCarousel from "../components/ProfilTab/RestoCarousel";
-import { AlignCenter } from "react-native-feather";
+import { AlignCenter, User } from "react-native-feather";
 import Reservation from "../components/Reservation/Reservation";
 import ReservationList from "../components/GestionReservation";
 const ProfileView = ({ route, navigation }) => {
@@ -413,30 +413,42 @@ const ProfileView = ({ route, navigation }) => {
         />*/}
         </View>
 
-        <ReservationList RestoReservation={RestoReservations} />
+        <ReservationList
+          RestoReservation={RestoReservations}
+          UserId={UserId}
+          display={display}
+        />
       </ScrollView>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          margin: 16,
-        }}
-      >
-        <TouchableOpacity
-          onPress={toggleReservation}
+      {UserId ? (
+        <View
           style={{
-            backgroundColor: "#2f95dc",
-            borderRadius: 50,
-            paddingVertical: 12,
-            paddingHorizontal: 16,
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            margin: 16,
           }}
         >
-          <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
-            new Reservation
-          </Text>
-        </TouchableOpacity>
-      </View>
+          {display ? (
+            <Text></Text>
+          ) : (
+            <TouchableOpacity
+              onPress={toggleReservation}
+              style={{
+                backgroundColor: "#2f95dc",
+                borderRadius: 50,
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+                new Reservation
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      ) : (
+        <Text></Text>
+      )}
     </View>
   );
 };
