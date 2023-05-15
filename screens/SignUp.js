@@ -54,11 +54,13 @@ export default function SignUp({ navigation }) {
     formData.append("email", userEmail);
     formData.append("passe", userPasse);
 
-    formData.append("image", {
-      uri: imageUri,
-      type: "image/jpeg",
-      name: "image.jpg",
-    });
+    if (imageUri) {
+      formData.append("image", {
+        uri: imageUri,
+        type: "image/jpeg",
+        name: "image.jpg",
+      });
+    }
 
     try {
       const response = await axios.post(`${API_URL}/signup`, formData, {

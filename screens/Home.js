@@ -50,11 +50,15 @@ export default function Home({ navigation }) {
           });
           const user = await response.json();
           setUserData(user);
-          setIsconnected(1);
+          if (user) {
+            setIsconnected(1);
+          }
           console.log(user);
         }
       } catch (error) {
         console.log(error);
+        navigation.navigate("Login");
+        alert("email or passe not valide");
       }
     };
 
@@ -86,7 +90,7 @@ export default function Home({ navigation }) {
       console.log("ok");
       console.log(response.data);
       setUserData(response.data);
-      setIsconnected(1);
+      // setIsconnected(1);
     } catch (error) {
       console.log(error);
       alert("no");

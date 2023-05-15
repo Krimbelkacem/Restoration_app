@@ -17,6 +17,7 @@ import {
 
 import Home from "../screens/Home";
 import Searchkey from "../screens/Searchresults";
+import Map from "../screens/Map";
 import { Input } from "react-native-elements";
 
 import {
@@ -137,6 +138,17 @@ export default function Bottomnav({ navigation }) {
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <AntDesign name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Map"
+        component={Map}
+        options={{
+          header: searchHeader,
+          tabBarLabel: "map",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="map" color={color} size={26} />
           ),
         }}
       />

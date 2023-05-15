@@ -53,7 +53,12 @@ export default function Login({ navigation }) {
         navigation.navigate("Bottomnav", { token: token });
       } catch (error) {
         console.error(error);
-        return null;
+
+        if (error.response && error.response.status === 401) {
+          alert("Invalid email or password");
+        } else {
+          alert("An error occurred. Please try again later.");
+        }
       }
     }
   }

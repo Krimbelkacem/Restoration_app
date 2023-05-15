@@ -2,21 +2,38 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Image, ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
 import Carousel from "../components/ProfilTab/Carousel";
-import { Card, Text, Avatar, IconButton } from "react-native-paper";
-import { Button } from "@rneui/themed";
+import {
+  Card,
+  Text,
+  Avatar,
+  IconButton,
+  Button,
+  FAB,
+} from "react-native-paper";
+import { SpeedDial } from "react-native-elements";
+//import { Button } from "@rneui/themed";
 import MenuResto from "../components/menuresto/MenuResto";
 import RestoFollowers from "../components/RestoFollowers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../utils/config";
+import { MD3Colors } from "react-native-paper";
+import MyModal from "../components/Modal";
+import ModalResto from "../components/menuresto/ModalResto";
+import RestoCarousel from "../components/ProfilTab/RestoCarousel";
+import { AlignCenter } from "react-native-feather";
+import Reservation from "../components/Reservation/Reservation";
+import ReservationList from "../components/GestionReservation";
 const ProfileView = ({ route, navigation }) => {
   const [display, setDisplay] = useState(null);
-  const [isfollowing, setIsfollowing] = useState(0);
+  //const [isfollowing, setIsfollowing] = useState(0);
+  const [isfollowing, setIsfollowing] = useState(false);
+
   const [followerss, setfollowerss] = useState([]);
   const [slicedPhotos, setSlicedPhotos] = useState([]);
   const [photos, setphotos] = useState([]);
   const [Resto, setResto] = useState({});
   const [UserId, setUserId] = useState(null);
-
+  const [RestoReservations, setRestoReservations] = useState([]);
   useEffect(() => {
     const idR = route.params.idR;
     console.log("idR: " + idR);
@@ -36,8 +53,8 @@ const ProfileView = ({ route, navigation }) => {
         setphotos(response.data.photos);
         const sliced = response.data.photos.slice(0, 3);
 
-        setfollowerss(Resto.followers);
-        console.log("followers : " + followerss);
+        setfollowerss(response.data.followers);
+        setRestoReservations(response.data.reservations);
 
         // set state variable with sliced array of photos
         setSlicedPhotos(sliced);
@@ -46,15 +63,17 @@ const ProfileView = ({ route, navigation }) => {
         if (sessionData) {
           const { userId } = JSON.parse(sessionData);
           setUserId(userId);
+          setIsfollowing(
+            response.data.followers.some((follower) => follower._id === userId)
+          );
           if (userId && userId === response.data.owner) {
             setDisplay("owner");
           }
         }
 
-        alert(response.data.followers);
-        if (response.data.followers.includes(UserId)) {
+        /*   if (response.data.followers.includes(UserId)) {
           setIsfollowing(1);
-        }
+        }*/
       }
 
       // slice first 3 photos
@@ -70,7 +89,19 @@ const ProfileView = ({ route, navigation }) => {
         `${API_URL}/addfollower?idU=${UserId}&idR=${route.params.idR}  `
       );
       console.log(response.data);
-      setIsfollowing(1);
+      setIsfollowing(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/unfollow?idU=${UserId}&idR=${route.params.idR}  `
+      );
+      console.log(response.data);
+      setIsfollowing(false);
     } catch (error) {
       console.error(error);
     }
@@ -113,225 +144,265 @@ const ProfileView = ({ route, navigation }) => {
       age: "30",
     },
   ];
+  ///modal add phooto
+
+  const [showReservation, setShowReservation] = useState(false);
+
+  const toggleReservation = () => {
+    setShowReservation(!showReservation);
+  };
 
   return (
-    <ScrollView>
-      <Text>{UserId}</Text>
-      <Text>{isfollowing}</Text>
-      <View style={styles.headerContainer}>
-        <Carousel photos={slicedPhotos} />
-        <View style={styles.profileContainer}></View>
-      </View>
-
-      <ScrollView style={styles.container}>
-        <View style={styles.section}>
-          <Text style={styles.statCount}>1234</Text>
-          <Text style={styles.statLabel}>Friends</Text>
+    <View>
+      <ScrollView>
+        <View>
+          {showReservation && (
+            <Reservation restoId={Resto._id} onClose={toggleReservation} />
+          )}
+        </View>
+        <View style={styles.headerContainer}>
+          <RestoCarousel photos={slicedPhotos} />
+          <View style={styles.profileContainer}></View>
         </View>
 
-        <View style={styles.section}>
-          <View>
-            <ScrollView horizontal contentContainerStyle={styles.friendsScroll}>
-              {followers.map(({ avatar, id }) => (
-                <View style={styles.friendCard} key={id}>
-                  <Image style={styles.friendImage} source={{ uri: avatar }} />
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.bioText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
-            ullamcorper nisi.
-          </Text>
-        </View>
-
-        <View style={styles.section}>
-          <View>
-            {UserId ? (
-              <View>
-                {display ? (
-                  <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Owner</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <View>
-                    <View>
-                      {isfollowing === 1 ? (
-                        <View>
-                          <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleFollow}
-                          >
-                            <Text style={styles.buttonText}>abonnée</Text>
-                          </TouchableOpacity>
-                        </View>
-                      ) : (
-                        <View>
-                          <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>s'abonnée</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                    </View>
-                  </View>
-                )}
-              </View>
-            ) : (
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>veuillez creer un compte</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-      </ScrollView>
-
-      <View>
-        <Card>
-          <Card.Content>
+        <ScrollView style={styles.container}>
+          <View style={styles.section}>
             <Text variant="titleLarge" style={styles.infoValue}>
               {Resto.name}
             </Text>
-            <Text variant="bodyMedium"> {Resto.address}</Text>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.statCount}>{followerss.length}</Text>
+            <Text style={styles.statLabel}>Followers</Text>
+          </View>
 
-            <Text variant="bodyMedium">asiatique</Text>
-            <Text variant="bodyMedium">1000 DA</Text>
-          </Card.Content>
-        </Card>
-      </View>
-      <View>
-        <Card>
-          <Card.Content>
-            <Text variant="titleLarge" style={styles.infoValue}>
-              Menu
-            </Text>
-            {display ? (
-              <View>
-                <Button
-                  buttonStyle={{
-                    backgroundColor: "grey",
-                    // backgroundColor: "rgba(244, 244, 244, 1)",
-                    borderWidth: 2,
-                    borderColor: "white",
-                    borderRadius: 30,
-                    margin: 5,
-                  }}
-                  title="add menuCategory"
-                  onPress={() =>
-                    navigation.navigate("Addmenu", {
-                      idresto: Resto._id,
-                    })
-                  }
-                />
-                <Button
-                  buttonStyle={{
-                    backgroundColor: "grey",
-                    // backgroundColor: "rgba(244, 244, 244, 1)",
-                    borderWidth: 2,
-                    borderColor: "white",
-                    borderRadius: 30,
-                    margin: 5,
-                  }}
-                  title="add menuitem"
-                  onPress={() =>
-                    navigation.navigate("Addmenuitem", {
-                      idresto: Resto._id,
-                    })
-                  }
-                />
-              </View>
-            ) : (
-              <Text></Text>
-            )}
-            <MenuResto navigation={navigation} menu={Resto.menu} />
-          </Card.Content>
-        </Card>
-      </View>
+          <View style={styles.section}>
+            <View>
+              <ScrollView
+                horizontal
+                contentContainerStyle={styles.friendsScroll}
+              >
+                {/*followerss.map((follower) => (
+                <Text key={follower._id}>{follower.username}</Text>
+              ))*/}
 
-      <View>
-        <Card>
-          <Card.Content>
-            <View style={styles.sectionHeader}>
-              <Text variant="titleLarge" style={styles.infoValue}>
-                Avis
-              </Text>
-              <TouchableOpacity style={styles.seeAllButton}>
-                <Text style={styles.seeAllButtonText}>See all</Text>
-              </TouchableOpacity>
+                {followerss?.map(({ picture, _id }) => (
+                  <View style={styles.friendCard} key={_id}>
+                    <Image
+                      style={styles.friendImage}
+                      source={{ uri: `${API_URL}/${picture}` }}
+                    />
+                  </View>
+                ))}
+              </ScrollView>
             </View>
-          </Card.Content>
-        </Card>
-      </View>
-      <View>
-        <Card>
-          <Card.Content>
-            <Text variant="titleLarge" style={styles.infoValue}>
-              Publication
-            </Text>
-            <View style={styles.photosCard}>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.bioText}>{Resto.description}</Text>
+            <View style={styles.container}>
+              {Resto.description ? (
+                <Text>{Resto.description}</Text>
+              ) : (
+                <Button>adddescription</Button>
+              )}
+            </View>
+          </View>
+          {/* user / owener /visiteur */}
+          <View style={styles.section}>
+            <View>
+              {UserId ? (
+                <View>
+                  {display ? (
+                    <TouchableOpacity style={styles.button}>
+                      <Text style={styles.buttonText}>Owner</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View>
+                      <View>
+                        {isfollowing ? (
+                          <View>
+                            <TouchableOpacity
+                              style={styles.button}
+                              onPress={handleUnfollow}
+                            >
+                              <Text style={styles.buttonText}>abonnée</Text>
+                            </TouchableOpacity>
+                          </View>
+                        ) : (
+                          <View>
+                            <TouchableOpacity
+                              style={styles.button}
+                              onPress={handleFollow}
+                            >
+                              <Text style={styles.buttonText}>s'abonnée</Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}
+                      </View>
+                    </View>
+                  )}
+                </View>
+              ) : (
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>
+                    veuillez creer un compte
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        </ScrollView>
+
+        <View>
+          <Card>
+            <Card.Content>
+              <Text variant="bodyMedium"> {Resto.address}</Text>
+
+              <Text variant="bodyMedium">asiatique</Text>
+              <Text variant="bodyMedium">1000 DA</Text>
+            </Card.Content>
+          </Card>
+        </View>
+        <View>
+          {
+            // addphoto / ad category / ad item
+          }
+          <Card>
+            <Card.Content>
+              <Text variant="titleLarge" style={styles.infoValue}>
+                Menu
+              </Text>
+              {display ? (
+                <View style={{ flexDirection: "row", width: "100%" }}>
+                  <ModalResto idresto={Resto._id} />
+                  <Button
+                    icon="menu"
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("Addmenuitem", {
+                        idresto: Resto._id,
+                      })
+                    }
+                    style={{
+                      backgroundColor: "grey",
+                      // backgroundColor: "rgba(244, 244, 244, 1)",
+                      borderWidth: 2,
+                      borderColor: "white",
+                      borderRadius: 30,
+                    }}
+                  >
+                    item
+                  </Button>
+                  <Button
+                    icon="menu"
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("Addmenu", {
+                        idresto: Resto._id,
+                      })
+                    }
+                    style={{
+                      backgroundColor: "grey",
+                      // backgroundColor: "rgba(244, 244, 244, 1)",
+                      borderWidth: 2,
+                      borderColor: "white",
+                      borderRadius: 30,
+                    }}
+                  >
+                    Category
+                  </Button>
+                </View>
+              ) : (
+                <Text></Text>
+              )}
+              <MenuResto navigation={navigation} menu={Resto.menu} />
+            </Card.Content>
+          </Card>
+        </View>
+
+        <View>
+          <Card>
+            <Card.Content>
               <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Photos</Text>
+                <Text variant="titleLarge" style={styles.infoValue}>
+                  Avis
+                </Text>
                 <TouchableOpacity style={styles.seeAllButton}>
                   <Text style={styles.seeAllButtonText}>See all</Text>
                 </TouchableOpacity>
               </View>
+            </Card.Content>
+          </Card>
+        </View>
+        <View>
+          <Card>
+            <Card.Content>
+              <Text variant="titleLarge" style={styles.infoValue}>
+                Publication
+              </Text>
+              <View style={styles.photosCard}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Photos</Text>
+                  <TouchableOpacity style={styles.seeAllButton}>
+                    <Text style={styles.seeAllButtonText}>See all</Text>
+                  </TouchableOpacity>
+                </View>
 
-              <View style={styles.photosContainer}>
-                {photos?.map((photo, index) => (
-                  <View key={index}>
-                    <TouchableOpacity>
-                      <Image
-                        style={styles.photo}
-                        source={{
-                          uri: `${API_URL}${photo
-                            .replace("public", "")
-                            .replace(/\\/g, "/")}`,
-                        }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                ))}
+                <View style={styles.photosContainer}>
+                  {photos.length > 0 &&
+                    photos.slice(0, 9).map((photo, index) => (
+                      <View key={index}>
+                        <TouchableOpacity>
+                          <Image
+                            style={styles.photo}
+                            source={{
+                              uri: `${API_URL}/${photo}`,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
 
-                <TouchableOpacity>
-                  <Image
-                    style={styles.photo}
-                    source={{
-                      uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
-                    }}
-                  />
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.photo}
+                      source={{
+                        uri:
+                          "https://bootdey.com/img/Content/avatar/avatar6.png",
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Card.Content>
+          </Card>
+        </View>
+        <View>
+          <Card>
+            <Card.Content>
+              <Text variant="titleLarge" style={styles.infoValue}>
+                Details
+              </Text>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>opening_hours</Text>
+                <TouchableOpacity
+                  style={styles.seeAllButton}
+                  onPress={() => navigation.navigate("Openninghours")}
+                >
+                  <Text style={styles.seeAllButtonText}>edit</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-          </Card.Content>
-        </Card>
-      </View>
-      <View>
-        <Card>
-          <Card.Content>
-            <Text variant="titleLarge" style={styles.infoValue}>
-              Details
-            </Text>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>opening_hours</Text>
-              <TouchableOpacity
-                style={styles.seeAllButton}
-                onPress={() => navigation.navigate("Openninghours")}
-              >
-                <Text style={styles.seeAllButtonText}>edit</Text>
-              </TouchableOpacity>
-            </View>
-            <Text variant="bodyMedium">San Francisco, CA</Text>
+              <Text variant="bodyMedium">San Francisco, CA</Text>
 
-            <Text variant="bodyMedium">asiatique</Text>
-            <Text variant="bodyMedium">1000 DA</Text>
-          </Card.Content>
-        </Card>
-      </View>
+              <Text variant="bodyMedium">asiatique</Text>
+              <Text variant="bodyMedium">1000 DA</Text>
+            </Card.Content>
+          </Card>
+        </View>
 
-      <View>
-        {/* <Image
+        <View>
+          {/* <Image
           style={styles.image}
           source={{
             // uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
@@ -340,8 +411,33 @@ const ProfileView = ({ route, navigation }) => {
               .replace(/\\/g, "/")}`,
           }}
         />*/}
+        </View>
+
+        <ReservationList RestoReservation={RestoReservations} />
+      </ScrollView>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          margin: 16,
+        }}
+      >
+        <TouchableOpacity
+          onPress={toggleReservation}
+          style={{
+            backgroundColor: "#2f95dc",
+            borderRadius: 50,
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+            new Reservation
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

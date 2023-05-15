@@ -1,6 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useState, useEffect, useContext } from "react";
 import { Pressable } from "react-native";
+import { API_URL } from "../../utils/config";
+import axios from "axios";
 
 import {
   View,
@@ -54,38 +56,60 @@ export default function MenuResto({ navigation, menu }) {
       age: "30",
     },
   ];
+  const slicedCategories = menu?.categories?.slice(0, 2);
+  const slicedItems = slicedCategories?.flatMap((category) =>
+    category.items.slice(0, 5)
+  );
 
   return (
     <View>
       <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Plats</Text>
-          <Pressable
-            style={styles.seeAllButton}
-            onPress={() =>
-              navigation.navigate("Menu", {
-                menu: menu,
-              })
-            }
-          >
-            <Text style={styles.seeAllButtonText}>See all</Text>
-          </Pressable>
-        </View>
-        <View style={styles.sectionBody}>
-          <ScrollView horizontal contentContainerStyle={styles.sectionScroll}>
-            {matches.map(({ avatar, id, name, age }) => (
-              <View style={styles.sectionCard} key={id}>
-                <Image style={styles.sectionImage} source={{ uri: avatar }} />
-                <View style={styles.sectionInfo}>
-                  <Text style={styles.sectionLabel}>{name}</Text>
-                  <Text style={styles.sectionLabel}>Age: {age}</Text>
+        <View>
+          {slicedCategories?.map((category) => (
+            <View key={category._id}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>{category.name}</Text>
+                <Pressable
+                  style={styles.seeAllButton}
+                  onPress={() =>
+                    navigation.navigate("Menu", {
+                      menu: menu,
+                    })
+                  }
+                >
+                  <Text style={styles.seeAllButtonText}>See all</Text>
+                </Pressable>
+              </View>
+              <View>
+                <View style={styles.sectionBody}>
+                  <ScrollView
+                    horizontal
+                    contentContainerStyle={styles.sectionScroll}
+                  >
+                    {category?.items?.slice(0, 5).map((item) => (
+                      <View style={styles.sectionCard} key={item._id}>
+                        <Image
+                          style={styles.sectionImage}
+                          source={{ uri: `${API_URL}/${item.image}` }}
+                        />
+                        <View style={styles.sectionInfo}>
+                          <Text style={styles.sectionLabel}>{item.name}</Text>
+                          <Text style={styles.sectionLabel}>
+                            price: {item.price} Da
+                          </Text>
+                        </View>
+                      </View>
+                    ))}
+                  </ScrollView>
                 </View>
               </View>
-            ))}
-          </ScrollView>
+            </View>
+          ))}
         </View>
+
+        <View></View>
       </View>
-      <View style={styles.section}>
+      {/* <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Boissons</Text>
           <TouchableOpacity style={styles.seeAllButton}>
@@ -105,7 +129,7 @@ export default function MenuResto({ navigation, menu }) {
             ))}
           </ScrollView>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -21,6 +21,7 @@ import { Appbar, Avatar } from "react-native-paper";
 import { API_URL } from "../utils/config";
 import Modal from "react-native-modal";
 import { List, MD3Colors } from "react-native-paper";
+
 export default function MyAppbar({
   isconnected,
   userData,
@@ -38,9 +39,7 @@ export default function MyAppbar({
   const _goBack = () => console.log("Went back");
 
   const _handleSearch = () => console.log("Searching");
-  const handleMore = () => {
-    console.log("Shown more");
-  };
+
   return (
     <View>
       <Appbar.Header>
@@ -48,19 +47,17 @@ export default function MyAppbar({
         <Appbar.Content title="Title" subtitle="Subtitle" />
         <Appbar.Action icon="magnify" onPress={_handleSearch} />
         <View>
-          {isconnected === 0 ? (
-            <Appbar.Action icon="menu" onPress={toggleModal} />
-          ) : (
+          {isconnected === 1 ? (
             <TouchableOpacity onPress={toggleModal}>
               <Avatar.Image
                 size={40}
                 source={{
-                  uri: `${API_URL}${userData.picture
-                    .replace("public", "")
-                    .replace(/\\/g, "/")}`,
+                  uri: `${API_URL}/${userData.picture}`,
                 }}
               />
             </TouchableOpacity>
+          ) : (
+            <Appbar.Action icon="menu" onPress={toggleModal} />
           )}
         </View>
       </Appbar.Header>
