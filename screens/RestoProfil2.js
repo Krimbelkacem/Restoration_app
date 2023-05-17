@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Image, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import axios from "axios";
 import Carousel from "../components/ProfilTab/Carousel";
 import {
@@ -185,15 +191,23 @@ const ProfileView = ({ route, navigation }) => {
                 {/*followerss.map((follower) => (
                 <Text key={follower._id}>{follower.username}</Text>
               ))*/}
-
-                {followerss?.map(({ picture, _id }) => (
-                  <View style={styles.friendCard} key={_id}>
-                    <Image
-                      style={styles.friendImage}
-                      source={{ uri: `${API_URL}/${picture}` }}
-                    />
-                  </View>
-                ))}
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("FollowersLit", {
+                      followers: Resto.followers,
+                      idR: Resto._id,
+                    })
+                  }
+                >
+                  {followerss?.map(({ picture, _id }) => (
+                    <View style={styles.friendCard} key={_id}>
+                      <Image
+                        style={styles.friendImage}
+                        source={{ uri: `${API_URL}/${picture}` }}
+                      />
+                    </View>
+                  ))}
+                </Pressable>
               </ScrollView>
             </View>
           </View>

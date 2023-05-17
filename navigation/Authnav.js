@@ -44,6 +44,7 @@ import MyTabs from "../components/ProfilTab/MyTab";
 import CategoryList from "../screens/MenuList";
 import Menu from "../screens/Menu";
 import Openninghours from "../components/Openinghours";
+import FollowersLit from "../components/FollowersList";
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
@@ -62,6 +63,11 @@ export default function Authnav() {
           name="Welcome"
           component={Welcome}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FollowersLit"
+          component={FollowersLit}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Login"
@@ -118,7 +124,9 @@ export default function Authnav() {
         <Stack.Screen
           name="Bottomnav"
           component={Bottomnav}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="Profile"

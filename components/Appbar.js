@@ -21,6 +21,13 @@ import { Appbar, Avatar } from "react-native-paper";
 import { API_URL } from "../utils/config";
 import Modal from "react-native-modal";
 import { List, MD3Colors } from "react-native-paper";
+import {
+  Actionsheet,
+  useDisclose,
+  Box,
+  Center,
+  NativeBaseProvider,
+} from "native-base";
 
 export default function MyAppbar({
   isconnected,
@@ -30,6 +37,8 @@ export default function MyAppbar({
   token,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclose();
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -48,7 +57,7 @@ export default function MyAppbar({
         <Appbar.Action icon="magnify" onPress={_handleSearch} />
         <View>
           {isconnected === 1 ? (
-            <TouchableOpacity onPress={toggleModal}>
+            <TouchableOpacity onPress={onOpen}>
               <Avatar.Image
                 size={40}
                 source={{
@@ -57,14 +66,74 @@ export default function MyAppbar({
               />
             </TouchableOpacity>
           ) : (
-            <Appbar.Action icon="menu" onPress={toggleModal} />
+            <Appbar.Action icon="menu" onPress={onOpen} />
           )}
         </View>
       </Appbar.Header>
 
       <View>
         <View style={{ flex: 1, height: 500 }}>
-          <Modal
+          <NativeBaseProvider>
+            <Center flex={1} px="3">
+              <Center>
+                <Button onPress={onOpen} title="Actionsheet" />
+                <Actionsheet isOpen={isOpen} onClose={onClose}>
+                  <Actionsheet.Content
+                    _dragIndicatorWrapperOffSet={{
+                      py: "10",
+                    }}
+                  >
+                    {isconnected === 0 ? (
+                      <View>
+                        <Actionsheet.Item
+                          onPress={() => navigation.navigate("SignUp")}
+                        >
+                          sign up
+                        </Actionsheet.Item>
+                        <Actionsheet.Item
+                          onPress={() => navigation.navigate("Login")}
+                        >
+                          log in
+                        </Actionsheet.Item>
+                      </View>
+                    ) : (
+                      <View>
+                        <Box w="100%" h={60} px={4} justifyContent="center">
+                          <Text
+                            fontSize="16"
+                            color="gray.500"
+                            _dark={{
+                              color: "gray.300",
+                            }}
+                          >
+                            user:
+                          </Text>
+                          <Avatar.Image
+                            size={40}
+                            source={{
+                              uri: `${API_URL}/${userData.picture}`,
+                            }}
+                          />
+                        </Box>
+                        <Actionsheet.Item
+                          onPress={() =>
+                            navigation.navigate("Profile", { token: token })
+                          }
+                        >
+                          profil: {userData.username}
+                        </Actionsheet.Item>
+                        <Actionsheet.Item onPress={handleLogout}>
+                          log out
+                        </Actionsheet.Item>
+                      </View>
+                    )}
+                  </Actionsheet.Content>
+                </Actionsheet>
+              </Center>
+            </Center>
+          </NativeBaseProvider>
+
+          {/* <Modal
             isVisible={modalVisible}
             animationIn="slideInUp"
             animationOut="slideOutDown"
@@ -123,7 +192,7 @@ export default function MyAppbar({
                 </View>
               )}
             </View>
-          </Modal>
+                      </Modal>*/}
         </View>
       </View>
     </View>

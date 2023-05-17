@@ -17,7 +17,7 @@ import {
 
 import Home from "../screens/Home";
 import Searchkey from "../screens/Searchresults";
-
+import Recherche from "../screens/Recherche";
 import { Input } from "react-native-elements";
 
 import {
@@ -79,9 +79,9 @@ export default function Bottomnav({ navigation }) {
   );
   return (
     <Tab.Navigator
-    // screenOptions={{ headerTitle: searchHeader }}
+      // screenOptions={{ headerTitle: searchHeader }}
 
-    /*
+      /*
         title: "",
         headerRight: () => (
           <View
@@ -129,13 +129,19 @@ export default function Bottomnav({ navigation }) {
           </View>
         ),
       }}*/
+
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: "skyblue",
+      }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          // header: searchHeader,
+          //header: searchHeader,
           headerShown: false,
+          tabBarBadge: 10,
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <AntDesign name="home" color={color} size={26} />
@@ -151,6 +157,20 @@ export default function Bottomnav({ navigation }) {
           headerShown: false,
 
           headerBackTitle: "Back",
+          tabBarLabel: "search",
+          tabBarIcon: ({ color }) => (
+            <EvilIcons name="search" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Recherche"
+        component={Recherche}
+        options={{
+          // header: searchHeader,
+          headerShown: false,
+
+          //headerBackTitle: "Back",
           tabBarLabel: "search",
           tabBarIcon: ({ color }) => (
             <EvilIcons name="search" color={color} size={26} />
