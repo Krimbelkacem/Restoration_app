@@ -19,7 +19,7 @@ import Home from "../screens/Home";
 import Searchkey from "../screens/Searchresults";
 import Recherche from "../screens/Recherche";
 import { Input } from "react-native-elements";
-
+import Map from "../screens/Map";
 import {
   SimpleLineIcons,
   EvilIcons,
@@ -27,6 +27,7 @@ import {
   Octicons,
   MaterialCommunityIcons,
   FontAwesome5,
+  Feather,
 } from "react-native-vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -150,8 +151,8 @@ export default function Bottomnav({ navigation }) {
       />
 
       <Tab.Screen
-        name="Searchkey"
-        component={Searchkey}
+        name="Map"
+        component={Map}
         options={{
           // header: searchHeader,
           headerShown: false,
@@ -159,7 +160,7 @@ export default function Bottomnav({ navigation }) {
           headerBackTitle: "Back",
           tabBarLabel: "search",
           tabBarIcon: ({ color }) => (
-            <EvilIcons name="search" color={color} size={26} />
+            <Feather name="map-pin" color={color} size={26} />
           ),
         }}
       />
