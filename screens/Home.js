@@ -25,6 +25,7 @@ import { API_URL } from "../utils/config";
 import * as Icon from "react-native-feather";
 import MyAppbar from "../components/Appbar";
 //import Carousel from "react-native-snap-carousel";
+import Top from "../components/home/top";
 
 import MyModal from "../components/Modal";
 export default function Home({ navigation }) {
@@ -130,6 +131,7 @@ export default function Home({ navigation }) {
           </View>
         )}
       </View>
+      <Top />
     </View>
 
     /*<Carousel
