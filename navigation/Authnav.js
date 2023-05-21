@@ -19,7 +19,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
 
@@ -95,6 +95,11 @@ export default function Authnav() {
         <Stack.Screen
           name="ProfileView"
           component={ProfileView}
+          // options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="Mapviewer"
+          component={Mapviewer}
           // options={{ headerShown: false }}
         />
         <Stack.Screen

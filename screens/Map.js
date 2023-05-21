@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
+import { Card } from "react-native-paper";
 import * as Location from "expo-location";
+import {
+  SimpleLineIcons,
+  EvilIcons,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Feather,Ionicons
+} from "react-native-vector-icons";
 
 //import MapView from "expo-map";
 export default function Map() {
@@ -64,14 +74,26 @@ export default function Map() {
                 latitude: restaurant.latitude,
                 longitude: restaurant.longitude,
               }}
+              title="Marker Title"
+              description="Marker Description"
+              pinColor="blue" // Customize the marker color
+              style={styles.marker} // Apply custom marker style
             >
+
+<Ionicons  name="ios-restaurant" size={32} color="white" />
               <Callout style={styles.calloutContainer}>
-                <View>
-                  <Text style={styles.calloutTitle}>{restaurant.name}</Text>
-                  <Text style={styles.calloutDescription}>
-                    {restaurant.description}
-                  </Text>
-                </View>
+              
+
+                <Card style={styles.card}>
+              <Card.Content>
+                <Text style={styles.calloutTitle}>{restaurant.name}</Text>
+                <Text style={styles.calloutDescription}>
+                {restaurant.description}
+                </Text>
+              </Card.Content>
+            </Card>
+                
+            
               </Callout>
             </Marker>
           ))}
@@ -94,12 +116,33 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
   },
+
+  marker: {
+    // Custom marker style
+    backgroundColor: "black",
+    borderRadius: 5,
+    padding: 5,
+  },
+  callout: {
+    // Custom callout style
+    backgroundColor: "black",
+    borderRadius: 10,
+   // padding: 10,
+    width: 200,
+  },
+
+  card: {
+    // Custom card style
+    borderRadius: 10,
+    elevation: 4, // Adds shadow to the card
+  },
   calloutTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 9,
+    //fontWeight: "bold",
     marginBottom: 5,
   },
   calloutDescription: {
-    fontSize: 14,
+    fontSize: 9,
   },
+
 });

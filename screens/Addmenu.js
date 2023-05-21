@@ -47,10 +47,11 @@ export default function Addmenu({ navigation, route }) {
       });
 
       console.log(response.data);
-      alert("resto added succesful");
+      alert("nom du menu ajouter");
+
     } catch (error) {
       console.log(error);
-      alert("no");
+      alert("probleme de connection");
     }
   };
 
@@ -72,6 +73,7 @@ export default function Addmenu({ navigation, route }) {
 
       console.log(response.data);
       alert("added");
+      navigation.navigate('ProfilView')
     } catch (error) {
       console.log(error);
       alert(error);

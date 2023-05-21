@@ -19,7 +19,8 @@ import Home from "../screens/Home";
 import Searchkey from "../screens/Searchresults";
 import Recherche from "../screens/Recherche";
 import { Input } from "react-native-elements";
-import Map from "../screens/Map";
+import MyMap from "../screens/MyMap";
+import Not from "../notifications/Not";
 import {
   SimpleLineIcons,
   EvilIcons,
@@ -151,8 +152,8 @@ export default function Bottomnav({ navigation }) {
       />
 
       <Tab.Screen
-        name="Map"
-        component={Map}
+        name="MyMap"
+        component={MyMap}
         options={{
           // header: searchHeader,
           headerShown: false,
@@ -175,6 +176,20 @@ export default function Bottomnav({ navigation }) {
           tabBarLabel: "search",
           tabBarIcon: ({ color }) => (
             <EvilIcons name="search" color={color} size={26} />
+          ),
+        }}
+      />
+        <Tab.Screen
+        name="Not"
+        component={Not}
+        options={{
+          // header: searchHeader,
+          headerShown: false,
+
+          //headerBackTitle: "Back",
+          tabBarLabel: "notifications",
+          tabBarIcon: ({ color }) => (
+            <EvilIcons name="notification" color={color} size={26} />
           ),
         }}
       />

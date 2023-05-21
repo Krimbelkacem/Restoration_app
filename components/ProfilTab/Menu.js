@@ -8,7 +8,7 @@ import {
   FlatList,
   Text,
 } from "react-native";
-
+import { Tab } from 'react-native-elements';
 export default function Menu() {
   return (
     <ScrollView>

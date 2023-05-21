@@ -23,14 +23,14 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 
-export default function Top({ navigation, menu }) {
+export default function Recents({ navigation, menu }) {
   const [topRestos, setTopRestos] = useState([]);
 
   useEffect(() => {
     const fetchTopRestos = async () => {
       try {
         // Replace with your API endpoint
-        const response = await axios.get(`${API_URL}/top-restaurants`);
+        const response = await axios.get(`${API_URL}/recents-restaurants`);
         setTopRestos(response.data);
       } catch (error) {
         console.error(error);
@@ -40,42 +40,7 @@ export default function Top({ navigation, menu }) {
     fetchTopRestos();
   }, []);
 
-  const matches = [
-    {
-      id: 1,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 2,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 3,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 4,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 5,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      name: "John Doe",
-      age: "30",
-    },
-  ];
-  const slicedCategories = menu?.categories?.slice(0, 2);
-  const slicedItems = slicedCategories?.flatMap((category) =>
-    category.items.slice(0, 5)
-  );
+  
 
   return (
     <View>
@@ -83,8 +48,8 @@ export default function Top({ navigation, menu }) {
         <View>
           <View>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Top 10</Text>
-           
+              <Text style={styles.sectionTitle}>Recents</Text>
+          
             </View>
             <View>
               <View style={styles.sectionBody}>
@@ -141,7 +106,7 @@ export default function Top({ navigation, menu }) {
 
 const styles = StyleSheet.create({
   container: {
-
+ 
     backgroundColor: "#FFF",
   },
   header: {

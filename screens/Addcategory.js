@@ -101,6 +101,7 @@ export default function Addmenuitem({ navigation, route }) {
       );
       console.log(response.data);
       alert("added item");
+      navigation.navigate('ProfileView')
     } catch (error) {
       console.error(error);
     }

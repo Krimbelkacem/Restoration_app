@@ -112,45 +112,8 @@ const ProfileView = ({ route, navigation }) => {
       console.error(error);
     }
   };
-  const followers = [
-    {
-      id: 1,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 2,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 3,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 4,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 5,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 6,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      name: "John Doe",
-      age: "30",
-    },
-  ];
-  ///modal add phooto
+
+
 
   const [showReservation, setShowReservation] = useState(false);
 

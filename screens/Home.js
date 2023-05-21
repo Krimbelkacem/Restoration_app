@@ -26,8 +26,8 @@ import * as Icon from "react-native-feather";
 import MyAppbar from "../components/Appbar";
 //import Carousel from "react-native-snap-carousel";
 import Top from "../components/home/top";
-
-import MyModal from "../components/Modal";
+import Recents from "../components/home/recents";
+//import MyModal from "../components/Modal";
 export default function Home({ navigation }) {
   const [userData, setUserData] = useState(null);
 
@@ -119,19 +119,13 @@ export default function Home({ navigation }) {
         navigation={navigation}
         token={token}
       />
-      <Text>HH</Text>
-      <View>
-        {userData ? (
-          <View>
-            <Text> {userData.username}</Text>
-          </View>
-        ) : (
-          <View>
-            <Text>no</Text>
-          </View>
-        )}
+      <ScrollView>
+        <View>
+       <Top />
+      <Recents />
       </View>
-      <Top />
+      </ScrollView>
+     
     </View>
 
     /*<Carousel
