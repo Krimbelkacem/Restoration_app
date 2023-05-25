@@ -13,7 +13,7 @@ export default function Details() {
   return (
     <View>
       <Text>
-        tttttthhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+     Details
       </Text>
     </View>
   );

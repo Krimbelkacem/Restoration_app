@@ -66,6 +66,11 @@ export default function MenuResto({ navigation, menu }) {
 
   return (
     <View>
+
+
+
+
+      
       <View style={styles.section}>
         <View>
           {slicedCategories?.map((category) => (

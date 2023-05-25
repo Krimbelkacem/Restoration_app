@@ -29,8 +29,7 @@ import RestoCarousel from "../components/ProfilTab/RestoCarousel";
 import { AlignCenter, User } from "react-native-feather";
 import Reservation from "../components/Reservation/Reservation";
 import ReservationList from "../components/GestionReservation";
-import { fetchRestoProfile } from '../Api/RestoProfil';
-
+import { fetchRestoProfile } from "../Api/RestoProfil";
 
 const ProfileView = ({ route, navigation }) => {
   const [display, setDisplay] = useState(null);
@@ -43,13 +42,12 @@ const ProfileView = ({ route, navigation }) => {
   const [Resto, setResto] = useState({});
   const [UserId, setUserId] = useState(null);
   const [RestoReservations, setRestoReservations] = useState([]);
- 
- 
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       const idR = route.params.idR;
       getRestoProfile(idR);
-      console.log("actualiser1")
+      console.log("actualiser1");
     });
 
     return unsubscribe;
@@ -59,16 +57,13 @@ const ProfileView = ({ route, navigation }) => {
     const idR = route.params.idR;
     console.log("idR: " + idR);
     getRestoProfile(idR);
-    console.log("actualiser2")
+    console.log("actualiser2");
   }, [navigation]);
-
-
-
 
   const getRestoProfile = async (idR) => {
     try {
-      const profileData = await fetchRestoProfile(idR);  
-    //  const response = await axios.get(`${API_URL}/ProfilResto?id=${idR}`);
+      const profileData = await fetchRestoProfile(idR);
+      //  const response = await axios.get(`${API_URL}/ProfilResto?id=${idR}`);
       console.log("ok");
       console.log(profileData);
       if (profileData) {
@@ -133,24 +128,14 @@ const ProfileView = ({ route, navigation }) => {
     }
   };
 
-
-
   const [showReservation, setShowReservation] = useState(false);
 
   const toggleReservation = () => {
     setShowReservation(!showReservation);
   };
 
-
-
-
-
-
-
-
   return (
     <View>
-    
       <ScrollView>
         <View>
           {showReservation && (
@@ -260,66 +245,63 @@ const ProfileView = ({ route, navigation }) => {
         </ScrollView>
 
         <View>
-         
-              <Text variant="bodyMedium"> {Resto.address}</Text>
+          <Text variant="bodyMedium"> {Resto.address}</Text>
 
-              <Text variant="bodyMedium">asiatique</Text>
-              <Text variant="bodyMedium">1000 DA</Text>
-         
+          <Text variant="bodyMedium">asiatique</Text>
+          <Text variant="bodyMedium">1000 DA</Text>
         </View>
         <View>
           {
             // addphoto / ad category / ad item
           }
-        
-              <Text variant="titleLarge" style={styles.infoValue}>
-                Menu
-              </Text>
-              {display ? (
-                <View style={{ flexDirection: "row", width: "100%" }}>
-                  <ModalResto idresto={Resto._id} />
-                  <Button
-                    icon="menu"
-                    mode="contained"
-                    onPress={() =>
-                      navigation.navigate("Addmenuitem", {
-                        idresto: Resto._id,
-                      })
-                    }
-                    style={{
-                      backgroundColor: "grey",
-                      // backgroundColor: "rgba(244, 244, 244, 1)",
-                      borderWidth: 2,
-                      borderColor: "white",
-                      borderRadius: 30,
-                    }}
-                  >
-                    item
-                  </Button>
-                  <Button
-                    icon="menu"
-                    mode="contained"
-                    onPress={() =>
-                      navigation.navigate("Addmenu", {
-                        idresto: Resto._id,
-                      })
-                    }
-                    style={{
-                      backgroundColor: "grey",
-                      // backgroundColor: "rgba(244, 244, 244, 1)",
-                      borderWidth: 2,
-                      borderColor: "white",
-                      borderRadius: 30,
-                    }}
-                  >
-                    Category
-                  </Button>
-                </View>
-              ) : (
-                <Text></Text>
-              )}
-              <MenuResto navigation={navigation} menu={Resto.menu} />
-       
+
+          <Text variant="titleLarge" style={styles.infoValue}>
+            Menu
+          </Text>
+          {display ? (
+            <View style={{ flexDirection: "row", width: "100%" }}>
+              <ModalResto idresto={Resto._id} />
+              <Button
+                icon="menu"
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("Addmenuitem", {
+                    idresto: Resto._id,
+                  })
+                }
+                style={{
+                  backgroundColor: "grey",
+                  // backgroundColor: "rgba(244, 244, 244, 1)",
+                  borderWidth: 2,
+                  borderColor: "white",
+                  borderRadius: 30,
+                }}
+              >
+                item
+              </Button>
+              <Button
+                icon="menu"
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("Addmenu", {
+                    idresto: Resto._id,
+                  })
+                }
+                style={{
+                  backgroundColor: "grey",
+                  // backgroundColor: "rgba(244, 244, 244, 1)",
+                  borderWidth: 2,
+                  borderColor: "white",
+                  borderRadius: 30,
+                }}
+              >
+                Category
+              </Button>
+            </View>
+          ) : (
+            <Text></Text>
+          )}
+          <MenuResto navigation={navigation} menu={Resto.menu} />
         </View>
 
         <View>
