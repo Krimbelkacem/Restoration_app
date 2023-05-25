@@ -17,7 +17,8 @@ import {
   Button,
   FlatList,
 } from "react-native";
-import { Appbar, Avatar } from "react-native-paper";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { Appbar, Avatar, Badge, IconButton } from "react-native-paper";
 import { API_URL } from "../utils/config";
 import Modal from "react-native-modal";
 import { List, MD3Colors } from "react-native-paper";
@@ -35,6 +36,8 @@ export default function MyAppbar({
   handleLogout,
   navigation,
   token,
+  receivedNotification,
+  notificationCount,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -47,14 +50,38 @@ export default function MyAppbar({
 
   const _goBack = () => console.log("Went back");
 
-  const _handleSearch = () => console.log("Searching");
+  const handleNotes = () =>
+    alert(receivedNotification ? receivedNotification : "no new notification");
 
   return (
     <View>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title="Title" subtitle="Subtitle" />
-        <Appbar.Action icon="magnify" onPress={_handleSearch} />
+        <Appbar.Content title="ElMida" />
+        <View
+          style={{
+            width: 35,
+            height: 35,
+            borderRadius: 25,
+            backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+          }}
+        >
+        
+        
+        </View>
+        <View>
+     
+         
+        </View>
+        <View style={{ width: 35, height: 35, borderRadius: 25, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+  {notificationCount > 0 ? (
+    <Badge size={16} style={{ width: 12, height: 16, backgroundColor: '#27bc5c', borderRadius: 6, position: 'absolute', right: 0, top: 5, borderWidth: 1, zIndex: 2, borderColor: '#2f3038' }}>{notificationCount}</Badge>
+  ) : null}
+  <FontAwesome5 name="bell" size={25} color="black" onPress={handleNotes} />
+</View>
         <View>
           {isconnected === 1 ? (
             <TouchableOpacity onPress={onOpen}>

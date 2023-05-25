@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   StatusBar,
   FlatList,
-  ScrollView,
+  ScrollView,  TextInput,
 } from "react-native";
 import {
-  TextInput,
+
   Text,
   Button,
   List,
@@ -24,7 +24,16 @@ import { Searchbar } from "react-native-paper";
 import { SearchBar } from "react-native-elements";
 import { horizontal } from "react-native-swiper-flatlist/src/themes";
 import { ButtonGroup } from "react-native-elements";
-
+import Animated, { FadeInRight, FadeInLeft } from 'react-native-reanimated';
+import {
+  SimpleLineIcons,
+  EvilIcons,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Feather,
+} from "react-native-vector-icons";
 const Recherche = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -33,7 +42,7 @@ const Recherche = ({ navigation }) => {
   const [restoResults, setRestoResults] = useState([]);
   const [categoryResults, setCategoryResults] = useState([]);
   const [itemResults, setItemResults] = useState([]);
-
+const[cuisineResults,setCuisineResults]=useState([])
   const [isLoading, setLoading] = useState(true);
   const [restoName, setrestoName] = useState("");
   const getDataUsingSimpleGetCall = async () => {
@@ -43,7 +52,7 @@ const Recherche = ({ navigation }) => {
       setRestoResults(data.restoResults);
       setCategoryResults(data.categoryResults);
       setItemResults(data.itemResults);
-
+      setCuisineResults(data.cuisineResults)
       setData(res.data);
       setResults(res.data);
       setLoading(true);
@@ -53,6 +62,11 @@ const Recherche = ({ navigation }) => {
     }
   };
   //<Text style={styles.statCount}>{restoResults.length}</Text>;
+
+
+
+
+  ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const buttons = [
@@ -62,6 +76,7 @@ const Recherche = ({ navigation }) => {
     `Restos (${restoResults.length})`,
     `Categories (${categoryResults.length})`,
     `Items (${itemResults.length})`,
+    
   ];
 
   const updateIndex = (index) => {
@@ -71,53 +86,29 @@ const Recherche = ({ navigation }) => {
   const renderSelectedView = () => {
     if (selectedIndex === 0) {
       return (
-        <View>
-          {restoResults?.map((resto) => (
-            <TouchableOpacity
-              onPress={() =>
+        <View  style={{ flex: 1, backgroundColor: '#ffffff', padding: 12 }}>
+          
+            {restoResults?.map((resto) => (
+
+<Animated.View key={resto.id}  entering={FadeInRight.delay(300).duration(400)}>
+                <TouchableOpacity  style={{ flexDirection: 'row', marginTop: 12 }}  onPress={() =>
                 navigation.navigate("ProfileView", {
                   // rest: resto,
                   idR: resto._id,
                 })
-              }
-            >
-              <Card key={resto.id} style={{ margin: 16, elevation: 4 }}>
-                <Card.Cover
-                  source={{
+              }>
+                    <Image  source={{
                     uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                  }}
-                />
-                <Card.Content>
-                  <Title
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      marginBottom: 8,
-                    }}
-                  >
-                    {resto.name}
-                  </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
-              {/*
-            <View key={resto.id} style={styles.card}>
-              <Image
-                source={{
-                  uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                }}
-                style={styles.photo}
-              />
-              {console.log(resto.avatar.replace(/\\/g, "/"))}
+                  }} style={{ width: 100, height: 100, borderRadius: 20, resizeMode: 'cover' }} />
+                    <Text style={{  color: '#263238', fontSize: 16, marginLeft: 10 , 
+    fontWeight: 'bold',
+  
+    textAlign: 'center',}}> {resto.name}</Text>
 
-              <Text style={styles.name}>Name:{resto.name}</Text>
-              <Text style={styles.name}>owner :{resto.owner}</Text>
-              </View>*/}
-            </TouchableOpacity>
-          ))}
+
+
+                </TouchableOpacity>
+            </Animated.View>   ))}
 
           {categoryResults?.map((category) => (
             <TouchableOpacity>
@@ -192,52 +183,22 @@ const Recherche = ({ navigation }) => {
     } else if (selectedIndex === 1) {
       return (
         <View>
-          {restoResults?.map((resto) => (
-            <TouchableOpacity
-              onPress={() =>
+   {restoResults?.map((resto) => (
+
+<Animated.View key={resto.id}  entering={FadeInRight.delay(300).duration(300)}>
+                <TouchableOpacity  style={{ flexDirection: 'row', marginTop: 12 }}  onPress={() =>
                 navigation.navigate("ProfileView", {
                   // rest: resto,
                   idR: resto._id,
                 })
-              }
-            >
-              <Card key={resto.id} style={{ margin: 16, elevation: 4 }}>
-                <Card.Cover
-                  source={{
+              }>
+                    <Image  source={{
                     uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                  }}
-                />
-                <Card.Content>
-                  <Title
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      marginBottom: 8,
-                    }}
-                  >
-                    {resto.name}
-                  </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
-              {/*
-      <View key={resto.id} style={styles.card}>
-        <Image
-          source={{
-            uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-          }}
-          style={styles.photo}
-        />
-        {console.log(resto.avatar.replace(/\\/g, "/"))}
-
-        <Text style={styles.name}>Name:{resto.name}</Text>
-        <Text style={styles.name}>owner :{resto.owner}</Text>
-        </View>*/}
-            </TouchableOpacity>
-          ))}
+                  }} style={{ width: 100, height: 100, borderRadius: 20, resizeMode: 'cover' }} />
+                    <Text style={{  color: '#263238', fontSize: 20, marginLeft: 10 }}> {resto.name}</Text>
+                </TouchableOpacity>
+            </Animated.View>   ))}
+          
         </View>
       );
     } else if (selectedIndex === 2) {
@@ -325,37 +286,39 @@ const Recherche = ({ navigation }) => {
   };
 
   return (
-    <View>
-      <SearchBar
-        placeholder="Search"
-        onChangeText={(restoName) => setrestoName(restoName)}
+    <View style={{ backgroundColor: '#FFF', padding: 12 }}>
+
+<View style={{ backgroundColor: '#f3f3f3', flexDirection: 'row', alignItems: 'center', padding: 8, borderRadius: 10, marginTop: 50}}>
+                <Feather name="search" size={22} color="black" />
+                <TextInput  
+                 onChangeText={(restoName) => setrestoName(restoName)}
         blurOnSubmit={false}
         onSubmitEditing={getDataUsingSimpleGetCall}
         returnKeyType="next"
         onBlur={getDataUsingSimpleGetCall}
-        value={restoName}
-        label="Search"
-        //onSubmitEditing={handleSearch}
-        // onClear={handleClear}
-        inputContainerStyle={{ backgroundColor: "#fff" }}
-        containerStyle={{
-          backgroundColor: "#fff",
-          borderBottomColor: "transparent",
-        }}
-        leftIconContainerStyle={{ marginLeft: 0 }}
-        leftIcon={{
-          type: "material",
-          name: "arrow-back",
-          onPress: () => console.log("Back button pressed"),
-        }}
-      />
-      <View style={{ padding: 16 }}>
+        value={restoName} placeholder='Search' style={{  flex: 1, fontSize: 16, marginLeft: 8, marginTop: 3 }} />
+            </View>
+   
+      <View style={{ marginTop: 10 }}>
         <Text style={{ marginBottom: 8 }}>Filter:</Text>
         <ButtonGroup
           buttons={buttons}
           selectedIndex={selectedIndex}
           onPress={updateIndex}
-          containerStyle={{ height: 50 }}
+          containerStyle={{ height: 50 , borderWidth: 1,
+            borderColor: 'lightgrey',
+            borderRadius: 10,
+            backgroundColor: 'white',}}
+          selectedButtonStyle={{ backgroundColor: 'lightgrey' }}
+          selectedTextStyle={{ color: 'black' }}
+          buttonStyle={ {
+            backgroundColor: 'transparent',
+          }}
+       
+         
+    
+        
+
         />
       </View>
       <ScrollView style={{ marginHorizontal: 0, marginBottom: 200 }}>

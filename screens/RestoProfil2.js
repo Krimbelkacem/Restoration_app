@@ -29,6 +29,9 @@ import RestoCarousel from "../components/ProfilTab/RestoCarousel";
 import { AlignCenter, User } from "react-native-feather";
 import Reservation from "../components/Reservation/Reservation";
 import ReservationList from "../components/GestionReservation";
+
+
+
 const ProfileView = ({ route, navigation }) => {
   const [display, setDisplay] = useState(null);
   //const [isfollowing, setIsfollowing] = useState(0);
@@ -120,6 +123,13 @@ const ProfileView = ({ route, navigation }) => {
   const toggleReservation = () => {
     setShowReservation(!showReservation);
   };
+
+
+
+
+
+
+
 
   return (
     <View>
@@ -394,6 +404,7 @@ const ProfileView = ({ route, navigation }) => {
           RestoReservation={RestoReservations}
           UserId={UserId}
           display={display}
+          owner={Resto.owner}
         />
       </ScrollView>
       {UserId ? (

@@ -64,7 +64,8 @@ export default function MyMap({navigation}) {
         <Ionicons  name="ios-restaurant" size={12} color="white" />
         <Callout   onPress={() =>
                 navigation.navigate("ProfileView", {
-                  idR: restaurant._id,
+                  idR: restaurant._id
+                  ,
                 })} 
                 style={styles.calloutContainer}>
               

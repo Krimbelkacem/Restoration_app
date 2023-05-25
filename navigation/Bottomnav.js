@@ -143,7 +143,7 @@ export default function Bottomnav({ navigation }) {
         options={{
           //header: searchHeader,
           headerShown: false,
-          tabBarBadge: 10,
+     
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <AntDesign name="home" color={color} size={26} />
@@ -179,20 +179,7 @@ export default function Bottomnav({ navigation }) {
           ),
         }}
       />
-        <Tab.Screen
-        name="Not"
-        component={Not}
-        options={{
-          // header: searchHeader,
-          headerShown: false,
-
-          //headerBackTitle: "Back",
-          tabBarLabel: "notifications",
-          tabBarIcon: ({ color }) => (
-            <EvilIcons name="notification" color={color} size={26} />
-          ),
-        }}
-      />
+      
     </Tab.Navigator>
   );
 }

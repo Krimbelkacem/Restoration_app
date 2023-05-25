@@ -22,10 +22,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
-
+import  WelcomeScreen from "../screens/day001/WelcomeScreen"
 import Drawernav from "./Drawernav";
-
-import SignUp from "../screens/SignUp";
+import  HomeScreen from "../screens/day001/HomeScreen"
+import  LoginScreen from "../screens/day001/LoginScreen";
+import  SignUpScreen from "../screens/day001/SignUpScreen";
 
 import AddResto from "../screens/AddResto";
 import Addmenuitem from "../screens/Addcategory";
@@ -59,6 +60,29 @@ export default function Authnav() {
   return (
     <TokenContext.Provider value={{ token, setToken }}>
       <Stack.Navigator>
+      <Stack.Screen
+          name=" WelcomeScreen"
+          component={ WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+            <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+           options={{ headerShown: false }}
+        />
+              <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+           options={{ headerShown: false }}
+        />
+
+
+<Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+           options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -121,11 +145,7 @@ export default function Authnav() {
           //options={{ headerShown: false }}
         />
 
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          // options={{ headerShown: false }}
-        />
+    
         <Stack.Screen
           name="Bottomnav"
           component={Bottomnav}
