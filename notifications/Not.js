@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
-import * as Notifications from 'expo-notifications';
+
 
 const Not = () => {
   
