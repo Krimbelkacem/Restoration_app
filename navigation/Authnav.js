@@ -22,6 +22,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
+import RestoSetting from "../screens/RestoSetting/RestoSetting";
 import WelcomeScreen from "../screens/day001/WelcomeScreen";
 import Drawernav from "./Drawernav";
 import HomeScreen from "../screens/day001/HomeScreen";
@@ -63,18 +64,25 @@ export default function Authnav() {
     <TokenContext.Provider value={{ token, setToken }}>
       <Stack.Navigator>
         <Stack.Screen
+          name=" WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="RestoSetting"
+          component={RestoSetting}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="Resto"
           component={Resto}
           options={{
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name=" WelcomeScreen"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-
         <Stack.Screen
           name="Bottomnav"
           component={Bottomnav}

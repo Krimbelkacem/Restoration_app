@@ -15,7 +15,6 @@ import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { Button, ButtonGroup, withTheme } from "@rneui/themed";
 
-
 import { API_URL } from "../utils/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../style/UserProfilestyle";
@@ -27,7 +26,6 @@ export default function Profile({ navigation }) {
   const [restoData, setRestoData] = useState([]);
   const [restochoosed, setRestoChoosed] = useState({});
   const [followings, setFollowings] = useState([]);
-
 
   const [reservations, setReservations] = useState([]);
   useEffect(() => {
@@ -53,7 +51,7 @@ export default function Profile({ navigation }) {
       return unsubscribe;
     };
     fetchUserData();
-  }, [navigation,handleRefresh]);
+  }, [navigation, handleRefresh]);
 
   const getUserProfile = async (token) => {
     try {
@@ -88,7 +86,6 @@ export default function Profile({ navigation }) {
       getUserProfile(token);
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -154,7 +151,7 @@ export default function Profile({ navigation }) {
                 restoData.map((resto) => (
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("ProfileView", {
+                      navigation.navigate("Resto", {
                         idR: resto._id,
                         id: userData._id,
                       })
@@ -298,8 +295,6 @@ export default function Profile({ navigation }) {
             titleStyle={styles.statLabel}
             onPress={() => navigation.navigate("Login")}
           />
-       
-         
         </View>
       </ScrollView>
     </View>

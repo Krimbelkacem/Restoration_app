@@ -8,5 +8,5 @@ import {
 } from "react-native";
 
 export default function Avis() {
-  return <ScrollView></ScrollView>;
+  return <ScrollView style={{ minHeight: 300 }}></ScrollView>;
 }

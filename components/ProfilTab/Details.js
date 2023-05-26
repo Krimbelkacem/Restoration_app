@@ -9,12 +9,13 @@ import {
   Text,
 } from "react-native";
 
-export default function Details() {
+export default function Details({ Resto }) {
   return (
-    <View>
-      <Text>
-     Details
-      </Text>
+    <View style={{ minHeight: 300 }}>
+      <Text>{Resto.name}</Text>
+      <Text variant="bodyMedium"> {Resto.address}</Text>
+      <Text variant="bodyMedium"> {Resto.latitude}</Text>
+      <Text variant="bodyMedium"> {Resto.longitude}</Text>
     </View>
   );
 }

@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   StatusBar,
   FlatList,
-  ScrollView,  TextInput,
+  ScrollView,
+  TextInput,
 } from "react-native";
 import {
-
   Text,
   Button,
   List,
@@ -24,7 +24,7 @@ import { Searchbar } from "react-native-paper";
 import { SearchBar } from "react-native-elements";
 import { horizontal } from "react-native-swiper-flatlist/src/themes";
 import { ButtonGroup } from "react-native-elements";
-import Animated, { FadeInRight, FadeInLeft } from 'react-native-reanimated';
+import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import {
   SimpleLineIcons,
   EvilIcons,
@@ -42,7 +42,7 @@ const Recherche = ({ navigation }) => {
   const [restoResults, setRestoResults] = useState([]);
   const [categoryResults, setCategoryResults] = useState([]);
   const [itemResults, setItemResults] = useState([]);
-const[cuisineResults,setCuisineResults]=useState([])
+  const [cuisineResults, setCuisineResults] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [restoName, setrestoName] = useState("");
   const getDataUsingSimpleGetCall = async () => {
@@ -52,7 +52,7 @@ const[cuisineResults,setCuisineResults]=useState([])
       setRestoResults(data.restoResults);
       setCategoryResults(data.categoryResults);
       setItemResults(data.itemResults);
-      setCuisineResults(data.cuisineResults)
+      setCuisineResults(data.cuisineResults);
       setData(res.data);
       setResults(res.data);
       setLoading(true);
@@ -62,9 +62,6 @@ const[cuisineResults,setCuisineResults]=useState([])
     }
   };
   //<Text style={styles.statCount}>{restoResults.length}</Text>;
-
-
-
 
   ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -76,7 +73,6 @@ const[cuisineResults,setCuisineResults]=useState([])
     `Restos (${restoResults.length})`,
     `Categories (${categoryResults.length})`,
     `Items (${itemResults.length})`,
-    
   ];
 
   const updateIndex = (index) => {
@@ -86,29 +82,48 @@ const[cuisineResults,setCuisineResults]=useState([])
   const renderSelectedView = () => {
     if (selectedIndex === 0) {
       return (
-        <View  style={{ flex: 1, backgroundColor: '#ffffff', padding: 12 }}>
-          
-            {restoResults?.map((resto) => (
-
-<Animated.View key={resto.id}  entering={FadeInRight.delay(300).duration(400)}>
-                <TouchableOpacity  style={{ flexDirection: 'row', marginTop: 12 }}  onPress={() =>
-                navigation.navigate("ProfileView", {
-                  // rest: resto,
-                  idR: resto._id,
-                })
-              }>
-                    <Image  source={{
+        <View style={{ flex: 1, backgroundColor: "#ffffff", padding: 12 }}>
+          {restoResults?.map((resto) => (
+            <Animated.View
+              key={resto.id}
+              entering={FadeInRight.delay(300).duration(400)}
+            >
+              <TouchableOpacity
+                style={{ flexDirection: "row", marginTop: 12 }}
+                onPress={() =>
+                  navigation.navigate("Resto", {
+                    // rest: resto,
+                    idR: resto._id,
+                  })
+                }
+              >
+                <Image
+                  source={{
                     uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                  }} style={{ width: 100, height: 100, borderRadius: 20, resizeMode: 'cover' }} />
-                    <Text style={{  color: '#263238', fontSize: 16, marginLeft: 10 , 
-    fontWeight: 'bold',
-  
-    textAlign: 'center',}}> {resto.name}</Text>
+                  }}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 20,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#263238",
+                    fontSize: 16,
+                    marginLeft: 10,
+                    fontWeight: "bold",
 
-
-
-                </TouchableOpacity>
-            </Animated.View>   ))}
+                    textAlign: "center",
+                  }}
+                >
+                  {" "}
+                  {resto.name}
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
+          ))}
 
           {categoryResults?.map((category) => (
             <TouchableOpacity>
@@ -183,22 +198,40 @@ const[cuisineResults,setCuisineResults]=useState([])
     } else if (selectedIndex === 1) {
       return (
         <View>
-   {restoResults?.map((resto) => (
-
-<Animated.View key={resto.id}  entering={FadeInRight.delay(300).duration(300)}>
-                <TouchableOpacity  style={{ flexDirection: 'row', marginTop: 12 }}  onPress={() =>
-                navigation.navigate("ProfileView", {
-                  // rest: resto,
-                  idR: resto._id,
-                })
-              }>
-                    <Image  source={{
+          {restoResults?.map((resto) => (
+            <Animated.View
+              key={resto.id}
+              entering={FadeInRight.delay(300).duration(300)}
+            >
+              <TouchableOpacity
+                style={{ flexDirection: "row", marginTop: 12 }}
+                onPress={() =>
+                  navigation.navigate("ProfileView", {
+                    // rest: resto,
+                    idR: resto._id,
+                  })
+                }
+              >
+                <Image
+                  source={{
                     uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                  }} style={{ width: 100, height: 100, borderRadius: 20, resizeMode: 'cover' }} />
-                    <Text style={{  color: '#263238', fontSize: 20, marginLeft: 10 }}> {resto.name}</Text>
-                </TouchableOpacity>
-            </Animated.View>   ))}
-          
+                  }}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 20,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text
+                  style={{ color: "#263238", fontSize: 20, marginLeft: 10 }}
+                >
+                  {" "}
+                  {resto.name}
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
+          ))}
         </View>
       );
     } else if (selectedIndex === 2) {
@@ -286,39 +319,48 @@ const[cuisineResults,setCuisineResults]=useState([])
   };
 
   return (
-    <View style={{ backgroundColor: '#FFF', padding: 12 }}>
+    <View style={{ backgroundColor: "#FFF", padding: 12 }}>
+      <View
+        style={{
+          backgroundColor: "#f3f3f3",
+          flexDirection: "row",
+          alignItems: "center",
+          padding: 8,
+          borderRadius: 10,
+          marginTop: 50,
+        }}
+      >
+        <Feather name="search" size={22} color="black" />
+        <TextInput
+          onChangeText={(restoName) => setrestoName(restoName)}
+          blurOnSubmit={false}
+          onSubmitEditing={getDataUsingSimpleGetCall}
+          returnKeyType="next"
+          onBlur={getDataUsingSimpleGetCall}
+          value={restoName}
+          placeholder="Search"
+          style={{ flex: 1, fontSize: 16, marginLeft: 8, marginTop: 3 }}
+        />
+      </View>
 
-<View style={{ backgroundColor: '#f3f3f3', flexDirection: 'row', alignItems: 'center', padding: 8, borderRadius: 10, marginTop: 50}}>
-                <Feather name="search" size={22} color="black" />
-                <TextInput  
-                 onChangeText={(restoName) => setrestoName(restoName)}
-        blurOnSubmit={false}
-        onSubmitEditing={getDataUsingSimpleGetCall}
-        returnKeyType="next"
-        onBlur={getDataUsingSimpleGetCall}
-        value={restoName} placeholder='Search' style={{  flex: 1, fontSize: 16, marginLeft: 8, marginTop: 3 }} />
-            </View>
-   
       <View style={{ marginTop: 10 }}>
         <Text style={{ marginBottom: 8 }}>Filter:</Text>
         <ButtonGroup
           buttons={buttons}
           selectedIndex={selectedIndex}
           onPress={updateIndex}
-          containerStyle={{ height: 50 , borderWidth: 1,
-            borderColor: 'lightgrey',
+          containerStyle={{
+            height: 50,
+            borderWidth: 1,
+            borderColor: "lightgrey",
             borderRadius: 10,
-            backgroundColor: 'white',}}
-          selectedButtonStyle={{ backgroundColor: 'lightgrey' }}
-          selectedTextStyle={{ color: 'black' }}
-          buttonStyle={ {
-            backgroundColor: 'transparent',
+            backgroundColor: "white",
           }}
-       
-         
-    
-        
-
+          selectedButtonStyle={{ backgroundColor: "lightgrey" }}
+          selectedTextStyle={{ color: "black" }}
+          buttonStyle={{
+            backgroundColor: "transparent",
+          }}
         />
       </View>
       <ScrollView style={{ marginHorizontal: 0, marginBottom: 200 }}>

@@ -4,7 +4,14 @@ import { Pressable } from "react-native";
 import { API_URL } from "../../utils/config";
 import axios from "axios";
 
-import Animated, { FadeInDown, FadeInUp, FadeInRight, FadeOutRight, Layout, ceil } from 'react-native-reanimated';
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeInRight,
+  FadeOutRight,
+  Layout,
+  ceil,
+} from "react-native-reanimated";
 
 import {
   View,
@@ -13,7 +20,8 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  Text,  Dimensions,
+  Text,
+  Dimensions,
 } from "react-native";
 
 import {
@@ -26,7 +34,7 @@ import {
 } from "react-native-vector-icons";
 
 export default function MenuResto({ navigation, menu }) {
-  const { width, height } = Dimensions.get('window');
+  const { width, height } = Dimensions.get("window");
   const matches = [
     {
       id: 1,
@@ -66,11 +74,6 @@ export default function MenuResto({ navigation, menu }) {
 
   return (
     <View>
-
-
-
-
-      
       <View style={styles.section}>
         <View>
           {slicedCategories?.map((category) => (
@@ -90,23 +93,9 @@ export default function MenuResto({ navigation, menu }) {
               </View>
               <View>
                 <View style={styles.sectionBody}>
-
-
-
-                <Animated.View entering={FadeInDown.delay(600).duration(300)}>
-                <ScrollView style={{ marginTop: 20, alignSelf: 'center', flexGrow: 0, backgroundColor:'white', }} horizontal showsHorizontalScrollIndicator={false}>
-                {category?.items?.slice(0, 5).map((item) => (
-                    <View style={{ width: width - 70, height: 200, backgroundColor: '#FFF', borderRadius: 20, padding: 20 }}>
-                        <Text style={{ fontSize: 30, color: '#2f2f2f' , marginTop: 75 }}>{item.name}</Text>
-                        <Image  source={{ uri: `${API_URL}/${item.image}` }} style={{ width: 180, height: 180, position: 'absolute', right: 0, bottom: 10, zIndex: -1 }} />
-                    </View>
-                       ))}
-                </ScrollView>
-            </Animated.View>
                   <ScrollView
                     horizontal
                     contentContainerStyle={styles.sectionScroll}
-
                   >
                     {category?.items?.slice(0, 5).map((item) => (
                       <View style={styles.sectionCard} key={item._id}>
@@ -123,6 +112,52 @@ export default function MenuResto({ navigation, menu }) {
                       </View>
                     ))}
                   </ScrollView>
+
+                  <Animated.View entering={FadeInDown.delay(600).duration(300)}>
+                    <ScrollView
+                      style={{
+                        marginTop: 20,
+                        alignSelf: "center",
+                        flexGrow: 0,
+                        backgroundColor: "white",
+                      }}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                    >
+                      {category?.items?.slice(0, 5).map((item) => (
+                        <View
+                          style={{
+                            width: width - 70,
+                            height: 200,
+                            backgroundColor: "#FFF",
+                            borderRadius: 20,
+                            padding: 20,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 30,
+                              color: "#2f2f2f",
+                              marginTop: 75,
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                          <Image
+                            source={{ uri: `${API_URL}/${item.image}` }}
+                            style={{
+                              width: 180,
+                              height: 180,
+                              position: "absolute",
+                              right: 0,
+                              bottom: 10,
+                              zIndex: -1,
+                            }}
+                          />
+                        </View>
+                      ))}
+                    </ScrollView>
+                  </Animated.View>
                 </View>
               </View>
             </View>
