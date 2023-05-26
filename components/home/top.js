@@ -79,21 +79,39 @@ export default function Top({ navigation, menu }) {
 
   return (
     <View>
-      <View style={styles.section}>
+
+
+<View style={{ marginTop: 20 }}>
+
+<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Text style={{ fontSize: 18, fontFamily: 'Poppins-Medium', color: 'black' }}>meilleurs restaurants</Text>
+    <FontAwesome5 name="angle-right" size={24} color="black" />
+</View>
+
+<ScrollView horizontal style={{ height: 145 }}>
+{topRestos?.map((resto) => (
+    <View key={resto._id}>
+        <Image source={{
+                          uri: `${API_URL}/${resto.avatar
+                            ?.replace("public", "")
+                            .replace(/\\/g, "/")}`,
+                        }} style={{ width: 120, height: 120, borderRadius: 15 }} />
+        <Text style={{ fontSize: 14, fontFamily: 'Poppins-Regular', color: 'black', textAlign: 'left', marginTop: 5 }}>{resto.name}</Text>
+    </View>
+
+))}
+
+</ScrollView>
+
+</View>
+
+
+         {/*   <View style={styles.section}>
         <View>
           <View>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Top 10</Text>
-              <Pressable
-                style={styles.seeAllButton}
-                onPress={() =>
-                  navigation.navigate("Menu", {
-                    menu: menu,
-                  })
-                }
-              >
-                <Text style={styles.seeAllButtonText}>See all</Text>
-              </Pressable>
+           
             </View>
             <View>
               <View style={styles.sectionBody}>
@@ -118,19 +136,26 @@ export default function Top({ navigation, menu }) {
                     </View>
                   ))}
                 </ScrollView>
+
+                
               </View>
             </View>
           </View>
+
+
+
+
+          
         </View>
       </View>
-      <View style={styles.section}>
+  <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Top 10</Text>
           <TouchableOpacity style={styles.seeAllButton}>
             <Text style={styles.seeAllButtonText}>See all</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.sectionBody}>
+      <View style={styles.sectionBody}>
           <ScrollView horizontal contentContainerStyle={styles.sectionScroll}>
             {matches.map(({ avatar, id, name, age }) => (
               <View style={styles.sectionCard} key={id}>
@@ -143,14 +168,14 @@ export default function Top({ navigation, menu }) {
             ))}
           </ScrollView>
         </View>
-      </View>
+            </View>*/}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
     backgroundColor: "#FFF",
   },
   header: {

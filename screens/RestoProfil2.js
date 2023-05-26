@@ -29,6 +29,8 @@ import RestoCarousel from "../components/ProfilTab/RestoCarousel";
 import { AlignCenter, User } from "react-native-feather";
 import Reservation from "../components/Reservation/Reservation";
 import ReservationList from "../components/GestionReservation";
+import { fetchRestoProfile } from "../Api/RestoProfil";
+
 const ProfileView = ({ route, navigation }) => {
   const [display, setDisplay] = useState(null);
   //const [isfollowing, setIsfollowing] = useState(0);
@@ -40,27 +42,40 @@ const ProfileView = ({ route, navigation }) => {
   const [Resto, setResto] = useState({});
   const [UserId, setUserId] = useState(null);
   const [RestoReservations, setRestoReservations] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      const idR = route.params.idR;
+      getRestoProfile(idR);
+      console.log("actualiser1");
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   useEffect(() => {
     const idR = route.params.idR;
     console.log("idR: " + idR);
     getRestoProfile(idR);
+    console.log("actualiser2");
   }, [navigation]);
 
   const getRestoProfile = async (idR) => {
     try {
-      const response = await axios.get(`${API_URL}/ProfilResto?id=${idR}`);
+      const profileData = await fetchRestoProfile(idR);
+      //  const response = await axios.get(`${API_URL}/ProfilResto?id=${idR}`);
       console.log("ok");
-      console.log(response.data);
-      if (response) {
-        // setMenu(response.data.menu.categories);
+      console.log(profileData);
+      if (profileData) {
+        // setMenu(profileData.menu.categories);
         // console.log(menu[0]);
-        //setMenucontext(response.data.menu.categories);
-        setResto(response.data);
-        setphotos(response.data.photos);
-        const sliced = response.data.photos.slice(0, 3);
+        //setMenucontext(profileData.menu.categories);
+        setResto(profileData);
+        setphotos(profileData.photos);
+        const sliced = profileData.photos.slice(0, 3);
 
-        setfollowerss(response.data.followers);
-        setRestoReservations(response.data.reservations);
+        setfollowerss(profileData.followers);
+        setRestoReservations(profileData.reservations);
 
         // set state variable with sliced array of photos
         setSlicedPhotos(sliced);
@@ -70,9 +85,9 @@ const ProfileView = ({ route, navigation }) => {
           const { userId } = JSON.parse(sessionData);
           setUserId(userId);
           setIsfollowing(
-            response.data.followers.some((follower) => follower._id === userId)
+            profileData.followers.some((follower) => follower._id === userId)
           );
-          if (userId && userId === response.data.owner) {
+          if (userId && userId === profileData.owner) {
             setDisplay("owner");
           }
         }
@@ -85,7 +100,7 @@ const ProfileView = ({ route, navigation }) => {
       // slice first 3 photos
     } catch (error) {
       console.log(error);
-      alert("no");
+      alert("resto not charged");
     }
   };
 
@@ -112,45 +127,6 @@ const ProfileView = ({ route, navigation }) => {
       console.error(error);
     }
   };
-  const followers = [
-    {
-      id: 1,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 2,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 3,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 4,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 5,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 6,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      name: "John Doe",
-      age: "30",
-    },
-  ];
-  ///modal add phooto
 
   const [showReservation, setShowReservation] = useState(false);
 
@@ -269,70 +245,63 @@ const ProfileView = ({ route, navigation }) => {
         </ScrollView>
 
         <View>
-          <Card>
-            <Card.Content>
-              <Text variant="bodyMedium"> {Resto.address}</Text>
+          <Text variant="bodyMedium"> {Resto.address}</Text>
 
-              <Text variant="bodyMedium">asiatique</Text>
-              <Text variant="bodyMedium">1000 DA</Text>
-            </Card.Content>
-          </Card>
+          <Text variant="bodyMedium">asiatique</Text>
+          <Text variant="bodyMedium">1000 DA</Text>
         </View>
         <View>
           {
             // addphoto / ad category / ad item
           }
-          <Card>
-            <Card.Content>
-              <Text variant="titleLarge" style={styles.infoValue}>
-                Menu
-              </Text>
-              {display ? (
-                <View style={{ flexDirection: "row", width: "100%" }}>
-                  <ModalResto idresto={Resto._id} />
-                  <Button
-                    icon="menu"
-                    mode="contained"
-                    onPress={() =>
-                      navigation.navigate("Addmenuitem", {
-                        idresto: Resto._id,
-                      })
-                    }
-                    style={{
-                      backgroundColor: "grey",
-                      // backgroundColor: "rgba(244, 244, 244, 1)",
-                      borderWidth: 2,
-                      borderColor: "white",
-                      borderRadius: 30,
-                    }}
-                  >
-                    item
-                  </Button>
-                  <Button
-                    icon="menu"
-                    mode="contained"
-                    onPress={() =>
-                      navigation.navigate("Addmenu", {
-                        idresto: Resto._id,
-                      })
-                    }
-                    style={{
-                      backgroundColor: "grey",
-                      // backgroundColor: "rgba(244, 244, 244, 1)",
-                      borderWidth: 2,
-                      borderColor: "white",
-                      borderRadius: 30,
-                    }}
-                  >
-                    Category
-                  </Button>
-                </View>
-              ) : (
-                <Text></Text>
-              )}
-              <MenuResto navigation={navigation} menu={Resto.menu} />
-            </Card.Content>
-          </Card>
+
+          <Text variant="titleLarge" style={styles.infoValue}>
+            Menu
+          </Text>
+          {display ? (
+            <View style={{ flexDirection: "row", width: "100%" }}>
+              <ModalResto idresto={Resto._id} />
+              <Button
+                icon="menu"
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("Addmenuitem", {
+                    idresto: Resto._id,
+                  })
+                }
+                style={{
+                  backgroundColor: "grey",
+                  // backgroundColor: "rgba(244, 244, 244, 1)",
+                  borderWidth: 2,
+                  borderColor: "white",
+                  borderRadius: 30,
+                }}
+              >
+                item
+              </Button>
+              <Button
+                icon="menu"
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("Addmenu", {
+                    idresto: Resto._id,
+                  })
+                }
+                style={{
+                  backgroundColor: "grey",
+                  // backgroundColor: "rgba(244, 244, 244, 1)",
+                  borderWidth: 2,
+                  borderColor: "white",
+                  borderRadius: 30,
+                }}
+              >
+                Category
+              </Button>
+            </View>
+          ) : (
+            <Text></Text>
+          )}
+          <MenuResto navigation={navigation} menu={Resto.menu} />
         </View>
 
         <View>
@@ -431,6 +400,7 @@ const ProfileView = ({ route, navigation }) => {
           RestoReservation={RestoReservations}
           UserId={UserId}
           display={display}
+          owner={Resto.owner}
         />
       </ScrollView>
       {UserId ? (

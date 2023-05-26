@@ -19,13 +19,14 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
-
+import WelcomeScreen from "../screens/day001/WelcomeScreen";
 import Drawernav from "./Drawernav";
-
-import SignUp from "../screens/SignUp";
+import HomeScreen from "../screens/day001/HomeScreen";
+import LoginScreen from "../screens/day001/LoginScreen";
+import SignUpScreen from "../screens/day001/SignUpScreen";
 
 import AddResto from "../screens/AddResto";
 import Addmenuitem from "../screens/Addcategory";
@@ -40,11 +41,13 @@ import TokenContext from "../store/tokencontext";
 import UIUserProfile from "../screens/UIProfile";
 import UIOnboarding from "../screens/uionboarding";
 import ProfileView from "../screens/RestoProfil2";
+import Resto from "../screens/RestoProfil3";
 import MyTabs from "../components/ProfilTab/MyTab";
 import CategoryList from "../screens/MenuList";
 import Menu from "../screens/Menu";
 import Openninghours from "../components/Openinghours";
 import FollowersLit from "../components/FollowersList";
+import MyTopTabs from "../navigation/MyTopTabs";
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
@@ -59,6 +62,43 @@ export default function Authnav() {
   return (
     <TokenContext.Provider value={{ token, setToken }}>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Resto"
+          component={Resto}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name=" WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Bottomnav"
+          component={Bottomnav}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -98,6 +138,11 @@ export default function Authnav() {
           // options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="Mapviewer"
+          component={Mapviewer}
+          // options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="MyTabs"
           component={MyTabs}
           options={{
@@ -116,18 +161,6 @@ export default function Authnav() {
           //options={{ headerShown: false }}
         />
 
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          // options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Bottomnav"
-          component={Bottomnav}
-          options={{
-            headerShown: false,
-          }}
-        />
         <Stack.Screen
           name="Profile"
           component={Profile}

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
+
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
@@ -26,8 +26,10 @@ import * as Icon from "react-native-feather";
 import MyAppbar from "../components/Appbar";
 //import Carousel from "react-native-snap-carousel";
 import Top from "../components/home/top";
-
-import MyModal from "../components/Modal";
+import Recents from "../components/home/recents";
+import { Stack, TextInput, IconButton } from "@react-native-material/core";
+import io from 'socket.io-client';
+//import MyModal from "../components/Modal";
 export default function Home({ navigation }) {
   const [userData, setUserData] = useState(null);
 
@@ -53,13 +55,16 @@ export default function Home({ navigation }) {
           setUserData(user);
           if (user) {
             setIsconnected(1);
+            setUserId(user._id);
+            alert(user._id)
+            handleJoin(user._id)
+         
           }
-          console.log(user);
+        
         }
       } catch (error) {
-        console.log(error);
-        navigation.navigate("Login");
-        alert("email or passe not valide");
+        console.log(error+'vous n estes pqs connecter');
+       
       }
     };
 
@@ -110,6 +115,47 @@ export default function Home({ navigation }) {
     }
   };
 
+
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [receivedNotification, setReceivedNotification] = useState('');
+  const [notificationCount, setNotificationCount] = useState(0);
+  const socket = io(`${API_URL}`);
+  useEffect(() => {
+
+    socket.on('connect', () => {
+      console.log('Connected to the server');
+   
+
+   
+    });
+
+    socket.on('notification', (message) => {
+      // Handle received notification
+      setReceivedNotification(message);
+      setNotificationCount((prevCount) => prevCount + 1);
+      console.log('Received notification:', message);
+    });
+
+    // Clean up the socket connection on unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const handleJoin = (userId) => {
+    console.log('envoie de id user connecter')
+    // Send the user ID to the server
+    socket.emit('join', userId);
+  };
+
+ /* const handleSendNotification = () => {
+    // Send a notification to the server
+    socket.emit('notification', { userId, message: notificationMessage });
+  };*/
+  
+
+
+ 
   return (
     <View>
       <MyAppbar
@@ -118,20 +164,21 @@ export default function Home({ navigation }) {
         handleLogout={handleLogout}
         navigation={navigation}
         token={token}
+        receivedNotification={receivedNotification}
+        notificationCount={notificationCount}
       />
-      <Text>HH</Text>
-      <View>
-        {userData ? (
-          <View>
-            <Text> {userData.username}</Text>
-          </View>
-        ) : (
-          <View>
-            <Text>no</Text>
-          </View>
-        )}
+      <ScrollView >
+      <View style={{ flex: 1 }}>
+
+<View style={{ padding: 12 }}>
+   
+       <Top />
+      <Recents />
       </View>
-      <Top />
+      </View> 
+ 
+      </ScrollView>
+     
     </View>
 
     /*<Carousel

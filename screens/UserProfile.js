@@ -15,13 +15,11 @@ import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { Button, ButtonGroup, withTheme } from "@rneui/themed";
 
-import TokenContext from "../store/tokencontext";
+
 import { API_URL } from "../utils/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../style/UserProfilestyle";
-import Time from "../components/Reservation/Time";
-import Date from "../components/Reservation/Date";
-import { Table, Row, Rows } from "react-native-table-component";
+
 export default function Profile({ navigation }) {
   const route = useRoute();
   const [userid, setUserid] = useState({});
@@ -29,8 +27,7 @@ export default function Profile({ navigation }) {
   const [restoData, setRestoData] = useState([]);
   const [restochoosed, setRestoChoosed] = useState({});
   const [followings, setFollowings] = useState([]);
-  //const { token } = useContext(TokenContext);
-  // const { setToken } = useContext(TokenContext);
+
 
   const [reservations, setReservations] = useState([]);
   useEffect(() => {
@@ -56,7 +53,7 @@ export default function Profile({ navigation }) {
       return unsubscribe;
     };
     fetchUserData();
-  }, [navigation]);
+  }, [navigation,handleRefresh]);
 
   const getUserProfile = async (token) => {
     try {
@@ -71,7 +68,7 @@ export default function Profile({ navigation }) {
       setReservations(response.data.reservations);
     } catch (error) {
       console.log(error);
-      alert("no");
+      alert("probleme de connection ");
     }
   };
 
@@ -91,15 +88,7 @@ export default function Profile({ navigation }) {
       getUserProfile(token);
     }
   };
-  const ProfilResto = () => {
-    //alert(userData._id);
-    const rest = restochoosed;
-    // alert(rest);
-    navigation.navigate("ProfilResto", {
-      rest: restochoosed,
-      id: userData._id,
-    });
-  };
+
 
   return (
     <View style={styles.container}>
@@ -309,8 +298,8 @@ export default function Profile({ navigation }) {
             titleStyle={styles.statLabel}
             onPress={() => navigation.navigate("Login")}
           />
-          <Time />
-          {/*  <Date />*/}
+       
+         
         </View>
       </ScrollView>
     </View>
