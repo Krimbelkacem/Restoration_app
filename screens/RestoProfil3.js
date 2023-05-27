@@ -12,13 +12,23 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { AntDesign } from "@expo/vector-icons";
 import Animated, {
   FadeInDown,
   FadeInRight,
   FadeOutRight,
   Layout,
 } from "react-native-reanimated";
+import {
+  SimpleLineIcons,
+  Ionicons,
+  EvilIcons,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Feather,
+  FontAwesome,
+} from "react-native-vector-icons";
 
 import ReservationList from "../components/GestionReservation";
 import Details from "../components/ProfilTab/Details";
@@ -30,6 +40,7 @@ import { fetchRestoProfile } from "../Api/RestoProfil";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../utils/config";
 import RestoCarousel from "../components/ProfilTab/RestoCarousel";
+import { Button } from "react-native-elements";
 export default function Resto({ route, navigation }) {
   const [display, setDisplay] = useState(null);
 
@@ -47,7 +58,7 @@ export default function Resto({ route, navigation }) {
 
   const buttonStyle = (componentName) => {
     return currentComponent === componentName
-      ? { backgroundColor: "black" }
+      ? { borderBottomWidth: 2, borderBottomColor: "black", paddingBottom: 5 }
       : {};
   };
 
@@ -177,6 +188,7 @@ export default function Resto({ route, navigation }) {
           ) : (
             <TouchableOpacity
               onPress={toggleReservation}
+              // onPress={navigation.navigate("ToReservation")}
               style={{
                 backgroundColor: "#2f95dc",
                 borderRadius: 50,
@@ -199,20 +211,44 @@ export default function Resto({ route, navigation }) {
             <Reservation restoId={Resto._id} onClose={toggleReservation} />
           )}
         </View>
-
         <Animated.View entering={FadeInDown.delay(400).duration(300)}>
           <View style={styles.headerContainer}>
             <RestoCarousel photos={slicedPhotos} />
             <View style={styles.profileContainer}></View>
           </View>
         </Animated.View>
-
         <View style={styles.section}>
           {UserId ? (
             <View>
               {display ? (
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>modifier</Text>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "black",
+                    margin: 5,
+                    marginHorizontal: 20,
+                    padding: 10,
+                    // borderRadius: 2,
+                    alignItems: "center",
+                    shadowColor: "#048533",
+                    shadowOffset: {
+                      width: 0,
+                      height: 5,
+                    },
+                    shadowOpacity: 0.36,
+                    shadowRadius: 6.68,
+                    elevation: 11,
+                    marginBottom: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Medium",
+                      fontSize: 14,
+                      color: "#FFF",
+                    }}
+                  >
+                    Parametres
+                  </Text>
                 </TouchableOpacity>
               ) : (
                 <View>
@@ -246,6 +282,75 @@ export default function Resto({ route, navigation }) {
             </TouchableOpacity>
           )}
         </View>
+        <View style={{ padding: 20 }}>
+          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+            {followerss.length}
+          </Text>
+          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+            Followers
+          </Text>
+        </View>
+
+        <View style={styles.section}>
+          <View>
+            <ScrollView horizontal contentContainerStyle={styles.friendsScroll}>
+              {/*followerss.map((follower) => (
+                <Text key={follower._id}>{follower.username}</Text>
+              ))*/}
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("FollowersLit", {
+                    followers: Resto.followers,
+                    idR: Resto._id,
+                  })
+                }
+              >
+                {followerss?.map(({ picture, _id }) => (
+                  <View style={styles.friendCard} key={_id}>
+                    <Image
+                      style={styles.friendImage}
+                      source={{ uri: `${API_URL}/${picture}` }}
+                    />
+                  </View>
+                ))}
+              </Pressable>
+            </ScrollView>
+          </View>
+        </View>
+        <Animated.View entering={FadeInRight.delay(300).duration(300)}>
+          <View style={{ padding: 20 }}>
+            <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
+              {Resto.name}
+            </Text>
+            <Button
+              onPress={() =>
+                navigation.navigate("ToReservation", {
+                  restoId: Resto._id,
+                })
+              }
+            >
+              hhh
+            </Button>
+            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+              <Ionicons name="location-outline" size={20} /> {Resto.address}
+            </Text>
+            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+              <Ionicons name="ios-restaurant-outline" size={20} />
+              {Resto.cuisines}
+            </Text>
+            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+              <FontAwesome name="money" size={20} />
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              paddingVertical: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          ></TouchableOpacity>
+        </Animated.View>
         <Animated.View entering={FadeInDown.delay(800).duration(300)}>
           <ScrollView
             horizontal
@@ -372,16 +477,9 @@ const styles = {
     padding: 10,
   },
   buttonText: {
+    fontFamily: "Poppins-Bold",
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
-  },
-  section: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    marginVertical: 5,
-    paddingHorizontal: 10,
   },
 };

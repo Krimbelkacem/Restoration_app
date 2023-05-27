@@ -1,7 +1,9 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useState, useEffect, useContext } from "react";
-import { Pressable } from "react-native";
+
 import { API_URL } from "../../utils/config";
+
+import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 
 import Animated, {
@@ -22,6 +24,7 @@ import {
   StyleSheet,
   Text,
   Dimensions,
+  Pressable,
 } from "react-native";
 
 import {
@@ -35,158 +38,80 @@ import {
 
 export default function MenuResto({ navigation, menu }) {
   const { width, height } = Dimensions.get("window");
-  const matches = [
-    {
-      id: 1,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 2,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 3,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 4,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 5,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      name: "John Doe",
-      age: "30",
-    },
-  ];
-  const slicedCategories = menu?.categories?.slice(0, 2);
-  const slicedItems = slicedCategories?.flatMap((category) =>
-    category.items.slice(0, 5)
-  );
+
+  const slicedCategories = menu?.categories;
+  const slicedItems = slicedCategories?.flatMap((category) => category.items);
 
   return (
     <View>
-      <View style={styles.section}>
-        <View>
-          {slicedCategories?.map((category) => (
-            <View key={category._id}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>{category.name}</Text>
-                <Pressable
-                  style={styles.seeAllButton}
-                  onPress={() =>
-                    navigation.navigate("Menu", {
-                      menu: menu,
-                    })
-                  }
-                >
-                  <Text style={styles.seeAllButtonText}>See all</Text>
-                </Pressable>
+      <View>
+        {slicedCategories?.map((category) => (
+          <View key={category._id}>
+            <View style={{ flex: 1, backgroundColor: "white", padding: 12 }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
+                  {category.name}
+                </Text>
               </View>
-              <View>
-                <View style={styles.sectionBody}>
-                  <ScrollView
-                    horizontal
-                    contentContainerStyle={styles.sectionScroll}
+              {category?.items?.slice(0, 5).map((item) => (
+                <View key={item._id}>
+                  <Animated.View
+                    entering={FadeInRight.delay(300).duration(300)}
                   >
-                    {category?.items?.slice(0, 5).map((item) => (
-                      <View style={styles.sectionCard} key={item._id}>
-                        <Image
-                          style={styles.sectionImage}
-                          source={{ uri: `${API_URL}/${item.image}` }}
-                        />
-                        <View style={styles.sectionInfo}>
-                          <Text style={styles.sectionLabel}>{item.name}</Text>
-                          <Text style={styles.sectionLabel}>
-                            price: {item.price} Da
-                          </Text>
-                        </View>
-                      </View>
-                    ))}
-                  </ScrollView>
-
-                  <Animated.View entering={FadeInDown.delay(600).duration(300)}>
-                    <ScrollView
+                    <TouchableOpacity
                       style={{
-                        marginTop: 20,
-                        alignSelf: "center",
-                        flexGrow: 0,
-                        backgroundColor: "white",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: 10,
+                        paddingBottom: 10,
+                        borderColor: "black",
+                        borderBottomWidth: 0.5,
                       }}
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
                     >
-                      {category?.items?.slice(0, 5).map((item) => (
-                        <View
+                      <View style={{ justifyContent: "center", flex: 1 }}>
+                        <Text
                           style={{
-                            width: width - 70,
-                            height: 200,
-                            backgroundColor: "#FFF",
-                            borderRadius: 20,
-                            padding: 20,
+                            fontSize: 20,
+                            fontFamily: "Poppins-Medium",
+                            color: "black",
+                            marginTop: 4,
+                            marginLeft: 12,
                           }}
                         >
-                          <Text
-                            style={{
-                              fontSize: 30,
-                              color: "#2f2f2f",
-                              marginTop: 75,
-                            }}
-                          >
-                            {item.name}
-                          </Text>
-                          <Image
-                            source={{ uri: `${API_URL}/${item.image}` }}
-                            style={{
-                              width: 180,
-                              height: 180,
-                              position: "absolute",
-                              right: 0,
-                              bottom: 10,
-                              zIndex: -1,
-                            }}
-                          />
-                        </View>
-                      ))}
-                    </ScrollView>
+                          {item.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontFamily: "Poppins-Regular",
+                            color: "black",
+                            marginTop: 4,
+                            marginLeft: 12,
+                            marginTop: -5,
+                          }}
+                        >
+                          {item.name}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          marginTop: 4,
+                          marginLeft: 12,
+                        }}
+                      >
+                        {item.price}DZD
+                      </Text>
+                    </TouchableOpacity>
                   </Animated.View>
                 </View>
-              </View>
+              ))}
             </View>
-          ))}
-        </View>
-
-        <View></View>
+          </View>
+        ))}
       </View>
-      {/* <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Boissons</Text>
-          <TouchableOpacity style={styles.seeAllButton}>
-            <Text style={styles.seeAllButtonText}>See all</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.sectionBody}>
-          <ScrollView horizontal contentContainerStyle={styles.sectionScroll}>
-            {matches.map(({ avatar, id, name, age }) => (
-              <View style={styles.sectionCard} key={id}>
-                <Image style={styles.sectionImage} source={{ uri: avatar }} />
-                <View style={styles.sectionInfo}>
-                  <Text style={styles.sectionLabel}>{name}</Text>
-                  <Text style={styles.sectionLabel}>Age: {age}</Text>
-                </View>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
-      </View> */}
     </View>
   );
 }
@@ -194,7 +119,7 @@ export default function MenuResto({ navigation, menu }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "black",
   },
   header: {
     backgroundColor: "#00BFFF",

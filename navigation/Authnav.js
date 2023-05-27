@@ -49,6 +49,7 @@ import Menu from "../screens/Menu";
 import Openninghours from "../components/Openinghours";
 import FollowersLit from "../components/FollowersList";
 import MyTopTabs from "../navigation/MyTopTabs";
+import ToReservation from "../screens/ToReservation";
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
@@ -68,7 +69,13 @@ export default function Authnav() {
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="ToReservation"
+          component={ToReservation}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="RestoSetting"
           component={RestoSetting}
