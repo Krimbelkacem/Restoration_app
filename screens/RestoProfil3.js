@@ -41,6 +41,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../utils/config";
 import RestoCarousel from "../components/ProfilTab/RestoCarousel";
 import { Button } from "react-native-elements";
+import axios from "axios";
 export default function Resto({ route, navigation }) {
   const [display, setDisplay] = useState(null);
 
@@ -156,6 +157,7 @@ export default function Resto({ route, navigation }) {
       );
       console.log(response.data);
       setIsfollowing(true);
+      handleRefresh();
     } catch (error) {
       console.error(error);
     }
@@ -168,11 +170,18 @@ export default function Resto({ route, navigation }) {
       );
       console.log(response.data);
       setIsfollowing(false);
+      handleRefresh();
     } catch (error) {
       console.error(error);
     }
   };
-
+  const handleRefresh = () => {
+    const idR = route.params.idR;
+    if (idR) {
+      getRestoProfile(idR);
+      handleRefresh();
+    }
+  };
   return (
     <View style={{ backgroundColor: "#FFF" }}>
       {UserId ? (
