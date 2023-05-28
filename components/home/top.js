@@ -40,73 +40,67 @@ export default function Top({ navigation, menu }) {
     fetchTopRestos();
   }, []);
 
-  const matches = [
-    {
-      id: 1,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 2,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 3,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 4,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      name: "John Doe",
-      age: "30",
-    },
-    {
-      id: 5,
-      avatar: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      name: "John Doe",
-      age: "30",
-    },
-  ];
   const slicedCategories = menu?.categories?.slice(0, 2);
   const slicedItems = slicedCategories?.flatMap((category) =>
     category.items.slice(0, 5)
   );
 
   return (
-    <View>
+    <View style={{ marginTop: 20 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: "Poppins-Medium",
+            color: "black",
+          }}
+        >
+          meilleurs restaurants
+        </Text>
+      </View>
 
+      <ScrollView horizontal style={{ height: 150 }}>
+        {topRestos?.map((resto) => (
+          <TouchableOpacity
+            key={resto._id}
+            style={{ alignItems: "center", marginLeft: 10 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                // rest: resto,
+                idR: resto._id,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: `${API_URL}/${resto.avatar
+                  ?.replace("public", "")
+                  .replace(/\\/g, "/")}`,
+              }}
+              style={{ width: 120, height: 120, borderRadius: 15 }}
+            />
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: "Poppins-Regular",
+                color: "black",
+                textAlign: "left",
+                marginTop: 5,
+              }}
+            >
+              {resto.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
-<View style={{ marginTop: 20 }}>
-
-<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-    <Text style={{ fontSize: 18, fontFamily: 'Poppins-Medium', color: 'black' }}>meilleurs restaurants</Text>
-    <FontAwesome5 name="angle-right" size={24} color="black" />
-</View>
-
-<ScrollView horizontal style={{ height: 145 }}>
-{topRestos?.map((resto) => (
-    <View key={resto._id}>
-        <Image source={{
-                          uri: `${API_URL}/${resto.avatar
-                            ?.replace("public", "")
-                            .replace(/\\/g, "/")}`,
-                        }} style={{ width: 120, height: 120, borderRadius: 15 }} />
-        <Text style={{ fontSize: 14, fontFamily: 'Poppins-Regular', color: 'black', textAlign: 'left', marginTop: 5 }}>{resto.name}</Text>
-    </View>
-
-))}
-
-</ScrollView>
-
-</View>
-
-
-         {/*   <View style={styles.section}>
+      {/*   <View style={styles.section}>
         <View>
           <View>
             <View style={styles.sectionHeader}>
@@ -175,7 +169,6 @@ export default function Top({ navigation, menu }) {
 
 const styles = StyleSheet.create({
   container: {
-
     backgroundColor: "#FFF",
   },
   header: {

@@ -40,11 +40,63 @@ export default function Recents({ navigation, menu }) {
     fetchTopRestos();
   }, []);
 
-  
-
   return (
     <View>
-      <View style={styles.section}>
+      <View style={{ marginTop: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: "Poppins-Medium",
+              color: "black",
+            }}
+          >
+            recents restaurants
+          </Text>
+        </View>
+
+        <ScrollView horizontal style={{ height: 150 }}>
+          {topRestos?.map((resto) => (
+            <TouchableOpacity
+              key={resto._id}
+              style={{ alignItems: "center", marginLeft: 10 }}
+              onPress={() =>
+                navigation.navigate("Resto", {
+                  // rest: resto,
+                  idR: resto._id,
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri: `${API_URL}/${resto.avatar
+                    ?.replace("public", "")
+                    .replace(/\\/g, "/")}`,
+                }}
+                style={{ width: 120, height: 120, borderRadius: 15 }}
+              />
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontFamily: "Poppins-Regular",
+                  color: "black",
+                  textAlign: "left",
+                  marginTop: 5,
+                }}
+              >
+                {resto.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+      {/* <View style={styles.section}>
         <View>
           <View>
             <View style={styles.sectionHeader}>
@@ -79,7 +131,7 @@ export default function Recents({ navigation, menu }) {
           </View>
         </View>
       </View>
-       {/* <View style={styles.section}>
+      <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Top 10</Text>
           <TouchableOpacity style={styles.seeAllButton}>
@@ -106,7 +158,6 @@ export default function Recents({ navigation, menu }) {
 
 const styles = StyleSheet.create({
   container: {
- 
     backgroundColor: "#FFF",
   },
   header: {

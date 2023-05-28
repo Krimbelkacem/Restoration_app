@@ -130,7 +130,10 @@ export default function Resto({ route, navigation }) {
           setIsfollowing(
             profileData.followers.some((follower) => follower._id === userId)
           );
-          if (userId && userId === profileData.owner) {
+          console.log(userId + "====" + profileData.owner._id);
+
+          if (userId && userId === profileData.owner._id) {
+            alert("owner");
             setDisplay("owner");
           }
         }
@@ -239,6 +242,11 @@ export default function Resto({ route, navigation }) {
                     elevation: 11,
                     marginBottom: 20,
                   }}
+                  onPress={() =>
+                    navigation.navigate("DetailsSettings", {
+                      idR: Resto._id,
+                    })
+                  }
                 >
                   <Text
                     style={{

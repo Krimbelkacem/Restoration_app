@@ -68,12 +68,14 @@ const ToReservation = ({ route }) => {
     setSelectedDate(date);
   }*/
   async function handlesubmit() {
-    const guests = value;
+    const guests = selectedNumber;
+    console.log("reservation a commencer");
     if (!selectedDay || !selectedTime || !selectedNumber || !restoId) {
       alert("dates selectedTime mitutes guests  are required");
       return;
     }
-    const dateR = selectedDay.toDateString();
+    const dateR = selectedDay.toString();
+    console.log(dateR);
     const sessionData = await AsyncStorage.getItem("session");
     if (sessionData) {
       const { userId } = JSON.parse(sessionData);
@@ -83,7 +85,7 @@ const ToReservation = ({ route }) => {
         try {
           const response = await axios.post(
             `${API_URL}/newReservation?userId=${userId}&restoId=${restoId}`,
-            { dateR, selectedTime, minutes, guests }
+            { dateR, selectedTime, guests }
           );
           return alert(
             "reservation effectuer le: " +
@@ -326,7 +328,7 @@ const ToReservation = ({ route }) => {
               alignSelf: "center",
               marginTop: 10,
             }}
-            onPress={() => navigation.navigate(handlesubmit)}
+            onPress={handlesubmit}
           >
             <Text
               style={{

@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Text,
   View,
-
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
@@ -27,8 +26,9 @@ import MyAppbar from "../components/Appbar";
 //import Carousel from "react-native-snap-carousel";
 import Top from "../components/home/top";
 import Recents from "../components/home/recents";
+import Cuisines from "../components/home/cuisines";
 import { Stack, TextInput, IconButton } from "@react-native-material/core";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 //import MyModal from "../components/Modal";
 export default function Home({ navigation }) {
   const [userData, setUserData] = useState(null);
@@ -56,15 +56,12 @@ export default function Home({ navigation }) {
           if (user) {
             setIsconnected(1);
             setUserId(user._id);
-            alert(user._id)
-            handleJoin(user._id)
-         
+            alert(user._id);
+            handleJoin(user._id);
           }
-        
         }
       } catch (error) {
-        console.log(error+'vous n estes pqs connecter');
-       
+        console.log(error + "vous n estes pqs connecter");
       }
     };
 
@@ -115,25 +112,20 @@ export default function Home({ navigation }) {
     }
   };
 
-
-  const [notificationMessage, setNotificationMessage] = useState('');
-  const [receivedNotification, setReceivedNotification] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [receivedNotification, setReceivedNotification] = useState("");
   const [notificationCount, setNotificationCount] = useState(0);
   const socket = io(`${API_URL}`);
   useEffect(() => {
-
-    socket.on('connect', () => {
-      console.log('Connected to the server');
-   
-
-   
+    socket.on("connect", () => {
+      console.log("Connected to the server");
     });
 
-    socket.on('notification', (message) => {
+    socket.on("notification", (message) => {
       // Handle received notification
       setReceivedNotification(message);
       setNotificationCount((prevCount) => prevCount + 1);
-      console.log('Received notification:', message);
+      console.log("Received notification:", message);
     });
 
     // Clean up the socket connection on unmount
@@ -143,19 +135,16 @@ export default function Home({ navigation }) {
   }, []);
 
   const handleJoin = (userId) => {
-    console.log('envoie de id user connecter')
+    console.log("envoie de id user connecter");
     // Send the user ID to the server
-    socket.emit('join', userId);
+    socket.emit("join", userId);
   };
 
- /* const handleSendNotification = () => {
+  /* const handleSendNotification = () => {
     // Send a notification to the server
     socket.emit('notification', { userId, message: notificationMessage });
   };*/
-  
 
-
- 
   return (
     <View>
       <MyAppbar
@@ -167,18 +156,21 @@ export default function Home({ navigation }) {
         receivedNotification={receivedNotification}
         notificationCount={notificationCount}
       />
-      <ScrollView >
-      <View style={{ flex: 1 }}>
-
-<View style={{ padding: 12 }}>
-   
-       <Top />
-      <Recents />
-      </View>
-      </View> 
- 
+      <ScrollView>
+        <View style={{ flex: 1, backgroundColor: "white" }}></View>
+        <View style={{ flex: 1 }}>
+          <View style={{ padding: 12, backgroundColor: "white" }}>
+            <Top navigation={navigation} />
+          </View>
+          <View style={{ flex: 1 }}></View>
+          <View style={{ padding: 12, backgroundColor: "white" }}>
+            <Recents navigation={navigation} />
+          </View>
+          <View style={{ padding: 12, backgroundColor: "white" }}>
+            <Cuisines />
+          </View>
+        </View>
       </ScrollView>
-     
     </View>
 
     /*<Carousel

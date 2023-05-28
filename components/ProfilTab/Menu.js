@@ -24,7 +24,7 @@ export default function Menu({ idR, navigation }) {
         const fetchedMenu = await getMenuResto(restoId);
       } catch (error) {
         // Handle error
-        console.error(error.message);
+        console.error(error.message + "menu");
       }
     };
 

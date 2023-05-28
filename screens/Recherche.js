@@ -25,6 +25,7 @@ import { SearchBar } from "react-native-elements";
 import { horizontal } from "react-native-swiper-flatlist/src/themes";
 import { ButtonGroup } from "react-native-elements";
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
+import { FadeInDown } from "react-native-reanimated";
 import {
   SimpleLineIcons,
   EvilIcons,
@@ -34,6 +35,7 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
+
 const Recherche = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -83,6 +85,9 @@ const Recherche = ({ navigation }) => {
     if (selectedIndex === 0) {
       return (
         <View style={{ flex: 1, backgroundColor: "#ffffff", padding: 12 }}>
+          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
+            Restaurants
+          </Text>
           {restoResults?.map((resto) => (
             <Animated.View
               key={resto.id}
@@ -118,7 +123,6 @@ const Recherche = ({ navigation }) => {
                     textAlign: "center",
                   }}
                 >
-                  {" "}
                   {resto.name}
                 </Text>
               </TouchableOpacity>
@@ -138,60 +142,85 @@ const Recherche = ({ navigation }) => {
                   >
                     {category}
                   </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
-                  </Paragraph>
                 </Card.Content>
               </Card>
             </TouchableOpacity>
           ))}
-
+          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
+            Menu_items
+          </Text>
           {itemResults?.map((item) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ProfileView", {
-                  idR: item.restaurantId,
-                })
-              }
-            >
-              <Card
-                key={item.itemId}
-                style={{
-                  elevation: 4,
-                  alignContent: "center",
-                  margin: 10,
-                }}
-              >
-                <Card.Cover
-                  source={{
-                    uri: `${API_URL}/${item.itemImage}`,
+            <View>
+              <Animated.View entering={FadeInDown.delay(400).duration(400)}>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    color: "#000",
+                    fontSize: 18,
                   }}
-                />
-                <Card.Content>
-                  <Title
+                >
+                  {item.restoName}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ProfileView", {
+                      idR: item.restaurantId,
+                    })
+                  }
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: "#FFF",
+                    borderRadius: 10,
+                    marginTop: 10,
+                  }}
+                  key={item.itemId}
+                >
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      marginBottom: 8,
+                      padding: 18,
+                      // backgroundColor: "#ffe8e8",
+                      backgroundColor: "lightblue",
+                      borderTopLeftRadius: 10,
+                      borderBottomLeftRadius: 10,
                     }}
                   >
-                    {item.itemName}
-                  </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
-              <Text> {item.restoName}</Text>
-              <Avatar.Image
-                size={40}
-                source={{
-                  uri: `${API_URL}/${item.restoAvatar.replace("public", "")}`,
-                }}
-              />
-            </TouchableOpacity>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.itemImage}`,
+                      }}
+                      style={{ width: 35, height: 35 }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flex: 1,
+                      padding: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "#000",
+                        fontSize: 18,
+                      }}
+                    >
+                      {item.itemName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "#000",
+                        fontSize: 18,
+                      }}
+                    >
+                      {item.itemPrice} da
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </Animated.View>
+            </View>
           ))}
         </View>
       );
@@ -226,7 +255,6 @@ const Recherche = ({ navigation }) => {
                 <Text
                   style={{ color: "#263238", fontSize: 20, marginLeft: 10 }}
                 >
-                  {" "}
                   {resto.name}
                 </Text>
               </TouchableOpacity>
@@ -264,53 +292,77 @@ const Recherche = ({ navigation }) => {
       return (
         <View>
           {itemResults?.map((item) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ProfileView", {
-                  idR: item.restaurantId,
-                })
-              }
-            >
-              <Card
-                key={item.itemId}
-                style={{
-                  elevation: 4,
-                  alignContent: "center",
-                  margin: 10,
-                }}
-              >
-                <Card.Cover
-                  source={{
-                    uri: `${API_URL}/${item.itemImage}`,
+            <View>
+              <Animated.View entering={FadeInDown.delay(400).duration(400)}>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    color: "#000",
+                    fontSize: 18,
                   }}
-                />
-                <Card.Content>
-                  <Title
+                >
+                  {item.restoName}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ProfileView", {
+                      idR: item.restaurantId,
+                    })
+                  }
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: "#FFF",
+                    borderRadius: 10,
+                    marginTop: 10,
+                  }}
+                  key={item.itemId}
+                >
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      marginBottom: 8,
+                      padding: 18,
+                      // backgroundColor: "#ffe8e8",
+                      backgroundColor: "lightblue",
+                      borderTopLeftRadius: 10,
+                      borderBottomLeftRadius: 10,
                     }}
                   >
-                    {item.itemName}
-                  </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
-                  </Paragraph>
-                  <Text> {item.restoName}</Text>
-                  <Avatar.Image
-                    size={40}
-                    source={{
-                      uri: `${API_URL}/${item.restoAvatar.replace(
-                        "public",
-                        ""
-                      )}`,
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.itemImage}`,
+                      }}
+                      style={{ width: 35, height: 35 }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flex: 1,
+                      padding: 20,
                     }}
-                  />
-                </Card.Content>
-              </Card>
-            </TouchableOpacity>
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "#000",
+                        fontSize: 18,
+                      }}
+                    >
+                      {item.itemName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "#000",
+                        fontSize: 18,
+                      }}
+                    >
+                      {item.itemPrice} da
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </Animated.View>
+            </View>
           ))}
         </View>
       );
@@ -344,7 +396,9 @@ const Recherche = ({ navigation }) => {
       </View>
 
       <View style={{ marginTop: 10 }}>
-        <Text style={{ marginBottom: 8 }}>Filter:</Text>
+        <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+          Filter:
+        </Text>
         <ButtonGroup
           buttons={buttons}
           selectedIndex={selectedIndex}

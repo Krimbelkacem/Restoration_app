@@ -55,7 +55,7 @@ export default Reservation = ({ restoId }) => {
               response.data.time
           );
         } catch (error) {
-          console.error(error);
+          console.error(error + "reservation");
           throw new Error("Failed to create reservation.");
         }
       }

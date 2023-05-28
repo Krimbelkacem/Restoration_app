@@ -65,7 +65,7 @@ export default function Details({ Resto }) {
             Description
           </Text>
           <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            {Resto.descreption}
+            {Resto.description}
           </Text>
 
           <Text
@@ -74,16 +74,21 @@ export default function Details({ Resto }) {
             Telephone
           </Text>
           <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            0659496939
+            {Resto.phone}
           </Text>
           <Text
             style={{ fontFamily: "Poppins-Bold", fontSize: 16, marginTop: 20 }}
           >
             Type de cuisine
           </Text>
-          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            cuine francaise
-          </Text>
+          {Resto.cuisines?.map((cuisine) => (
+            <View key={cuisine._id}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+                {cuisine.name}
+              </Text>
+            </View>
+          ))}
+
           <Text
             style={{ fontFamily: "Poppins-Bold", fontSize: 16, marginTop: 20 }}
           >

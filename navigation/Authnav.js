@@ -22,7 +22,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
-import RestoSetting from "../screens/RestoSetting/RestoSetting";
+
 import WelcomeScreen from "../screens/day001/WelcomeScreen";
 import Drawernav from "./Drawernav";
 import HomeScreen from "../screens/day001/HomeScreen";
@@ -32,6 +32,8 @@ import SignUpScreen from "../screens/day001/SignUpScreen";
 import AddResto from "../screens/AddResto";
 import Addmenuitem from "../screens/Addcategory";
 import Addmenu from "../screens/Addmenu";
+import Addcuisine from "../screens/Addcuisine";
+
 import Profile from "../screens/UserProfile";
 import EditProfile from "../screens/EditProfile";
 
@@ -50,6 +52,10 @@ import Openninghours from "../components/Openinghours";
 import FollowersLit from "../components/FollowersList";
 import MyTopTabs from "../navigation/MyTopTabs";
 import ToReservation from "../screens/ToReservation";
+import RestoSetting from "../screens/RestoSetting/RestoSetting";
+import DetailsSettings from "../screens/RestoSetting/DetailsSettings";
+import MenuSettings from "../screens/RestoSetting/MenuSettings";
+
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
@@ -67,6 +73,20 @@ export default function Authnav() {
         <Stack.Screen
           name=" WelcomeScreen"
           component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="MenuSettings" component={MenuSettings} />
+
+        <Stack.Screen name="DetailsSettings" component={DetailsSettings} />
+
+        <Stack.Screen
+          name="RestoSettings"
+          component={RestoSetting}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Addcuisine"
+          component={Addcuisine}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -57,43 +57,46 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text>Reservations</Text>
-      {RestoReservation?.map((reservation) => (
-        <Card key={reservation._id} containerStyle={styles.card}>
-          <Text>Date: {reservation.date}</Text>
-          <Text>Time: {reservation.time}</Text>
-          <Text>Guests: {reservation.guests}</Text>
-          <Avatar.Image
-            size={40}
-            source={{
-              uri: `${API_URL}/${reservation.user.picture}`,
-            }}
-          />
-          <Text>User: {reservation.user.username}</Text>
+      {display ? (
+        <View>
+          <Text>Reservations</Text>
+          {RestoReservation?.map((reservation) => (
+            <Card key={reservation._id} containerStyle={styles.card}>
+              <Text>Date: {reservation.date}</Text>
+              <Text>Time: {reservation.time}</Text>
+              <Text>Guests: {reservation.guests}</Text>
+              <Avatar.Image
+                size={40}
+                source={{
+                  uri: `${API_URL}/${reservation.user.picture}`,
+                }}
+              />
+              <Text>User: {reservation.user.username}</Text>
 
-          <Text>
-            Status : <Text style={{ color: "grey" }}>{reservation.state}</Text>
-          </Text>
-          {reservation.state === "pending" && (
-            <View>
-              {display ? (
-                <View style={styles.buttonContainer}>
-                  <Button
-                    title="Accept"
-                    onPress={() => acceptReservation(reservation._id)}
-                  />
-                  <Button
-                    title="Reject"
-                    onPress={() => rejectReservation(reservation._id)}
-                  />
+              <Text>
+                Status :
+                <Text style={{ color: "grey" }}>{reservation.state}</Text>
+              </Text>
+              {reservation.state === "pending" && (
+                <View>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Accept"
+                      onPress={() => acceptReservation(reservation._id)}
+                    />
+                    <Button
+                      title="Reject"
+                      onPress={() => rejectReservation(reservation._id)}
+                    />
+                  </View>
                 </View>
-              ) : (
-                <Text></Text>
               )}
-            </View>
-          )}
-        </Card>
-      ))}
+            </Card>
+          ))}
+        </View>
+      ) : (
+        <Text></Text>
+      )}
     </ScrollView>
   );
 };
