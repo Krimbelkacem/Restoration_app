@@ -120,7 +120,9 @@ export default function MyAppbar({
         </View>
         <View>
           {isconnected === 1 ? (
-            <TouchableOpacity onPress={onOpen}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Profile", { token: token })}
+            >
               <Avatar.Image
                 size={40}
                 source={{

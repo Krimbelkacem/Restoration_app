@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   StyleSheet,
@@ -44,6 +44,7 @@ const Recherche = ({ navigation }) => {
   const [restoResults, setRestoResults] = useState([]);
   const [categoryResults, setCategoryResults] = useState([]);
   const [itemResults, setItemResults] = useState([]);
+  // const [cuisinesResults, setCuisinesResults] = useState([]);
   const [cuisineResults, setCuisineResults] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [restoName, setrestoName] = useState("");
@@ -64,6 +65,7 @@ const Recherche = ({ navigation }) => {
     }
   };
   //<Text style={styles.statCount}>{restoResults.length}</Text>;
+  ///////////////////////price overage///////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -71,10 +73,12 @@ const Recherche = ({ navigation }) => {
   const buttons = [
     `All (${restoResults.length +
       categoryResults.length +
-      itemResults.length})`,
+      itemResults.length +
+      cuisineResults.length})`,
     `Restos (${restoResults.length})`,
     `Categories (${categoryResults.length})`,
     `Items (${itemResults.length})`,
+    `cuisines(${cuisineResults.length})`,
   ];
 
   const updateIndex = (index) => {
@@ -222,6 +226,47 @@ const Recherche = ({ navigation }) => {
               </Animated.View>
             </View>
           ))}
+
+          {cuisineResults?.map((cuisine) => (
+            <Animated.View
+              key={cuisine._id}
+              entering={FadeInRight.delay(300).duration(400)}
+            >
+              <TouchableOpacity
+                style={{ flexDirection: "row", marginTop: 12 }}
+                onPress={() =>
+                  navigation.navigate("Resto", {
+                    // rest: resto,
+                    idR: resto._id,
+                  })
+                }
+              >
+                <Image
+                  source={{
+                    uri: `${API_URL}/${cuisine.cuisineImage}`,
+                  }}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 20,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#263238",
+                    fontSize: 16,
+                    marginLeft: 10,
+                    fontWeight: "bold",
+
+                    textAlign: "center",
+                  }}
+                >
+                  {cuisine.cuisineName}
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
+          ))}
         </View>
       );
     } else if (selectedIndex === 1) {
@@ -366,6 +411,51 @@ const Recherche = ({ navigation }) => {
           ))}
         </View>
       );
+    } else if (selectedIndex === 4) {
+      return (
+        <View>
+          {cuisineResults?.map((cuisine) => (
+            <Animated.View
+              key={cuisine._id}
+              entering={FadeInRight.delay(300).duration(400)}
+            >
+              <TouchableOpacity
+                style={{ flexDirection: "row", marginTop: 12 }}
+                onPress={() =>
+                  navigation.navigate("Resto", {
+                    // rest: resto,
+                    idR: cuisine.restaurantId,
+                  })
+                }
+              >
+                <Image
+                  source={{
+                    uri: `${API_URL}/${cuisine.cuisineImage}`,
+                  }}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 20,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#263238",
+                    fontSize: 16,
+                    marginLeft: 10,
+                    fontWeight: "bold",
+
+                    textAlign: "center",
+                  }}
+                >
+                  {cuisine.cuisineName}
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
+          ))}
+        </View>
+      );
     }
     return null;
   };
@@ -399,24 +489,47 @@ const Recherche = ({ navigation }) => {
         <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
           Filter:
         </Text>
-        <ButtonGroup
-          buttons={buttons}
-          selectedIndex={selectedIndex}
-          onPress={updateIndex}
-          containerStyle={{
-            height: 50,
-            borderWidth: 1,
-            borderColor: "lightgrey",
-            borderRadius: 10,
-            backgroundColor: "white",
-          }}
-          selectedButtonStyle={{ backgroundColor: "lightgrey" }}
-          selectedTextStyle={{ color: "black" }}
-          buttonStyle={{
-            backgroundColor: "transparent",
-          }}
-        />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ButtonGroup
+            buttons={buttons}
+            selectedIndex={selectedIndex}
+            onPress={updateIndex}
+            containerStyle={{
+              height: 60,
+              width: 500,
+              borderWidth: 0,
+              borderColor: "lightgrey",
+              borderRadius: 10,
+              backgroundColor: "white",
+            }}
+            selectedButtonStyle={{
+              height: 60,
+
+              backgroundColor: "black",
+              borderRadius: 10,
+            }}
+            selectedTextStyle={{
+              fontFamily: "Poppins-Medium",
+              color: "white",
+              fontSize: 12,
+            }}
+            textStyle={{
+              fontFamily: "Poppins-Regular",
+              color: "black",
+              fontSize: 12,
+            }}
+            buttonStyle={{
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderRadius: 10,
+              borderColor: "lightgray",
+            }}
+            innerBorderStyle={{ width: 0 }}
+            buttonContainerStyle={{ marginHorizontal: 2 }} // Add horizontal margin
+          />
+        </ScrollView>
       </View>
+
       <ScrollView style={{ marginHorizontal: 0, marginBottom: 200 }}>
         {renderSelectedView()}
       </ScrollView>

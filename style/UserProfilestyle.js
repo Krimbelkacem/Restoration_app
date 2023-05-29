@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   username: {
-    color: "#999",
+    color: "black",
     fontSize: 18,
   },
   stats: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   bio: {
     padding: 20,
     fontSize: 16,
-    color: "#333",
+    color: "black",
   },
   button: {
     //backgroundColor: "black",

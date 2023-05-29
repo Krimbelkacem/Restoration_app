@@ -41,6 +41,7 @@
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "0.71.6",
+    "react-native-alert": "^1.0.3",
     "react-native-androw": "^0.0.34",
     "react-native-calendars": "^1.1292.0",
     "react-native-datepicker": "^1.7.2",

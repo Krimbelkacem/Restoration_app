@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { API_URL } from "../../utils/config";
+
 export default function Pub({ Resto }) {
   return (
     <ScrollView style={{ minHeight: 300 }}>

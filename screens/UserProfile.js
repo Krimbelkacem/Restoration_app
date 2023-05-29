@@ -18,7 +18,8 @@ import { Button, ButtonGroup, withTheme } from "@rneui/themed";
 import { API_URL } from "../utils/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../style/UserProfilestyle";
-
+import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
+import { FadeInDown } from "react-native-reanimated";
 export default function Profile({ navigation }) {
   const route = useRoute();
   const [userid, setUserid] = useState({});
@@ -89,8 +90,6 @@ export default function Profile({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Refresh" onPress={handleRefresh} />
-
       <ScrollView style={styles.ScrollView}>
         {userData ? (
           <View>
@@ -136,82 +135,115 @@ export default function Profile({ navigation }) {
 
               <View style={styles.stat}></View>
             </View>
-            <View style={styles.stat}>
-              <Text
-                style={{
-                  fontSize: 22,
-                  fontWeight: "bold",
-                }}
-              >
-                My Restos
-              </Text>
-            </View>
+
             <View style={styles.body}>
               {restoData?.length > 0 ? (
-                restoData.map((resto) => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("Resto", {
-                        idR: resto._id,
-                        id: userData._id,
-                      })
-                    }
-                  >
-                    <View key={resto.id} style={styles.box}>
-                      <Image
-                        source={{
-                          uri: `${API_URL}/${resto.avatar.replace(
-                            "public",
-                            ""
-                          )}`,
-                        }}
-                        style={styles.photo}
-                      />
-                      <Text style={styles.username}>Name: {resto.name}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))
+                <View>
+                  <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
+                    Restaurants ajouter
+                  </Text>
+                  <View>
+                    {restoData.map((resto) => (
+                      <Animated.View
+                        key={resto.id}
+                        entering={FadeInRight.delay(300).duration(400)}
+                      >
+                        <TouchableOpacity
+                          style={{ flexDirection: "row", marginTop: 12 }}
+                          onPress={() =>
+                            navigation.navigate("Resto", {
+                              // rest: resto,
+                              idR: resto._id,
+                            })
+                          }
+                        >
+                          <Image
+                            source={{
+                              uri: `${API_URL}/${resto.avatar.replace(
+                                "public",
+                                ""
+                              )}`,
+                            }}
+                            style={{
+                              width: 100,
+                              height: 100,
+                              borderRadius: 20,
+                              resizeMode: "cover",
+                            }}
+                          />
+                          <Text
+                            style={{
+                              color: "#263238",
+                              fontSize: 16,
+                              marginLeft: 10,
+                              fontWeight: "bold",
+
+                              textAlign: "center",
+                            }}
+                          >
+                            {resto.name}
+                          </Text>
+                        </TouchableOpacity>
+                      </Animated.View>
+                    ))}
+                  </View>
+                </View>
               ) : (
-                <Text style={styles.message}>No restaurants available</Text>
+                <Text style={styles.message}> </Text>
               )}
             </View>
-            <View style={styles.stat}>
-              <Text
-                style={{
-                  fontSize: 22,
-                  fontWeight: "bold",
-                }}
-              >
-                Restos Followings
-              </Text>
-            </View>
+
             <View style={styles.body}>
               {followings?.length > 0 ? (
-                followings?.map((resto) => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("ProfileView", {
-                        idR: resto._id,
-                        id: userData._id,
-                      })
-                    }
-                  >
-                    <View key={resto.id} style={styles.box}>
-                      <Image
-                        source={{
-                          uri: `${API_URL}/${resto.avatar.replace(
-                            "public",
-                            ""
-                          )}`,
-                        }}
-                        style={styles.photo}
-                      />
-                      <Text style={styles.username}>Name: {resto.name}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))
+                <View>
+                  <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
+                    Restaurants suivies
+                  </Text>
+                  <View>
+                    {followings?.map((resto) => (
+                      <Animated.View
+                        key={resto.id}
+                        entering={FadeInRight.delay(300).duration(400)}
+                      >
+                        <TouchableOpacity
+                          style={{ flexDirection: "row", marginTop: 12 }}
+                          onPress={() =>
+                            navigation.navigate("Resto", {
+                              // rest: resto,
+                              idR: resto._id,
+                            })
+                          }
+                        >
+                          <Image
+                            source={{
+                              uri: `${API_URL}/${resto.avatar}`,
+                            }}
+                            style={{
+                              width: 100,
+                              height: 100,
+                              borderRadius: 20,
+                              resizeMode: "cover",
+                            }}
+                          />
+                          <Text
+                            style={{
+                              color: "#263238",
+                              fontSize: 16,
+                              marginLeft: 10,
+                              fontWeight: "bold",
+
+                              textAlign: "center",
+                            }}
+                          >
+                            {resto.name}
+                          </Text>
+                        </TouchableOpacity>
+                      </Animated.View>
+                    ))}
+                  </View>
+                </View>
               ) : (
-                <Text style={styles.message}>No restaurants available</Text>
+                <Text style={styles.message}> </Text>
               )}
             </View>
             {/*reserve */}

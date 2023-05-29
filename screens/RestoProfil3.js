@@ -10,6 +10,7 @@ import {
   Modal,
   Text,
   StyleSheet,
+  Alert,
 } from "react-native";
 
 import Animated, {
@@ -42,6 +43,7 @@ import { API_URL } from "../utils/config";
 import RestoCarousel from "../components/ProfilTab/RestoCarousel";
 import { Button } from "react-native-elements";
 import axios from "axios";
+import ModalResto from "../components/menuresto/ModalResto";
 export default function Resto({ route, navigation }) {
   const [display, setDisplay] = useState(null);
 
@@ -156,7 +158,7 @@ export default function Resto({ route, navigation }) {
         `${API_URL}/addfollower?idU=${UserId}&idR=${route.params.idR}  `
       );
       console.log(response.data);
-      setIsfollowing(true);
+      // setIsfollowing(true);
       handleRefresh();
     } catch (error) {
       console.error(error);
@@ -169,17 +171,29 @@ export default function Resto({ route, navigation }) {
         `${API_URL}/unfollow?idU=${UserId}&idR=${route.params.idR}  `
       );
       console.log(response.data);
-      setIsfollowing(false);
+      // setIsfollowing(false);
       handleRefresh();
     } catch (error) {
       console.error(error);
     }
   };
+  const showAlert = () => {
+    Alert.alert(
+      "se desabonner ",
+      "vous ete sur de vouloir vous desabonner ",
+      [
+        {
+          text: "OK",
+          onPress: handleUnfollow,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   const handleRefresh = () => {
     const idR = route.params.idR;
     if (idR) {
       getRestoProfile(idR);
-      handleRefresh();
     }
   };
   return (
@@ -199,8 +213,10 @@ export default function Resto({ route, navigation }) {
             <Text></Text>
           ) : (
             <TouchableOpacity
-              onPress={toggleReservation}
-              // onPress={navigation.navigate("ToReservation")}
+              // onPress={toggleReservation}
+              onPress={() =>
+                navigation.navigate("ToReservation", { restoId: Resto._id })
+              }
               style={{
                 backgroundColor: "#2f95dc",
                 borderRadius: 50,
@@ -219,13 +235,16 @@ export default function Resto({ route, navigation }) {
       )}
       <ScrollView>
         <View>
-          {showReservation && (
+          {/*showReservation && (
             <Reservation restoId={Resto._id} onClose={toggleReservation} />
-          )}
+          )*/}
         </View>
         <Animated.View entering={FadeInDown.delay(400).duration(300)}>
           <View style={styles.headerContainer}>
             <RestoCarousel photos={slicedPhotos} />
+            <View style={{ position: "absolute", top: 30, left: 20 }}>
+              {display ? <ModalResto idresto={Resto._id} /> : <View />}
+            </View>
             <View style={styles.profileContainer}></View>
           </View>
         </Animated.View>
@@ -274,7 +293,7 @@ export default function Resto({ route, navigation }) {
                       <View>
                         <TouchableOpacity
                           style={styles.button}
-                          onPress={handleUnfollow}
+                          onPress={showAlert}
                         >
                           <Text style={styles.buttonText}>abonnée</Text>
                         </TouchableOpacity>
@@ -339,15 +358,7 @@ export default function Resto({ route, navigation }) {
             <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
               {Resto.name}
             </Text>
-            <Button
-              onPress={() =>
-                navigation.navigate("ToReservation", {
-                  restoId: Resto._id,
-                })
-              }
-            >
-              hhh
-            </Button>
+
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
               <Ionicons name="location-outline" size={20} /> {Resto.address}
             </Text>

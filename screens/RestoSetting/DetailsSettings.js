@@ -32,6 +32,11 @@ const DetailsSettings = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [phone, setphone] = useState("");
   const [description, setDescription] = useState("");
+  const [text, setText] = useState("");
+
+  const handleInputChange = (value) => {
+    setText(value);
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -56,6 +61,7 @@ const DetailsSettings = ({ navigation, route }) => {
         setDescription(response.data.description);
         setphone(response.data.phone);
         setavatar(response.data.avatar);
+        setText(response.data.openingHours);
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +74,9 @@ const DetailsSettings = ({ navigation, route }) => {
     const restoid = route.params.idR;
 
     const formData = new FormData();
+    if (text) {
+      formData.append("openingHours", text);
+    }
     if (name) {
       formData.append("name", name);
     }
@@ -182,7 +191,18 @@ const DetailsSettings = ({ navigation, route }) => {
             blurOnSubmit={false}
             leftIcon={<MaterialIcons name="phone" size={24} color="black" />}
           />
-          <View></View>
+          <Text style={styles.label}>Heures d'ouverture :</Text>
+          <TextInput
+            style={[styles.input, { height: Math.max(80) }]}
+            multiline
+            onChangeText={setText}
+            returnKeyType="next"
+            blurOnSubmit={false}
+            value={text}
+            placeholder=" Dimanche - Jeudi : 9h00 - 18h00
+            Samedi : 10h00 - 15h00
+            Vendredi : Fermé"
+          />
         </View>
 
         <TouchableOpacity
@@ -290,6 +310,11 @@ const styles = StyleSheet.create({
 
     // backgroundColor: "lightskyblue",
   },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
 
   imgback: {
     width: 150,
@@ -316,5 +341,12 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 8,
     width: 200,
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 10,
+    marginBottom: 10,
   },
 });

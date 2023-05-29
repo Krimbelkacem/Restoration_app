@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  StyleSheet,
 } from "react-native";
 import { Card, Modal, Layout, Text } from "@ui-kitten/components";
 import { Button } from "react-native-paper";
@@ -78,54 +79,79 @@ const ModalResto = ({ navigation, route, idresto }) => {
         mode="contained"
         onPress={pickImage}
         style={{
-          backgroundColor: "grey",
+          backgroundColor: "black",
           // backgroundColor: "rgba(244, 244, 244, 1)",
-          borderWidth: 2,
-          borderColor: "white",
+          borderWidth: 1,
+          borderColor: "black",
           borderRadius: 30,
         }}
-      >
-        addphoto
-      </Button>
+      ></Button>
 
       <Modal
         visible={visible}
-        backdropStyle={styles.backdrop}
+        backdropStyle={styless.backdrop}
         onBackdropPress={() => setVisible(false)}
       >
-        <Layout style={styles.modalContainer}>
+        <Layout style={styless.modalContainer}>
           <Card disabled={true}>
-            <Text>laarbi amroune duchen matchi d la sorciaire 😻</Text>
+            <Text style={styless.modalTitle}>Ajouter une Publication</Text>
 
             {imageUri ? (
-              <Image
-                source={{ uri: imageUri }}
-                style={{ width: 304, height: 300 }}
-              />
+              <Image source={{ uri: imageUri }} style={styless.image} />
             ) : (
-              <View>
-                <Text>upload image</Text>
+              <View style={styless.uploadContainer}>
+                <Text style={styless.uploadText}>Upload Image</Text>
               </View>
             )}
           </Card>
 
-          <Button
-            style={{
-              backgroundColor: "grey",
-              backgroundColor: "rgba(244, 244, 244, 1)",
-              borderWidth: 2,
-              borderColor: "white",
-              borderRadius: 30,
-              color: "white",
-            }}
-            onPress={submit}
-          >
-            send
+          <Button style={styless.button} onPress={submit}>
+            Ajouter
           </Button>
         </Layout>
       </Modal>
     </View>
   );
 };
+const styless = StyleSheet.create({
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  image: {
+    width: 304,
+    height: 300,
+  },
+  uploadContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 200,
+    height: 200,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  uploadText: {
+    fontSize: 16,
+    color: "gray",
+  },
+  button: {
+    backgroundColor: "rgba(244, 244, 244, 1)",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 30,
+    color: "white",
+  },
+});
 
 export default ModalResto;
