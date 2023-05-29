@@ -53,7 +53,11 @@ export default function MyAppbar({
   const _goBack = () => console.log("Went back");
 
   const handleNotes = () =>
-    alert(receivedNotification ? receivedNotification : "no new notification");
+    alert(
+      receivedNotification
+        ? receivedNotification.message
+        : "no new notification"
+    );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 

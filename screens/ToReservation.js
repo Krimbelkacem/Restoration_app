@@ -19,6 +19,7 @@ import Time from "../components/Reservation/Time";
 import { API_URL } from "../utils/config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import io from "socket.io-client";
 import { Calendar } from "react-native-calendars";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Animated, {
@@ -38,8 +39,10 @@ import {
   Feather,
   FontAwesome,
 } from "react-native-vector-icons";
+
 const ToReservation = ({ route }) => {
   const restoId = route.params.restoId;
+  const owner = route.params.owner;
   alert(restoId);
 
   /*
@@ -67,6 +70,18 @@ const ToReservation = ({ route }) => {
   function handleDateSelection(date) {
     setSelectedDate(date);
   }*/
+  const socket = io(`${API_URL}`);
+  const handleSendNotification = (userId) => {
+    const notification = {
+      senderId: userId, // ID de l'expéditeur
+      receiverId: owner, // Remplacez par l'ID du destinataire
+      message: "new demande reservation",
+    };
+    // Send a notification to the server
+    console.log("Send a notification to the server");
+    socket.emit("notification", notification);
+  };
+
   async function handlesubmit() {
     const guests = selectedNumber;
     console.log("reservation a commencer");
@@ -87,6 +102,9 @@ const ToReservation = ({ route }) => {
             `${API_URL}/newReservation?userId=${userId}&restoId=${restoId}`,
             { dateR, selectedTime, guests }
           );
+          if (response) {
+            handleSendNotification(userId);
+          }
           return alert(
             "reservation effectuer le: " +
               response.data.date +

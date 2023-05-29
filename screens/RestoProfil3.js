@@ -83,7 +83,7 @@ export default function Resto({ route, navigation }) {
           />
         );
       case "Avis":
-        return <Avis idR={idR} />;
+        return <Avis idR={idR} idU={UserId} />;
       default:
         return null;
     }
@@ -215,7 +215,10 @@ export default function Resto({ route, navigation }) {
             <TouchableOpacity
               // onPress={toggleReservation}
               onPress={() =>
-                navigation.navigate("ToReservation", { restoId: Resto._id })
+                navigation.navigate("ToReservation", {
+                  restoId: Resto._id,
+                  owner: Resto.owner._id,
+                })
               }
               style={{
                 backgroundColor: "#2f95dc",
@@ -271,8 +274,9 @@ export default function Resto({ route, navigation }) {
                     marginBottom: 20,
                   }}
                   onPress={() =>
-                    navigation.navigate("DetailsSettings", {
+                    navigation.navigate("MenuSetting", {
                       idR: Resto._id,
+                      Restoname: Resto.name,
                     })
                   }
                 >

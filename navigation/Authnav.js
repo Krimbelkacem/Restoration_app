@@ -54,7 +54,7 @@ import MyTopTabs from "../navigation/MyTopTabs";
 import ToReservation from "../screens/ToReservation";
 import RestoSetting from "../screens/RestoSetting/RestoSetting";
 import DetailsSettings from "../screens/RestoSetting/DetailsSettings";
-import MenuSettings from "../screens/RestoSetting/MenuSettings";
+import MenuSetting from "../screens/RestoSetting/MenuSettings";
 
 const Stack = createNativeStackNavigator();
 
@@ -75,7 +75,7 @@ export default function Authnav() {
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="MenuSettings" component={MenuSettings} />
+        <Stack.Screen name="MenuSetting" component={MenuSetting} />
 
         <Stack.Screen name="DetailsSettings" component={DetailsSettings} />
 
