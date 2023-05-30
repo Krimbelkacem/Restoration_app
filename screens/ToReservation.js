@@ -72,6 +72,8 @@ const ToReservation = ({ route }) => {
   }*/
   const socket = io(`${API_URL}`);
   const handleSendNotification = (userId) => {
+    console.log(owner);
+    console.log(userId);
     const notification = {
       senderId: userId, // ID de l'expéditeur
       receiverId: owner, // Remplacez par l'ID du destinataire

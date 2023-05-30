@@ -49,6 +49,7 @@
     "react-native-device-info": "9.0.2",
     "react-native-drop-down-item": "^1.1.0",
     "react-native-dropdown-menu": "^2.0.0",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-elements": "^3.4.3",
     "react-native-feather": "^1.1.2",
     "react-native-gesture-handler": "^2.9.0",

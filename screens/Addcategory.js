@@ -43,15 +43,16 @@ export default function Addmenuitem({ navigation, route }) {
   //  alert(restoid);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [route.params.idresto]);
 
   async function fetchData() {
     const restoid = route.params.idresto;
+    alert(restoid);
     const response = await axios.get(`${API_URL}/category?id=${restoid}`);
     const categories = response.data;
     setCats(categories);
     console.log("categories");
-    console.log(categories);
+    console.log(response.data);
   }
   const [selectedCat, setSelectedCat] = useState(null);
 
@@ -101,7 +102,6 @@ export default function Addmenuitem({ navigation, route }) {
       );
       console.log(response.data);
       alert("added item");
-      navigation.navigate('ProfileView')
     } catch (error) {
       console.error(error);
     }

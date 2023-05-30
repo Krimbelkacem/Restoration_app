@@ -1,36 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  View,
-  ScrollView,
-  Image,
-  Text,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import React from "react";
+import { View, ScrollView, Image, Text, TouchableOpacity } from "react-native";
 import { API_URL } from "../../utils/config";
 
-export default function Pub({ Resto }) {
+const Pub = ({ Resto }) => {
+  const renderPhotoItems = () =>
+    Resto.photos.slice(0, 9).map((photo, index) => (
+      <TouchableOpacity
+        key={index}
+        style={{
+          marginRight: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Image
+          source={{
+            uri: `${API_URL}/${photo}`,
+          }}
+          style={{ width: 120, height: 120, borderRadius: 10 }}
+        />
+      </TouchableOpacity>
+    ));
+
   return (
-    <ScrollView style={{ minHeight: 300 }}>
-      {Resto.photos.length > 0 &&
-        Resto.photos.slice(0, 9).map((photo, index) => (
-          <View
-            style={{
-              flexDirection: "row",
-              width: 380,
-              justifyContent: "space-between",
-              marginTop: 20,
-            }}
-            key={index}
-          >
-            <Image
-              source={{
-                uri: `${API_URL}/${photo}`,
-              }}
-              style={{ width: 120, height: 120, borderRadius: 10 }}
-            />
-          </View>
-        ))}
+    <ScrollView
+      style={{
+        minHeight: 300,
+        padding: 10,
+      }}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
+      {renderPhotoItems()}
     </ScrollView>
   );
-}
+};
+
+export default Pub;

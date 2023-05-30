@@ -27,6 +27,10 @@ import { ButtonGroup } from "react-native-elements";
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
 import {
+  SelectList,
+  MultipleSelectList,
+} from "react-native-dropdown-select-list";
+import {
   SimpleLineIcons,
   EvilIcons,
   AntDesign,
@@ -48,6 +52,7 @@ const Recherche = ({ navigation }) => {
   const [cuisineResults, setCuisineResults] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [restoName, setrestoName] = useState("");
+
   const getDataUsingSimpleGetCall = async () => {
     try {
       const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
@@ -66,6 +71,36 @@ const Recherche = ({ navigation }) => {
   };
   //<Text style={styles.statCount}>{restoResults.length}</Text>;
   ///////////////////////price overage///////////////////////////////////////////////////////////////////
+  const [selected, setSelected] = React.useState([]);
+
+  console.log(selected);
+
+  const data = [
+    { key: "1", value: "0", disabled: true },
+    { key: "2", value: "00" },
+    { key: "3", value: "000" },
+
+    { key: "4", value: "0000" },
+  ];
+  function calculateNumberOfDigits(price) {
+    return price?.toString().length;
+  }
+  const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+
+  const handleSelect = (value) => {
+    setSelectedPriceRange(value);
+  };
+  const filteredRestos = restoResults.filter((resto) => {
+    const numberOfDigits = calculateNumberOfDigits(resto["price_average"]);
+    if (selectedPriceRange === "000") {
+      return numberOfDigits === 3;
+    } else if (selectedPriceRange === "00") {
+      return numberOfDigits === 2;
+    } else if (selectedPriceRange === "0") {
+      return numberOfDigits === 1;
+    }
+    return false;
+  });
 
   ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -128,6 +163,7 @@ const Recherche = ({ navigation }) => {
                   }}
                 >
                   {resto.name}
+                  {resto.price_average}
                 </Text>
               </TouchableOpacity>
             </Animated.View>
@@ -272,6 +308,16 @@ const Recherche = ({ navigation }) => {
     } else if (selectedIndex === 1) {
       return (
         <View>
+          <MultipleSelectList
+            setSelected={handleSelect}
+            data={data}
+            save="value"
+            // onSelect={() => alert(selected)}
+            label="prix moyen"
+            placeholder="choisissez le prix moyen"
+            fontFamily="Poppins-Medium"
+          />
+
           {restoResults?.map((resto) => (
             <Animated.View
               key={resto.id}

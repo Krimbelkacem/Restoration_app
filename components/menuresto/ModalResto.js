@@ -23,7 +23,7 @@ import { API_URL } from "../../utils/config";
 import styles from "../../style/ProfiRestostyle";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-const ModalResto = ({ navigation, route, idresto }) => {
+const ModalResto = ({ navigation, route, idresto, getRestoProfile }) => {
   const [imageUri, setImageUri] = useState(null);
   const [visible, setVisible] = useState(false);
   const pickImage = async () => {
@@ -63,6 +63,10 @@ const ModalResto = ({ navigation, route, idresto }) => {
         );
 
         console.log(response.data);
+        if (response) {
+          setVisible(false);
+          getRestoProfile(idresto);
+        }
         // await setphotos(response.data.photos);
         // console.log(photos);
       } catch (error) {

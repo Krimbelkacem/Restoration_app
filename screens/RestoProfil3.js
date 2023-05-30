@@ -72,7 +72,7 @@ export default function Resto({ route, navigation }) {
       case "Menu":
         return <Menu idR={idR} />;
       case "Publication":
-        return <Pub idR={idR} Resto={Resto} />;
+        return <Pub idR={idR} Resto={Resto} onFunctionCall={getRestoProfile} />;
       case "Reservation":
         return (
           <ReservationList
@@ -83,7 +83,7 @@ export default function Resto({ route, navigation }) {
           />
         );
       case "Avis":
-        return <Avis idR={idR} idU={UserId} />;
+        return <Avis idR={idR} idU={UserId} display={display} />;
       default:
         return null;
     }
@@ -246,11 +246,51 @@ export default function Resto({ route, navigation }) {
           <View style={styles.headerContainer}>
             <RestoCarousel photos={slicedPhotos} />
             <View style={{ position: "absolute", top: 30, left: 20 }}>
-              {display ? <ModalResto idresto={Resto._id} /> : <View />}
+              {display ? (
+                <ModalResto
+                  idresto={Resto._id}
+                  getRestoProfile={getRestoProfile}
+                />
+              ) : (
+                <View />
+              )}
             </View>
             <View style={styles.profileContainer}></View>
           </View>
         </Animated.View>
+
+        <View style={styles.sectionfriends}>
+          <Text style={styles.statCount}>{followerss.length}</Text>
+          <Text style={styles.statLabel}>Followers</Text>
+        </View>
+        <View style={styles.sectionfriends}>
+          <View>
+            <ScrollView horizontal contentContainerStyle={styles.friendsScroll}>
+              {/*followerss.map((follower) => (
+                <Text key={follower._id}>{follower.username}</Text>
+              ))*/}
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("FollowersLit", {
+                    followers: Resto.followers,
+                    idR: Resto._id,
+                    display: display,
+                  })
+                }
+              >
+                {followerss?.map(({ picture, _id }) => (
+                  <View style={styles.friendCard} key={_id}>
+                    <Image
+                      style={styles.friendImage}
+                      source={{ uri: `${API_URL}/${picture}` }}
+                    />
+                  </View>
+                ))}
+              </Pressable>
+            </ScrollView>
+          </View>
+        </View>
+
         <View style={styles.section}>
           {UserId ? (
             <View>
@@ -322,41 +362,7 @@ export default function Resto({ route, navigation }) {
             </TouchableOpacity>
           )}
         </View>
-        <View style={{ padding: 20 }}>
-          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            {followerss.length}
-          </Text>
-          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            Followers
-          </Text>
-        </View>
 
-        <View style={styles.section}>
-          <View>
-            <ScrollView horizontal contentContainerStyle={styles.friendsScroll}>
-              {/*followerss.map((follower) => (
-                <Text key={follower._id}>{follower.username}</Text>
-              ))*/}
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("FollowersLit", {
-                    followers: Resto.followers,
-                    idR: Resto._id,
-                  })
-                }
-              >
-                {followerss?.map(({ picture, _id }) => (
-                  <View style={styles.friendCard} key={_id}>
-                    <Image
-                      style={styles.friendImage}
-                      source={{ uri: `${API_URL}/${picture}` }}
-                    />
-                  </View>
-                ))}
-              </Pressable>
-            </ScrollView>
-          </View>
-        </View>
         <Animated.View entering={FadeInRight.delay(300).duration(300)}>
           <View style={{ padding: 20 }}>
             <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
@@ -513,5 +519,27 @@ const styles = {
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
+  },
+  sectionfriends: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginVertical: 5,
+    paddingHorizontal: 10,
+  },
+  friendCard: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginLeft: 2,
+  },
+  friendImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  friendsScroll: {
+    paddingBottom: 10,
   },
 };

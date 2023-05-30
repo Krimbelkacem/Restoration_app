@@ -83,7 +83,14 @@ function MenuSetting({ route, navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ flexDirection: "row", marginTop: 20 }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", marginTop: 20 }}
+              onPress={() =>
+                navigation.navigate("Addcuisine", {
+                  idR: idR,
+                })
+              }
+            >
               <View
                 style={{
                   backgroundColor: "#28194c",
@@ -105,13 +112,17 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                Privacy
+                cuisines
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{ flexDirection: "row", marginTop: 20 }}
-              onPress={() => navigation.navigate("Security")}
+              onPress={() =>
+                navigation.navigate("Addmenu", {
+                  idresto: idR,
+                })
+              }
             >
               <View
                 style={{
@@ -134,11 +145,18 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                Security
+                menucategories
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ flexDirection: "row", marginTop: 20 }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", marginTop: 20 }}
+              onPress={() =>
+                navigation.navigate("Addmenuitem", {
+                  idresto: idR,
+                })
+              }
+            >
               <View
                 style={{
                   backgroundColor: "#3b242f",
@@ -160,7 +178,7 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                Chat
+                Menuitems
               </Text>
             </TouchableOpacity>
 

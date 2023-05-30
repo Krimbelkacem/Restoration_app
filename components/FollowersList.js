@@ -21,7 +21,8 @@ import axios from "axios";
 export default FollowersList = ({ route }) => {
   const followers = route.params.followers;
   const idR = route.params.idR;
-  alert(idR);
+  const display = route.params.display;
+
   //const [UserId, setUserId] = useState(null);
   const handleUnfollow = async (UserId) => {
     console.log(UserId);
@@ -33,125 +34,14 @@ export default FollowersList = ({ route }) => {
       console.log(response.data);
 
       setVisible(false);
+      getRestoProfile(idR);
     } catch (error) {
       console.error(error);
       setVisible(false);
     }
   };
-  callsData = [
-    {
-      id: 1,
-      name: "Mark Doe",
-      date: "12 jan",
-      time: "11:14 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: 2,
-      name: "Clark Man",
-      date: "12 jul",
-      time: "15:58 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar6.png",
-    },
-    {
-      id: 3,
-      name: "Jaden Boor",
-      date: "12 aug",
-      time: "12:45 am",
-      video: true,
-      image: "https://bootdey.com/img/Content/avatar/avatar5.png",
-    },
-    {
-      id: 4,
-      name: "Srick Tree",
-      date: "12 feb",
-      time: "08:32 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      date: "12 oct",
-      time: "07:45 am",
-      video: true,
-      image: "https://bootdey.com/img/Content/avatar/avatar3.png",
-    },
-    {
-      id: 6,
-      name: "John Doe",
-      date: "12 jan",
-      time: "09:54 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar2.png",
-    },
-    {
-      id: 8,
-      name: "John Doe",
-      date: "12 jul",
-      time: "11:22 am",
-      video: true,
-      image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-    {
-      id: 9,
-      name: "John Doe",
-      date: "12 aug",
-      time: "13:33 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-    },
-    {
-      id: 10,
-      name: "John Doe",
-      date: "12 oct",
-      time: "11:58 am",
-      video: true,
-      image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: 11,
-      name: "John Doe",
-      date: "12 jan",
-      time: "09:28 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-    {
-      id: 12,
-      name: "John Doe",
-      date: "12 jan",
-      time: "09:28 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-    {
-      id: 13,
-      name: "John Doe",
-      date: "12 jan",
-      time: "09:28 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-    {
-      id: 14,
-      name: "John Doe",
-      date: "12 jan",
-      time: "09:28 am",
-      video: false,
-      image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-  ];
-
-  const [calls, setCalls] = useState(callsData);
 
   const renderItem = ({ item }) => {
-    var callIcon = "https://img.icons8.com/color/48/000000/phone.png";
-    if (item.video == true) {
-      callIcon = "https://img.icons8.com/color/48/000000/video-call.png";
-    }
     return (
       <View>
         <Portal>
@@ -178,28 +68,22 @@ export default FollowersList = ({ route }) => {
                 <Text style={styles.nameTxt}>{item.username}</Text>
               </View>
               <View style={styles.end}>
-                <Image
-                  style={[
-                    styles.icon,
-                    { marginLeft: 15, marginRight: 5, width: 14, height: 14 },
-                  ]}
-                  source={{
-                    uri:
-                      "https://img.icons8.com/small/14/000000/double-tick.png",
-                  }}
-                />
                 <Text style={styles.time}>
                   {item.date} {item.time}
                 </Text>
               </View>
             </View>
-            <AntDesign
-              name="deleteuser"
-              size={28}
-              color="red"
-              style={{ marginRight: 50 }}
-              onPress={showDialog}
-            />
+            {display ? (
+              <AntDesign
+                name="deleteuser"
+                size={28}
+                color="red"
+                style={{ marginRight: 50 }}
+                onPress={showDialog}
+              />
+            ) : (
+              <Text />
+            )}
           </View>
         </TouchableOpacity>
       </View>
