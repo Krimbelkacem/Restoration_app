@@ -58,6 +58,7 @@ const Recherche = ({ navigation }) => {
       const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
       const data = res.data;
       setRestoResults(data.restoResults);
+
       setCategoryResults(data.categoryResults);
       setItemResults(data.itemResults);
       setCuisineResults(data.cuisineResults);
@@ -73,35 +74,66 @@ const Recherche = ({ navigation }) => {
   ///////////////////////price overage///////////////////////////////////////////////////////////////////
   const [selected, setSelected] = React.useState([]);
 
-  console.log(selected);
-
   const data = [
-    { key: "1", value: "0", disabled: true },
+    { key: "1", value: "0" },
     { key: "2", value: "00" },
     { key: "3", value: "000" },
 
-    { key: "4", value: "0000" },
+    { key: "4", value: "0000", disabled: true },
   ];
-  function calculateNumberOfDigits(price) {
-    return price?.toString().length;
-  }
-  const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+  // Helper function to calculate the number of digits
+  const [selectedPriceRange, setSelectedPriceRange] = useState("");
 
+  // Helper function to convert price average to consistent format
+  function convertToConsistentFormat(priceAverage) {
+    const numberOfDigits = Math.ceil(Math.log10(priceAverage + 1));
+    const convertedPrice =
+      "0".repeat(3 - numberOfDigits) +
+      priceAverage.toString().padStart(numberOfDigits, "0");
+    return convertedPrice;
+  }
+  // Example usage and logging for testing the conversion
+  const examplePriceAverage = 200;
+  const convertedPriceAverage = convertToConsistentFormat(examplePriceAverage);
+  console.log(`Original Price Average: ${examplePriceAverage}`);
+  console.log(`Converted Price Average: ${convertedPriceAverage}`);
+  console.log(
+    `Converted Price Average Length: ${convertedPriceAverage.length}`
+  );
+
+  // Rest of your code...
+  // Handler function for selecting price range
   const handleSelect = (value) => {
     setSelectedPriceRange(value);
   };
-  const filteredRestos = restoResults.filter((resto) => {
-    const numberOfDigits = calculateNumberOfDigits(resto["price_average"]);
-    if (selectedPriceRange === "000") {
-      return numberOfDigits === 3;
-    } else if (selectedPriceRange === "00") {
-      return numberOfDigits === 2;
-    } else if (selectedPriceRange === "0") {
-      return numberOfDigits === 1;
-    }
-    return false;
-  });
 
+  // Convert the price_average values to consistent format
+  const convertedRestos = restoResults.map((resto) => {
+    const convertedPriceAverage = convertToConsistentFormat(
+      resto.price_average
+    );
+    return { ...resto, price_average: convertedPriceAverage };
+  });
+  alert(convertedRestos[0].price_average);
+
+  // Filtered restaurants based on selected price range
+  const filteredRestos =
+    selectedPriceRange !== ""
+      ? convertedRestos.filter((resto) => {
+          const priceAverage = resto.price_average;
+          if (selectedPriceRange === "000") {
+            alert(resto);
+            return priceAverage === "000";
+          } else if (selectedPriceRange === "00") {
+            return priceAverage === "00";
+          } else if (selectedPriceRange === "0") {
+            return priceAverage === "0";
+          }
+          return false;
+        })
+      : convertedRestos;
+
+  console.log(filteredRestos);
   ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -152,19 +184,44 @@ const Recherche = ({ navigation }) => {
                     resizeMode: "cover",
                   }}
                 />
-                <Text
-                  style={{
-                    color: "#263238",
-                    fontSize: 16,
-                    marginLeft: 10,
-                    fontWeight: "bold",
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      color: "#263238",
+                      fontSize: 16,
+                      marginLeft: 10,
+                      fontWeight: "bold",
 
-                    textAlign: "center",
-                  }}
-                >
-                  {resto.name}
-                  {resto.price_average}
-                </Text>
+                      textAlign: "center",
+                    }}
+                  >
+                    {resto.name}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#263238",
+                      fontSize: 12,
+                      marginLeft: 10,
+                      fontWeight: "bold",
+
+                      textAlign: "center",
+                    }}
+                  >
+                    Prix moyen: {resto.price_average}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#263238",
+                      fontSize: 12,
+                      marginLeft: 10,
+                      fontWeight: "bold",
+
+                      textAlign: "center",
+                    }}
+                  >
+                    {resto.address}
+                  </Text>
+                </View>
               </TouchableOpacity>
             </Animated.View>
           ))}
@@ -577,6 +634,9 @@ const Recherche = ({ navigation }) => {
       </View>
 
       <ScrollView style={{ marginHorizontal: 0, marginBottom: 200 }}>
+        {filteredRestos.map((resto) => (
+          <Text>{resto.name}</Text>
+        ))}
         {renderSelectedView()}
       </ScrollView>
     </View>
