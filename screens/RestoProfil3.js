@@ -70,7 +70,7 @@ export default function Resto({ route, navigation }) {
       case "Details":
         return <Details idR={idR} Resto={Resto} />;
       case "Menu":
-        return <Menu idR={idR} />;
+        return <Menu idR={idR} display={display} />;
       case "Publication":
         return <Pub idR={idR} Resto={Resto} onFunctionCall={getRestoProfile} />;
       case "Reservation":

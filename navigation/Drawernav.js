@@ -1,7 +1,18 @@
 import "react-native-gesture-handler";
+import axios from "axios";
+import { Modal } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as React from "react";
-import { View, TouchableOpacity, Image, Text, Pressable } from "react-native";
+import { API_URL } from "../utils/config";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  Pressable,
+  Dimensions,
+} from "react-native";
 
 import Bottomnav from "./Bottomnav";
 
@@ -16,7 +27,7 @@ import { Icon } from "react-native-elements";
 
 const Drawer = createDrawerNavigator();
 
-export function NavigationDrawerStructure(props) {
+export function NavigationDrawerStructure(props, { navigation }) {
   //Structure for the navigatin Drawer
   const toggleDrawer = () => {
     //Props to open/close the drawer
@@ -27,30 +38,90 @@ export function NavigationDrawerStructure(props) {
 }
 
 const CustomDrawer = (props, { navigation }) => {
+  const [userData, setUserData] = useState(null);
+
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+  const [isconnected, setIsconnected] = useState(0);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const sessionData = await AsyncStorage.getItem("session");
+        if (sessionData) {
+          const { token } = JSON.parse(sessionData);
+          setToken(token);
+          const response = await fetch(`${API_URL}/profile`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const user = await response.json();
+          setUserData(user);
+          if (user) {
+            setIsconnected(1);
+            setUserId(user._id);
+          }
+        }
+      } catch (error) {
+        console.log(error + "vous n estes pqs connecter");
+      }
+    };
+
+    fetchUser();
+  }, [navigation]);
+
+  const handleLogout = async () => {
+    try {
+      alert("deconnection");
+      await AsyncStorage.removeItem("session");
+      // userData(null);
+      setIsconnected(0);
+      // navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: 20,
-            backgroundColor: "#f6f6f6",
-            marginBottom: 20,
-          }}
-        >
+        {isconnected === 0 ? (
           <View>
-            <Text>John Doe</Text>
-            <Text>example@email.com</Text>
+            <Text onPress={() => navigation.navigate("SignUpScreen")}>
+              sign up
+            </Text>
+            <Text onPress={() => navigation.navigate("LoginScreen")}>
+              log in
+            </Text>
           </View>
-          <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1624243225303-261cc3cd2fbc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-            }}
-            style={{ width: 60, height: 60, borderRadius: 30 }}
-          />
-        </View>
+        ) : (
+          <View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: 20,
+                backgroundColor: "#f6f6f6",
+                marginBottom: 20,
+              }}
+            >
+              <View>
+                <Text>{userData?.username}</Text>
+                <Text>{userData?.email}</Text>
+              </View>
+              <Image
+                source={{
+                  uri: `${API_URL}/${userData?.picture}`,
+                }}
+                style={{ width: 60, height: 60, borderRadius: 30 }}
+              />
+            </View>
+          </View>
+        )}
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
@@ -63,6 +134,7 @@ const CustomDrawer = (props, { navigation }) => {
           backgroundColor: "#f6f6f6",
           padding: 20,
         }}
+        onPress={handleLogout}
       >
         <Text>Log Out</Text>
       </TouchableOpacity>
@@ -92,8 +164,9 @@ function Drawernav() {
       <Drawer.Screen
         name="Bottomnav"
         options={{
+          headerShown: false,
           drawerLabel: "Home",
-          drawerIcon: (props) => <Icon name="home" size={30} color="#900" />,
+          drawerIcon: (props) => <Icon name="home" size={30} color="black" />,
         }}
         component={Bottomnav}
       />

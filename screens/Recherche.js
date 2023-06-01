@@ -9,6 +9,7 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import {
   Text,
   Button,
@@ -53,6 +54,10 @@ const Recherche = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [restoName, setrestoName] = useState("");
 
+  const [lowPriceResto, setLowPriceResto] = useState([]);
+  const [mediumPriceResto, setMediumPriceResto] = useState([]);
+  const [highPriceResto, setHighPriceResto] = useState([]);
+
   const getDataUsingSimpleGetCall = async () => {
     try {
       const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
@@ -62,6 +67,12 @@ const Recherche = ({ navigation }) => {
       setCategoryResults(data.categoryResults);
       setItemResults(data.itemResults);
       setCuisineResults(data.cuisineResults);
+      setLowPriceResto(data.lowPriceResto);
+      console.log(data.lowPriceResto);
+      console.log(data.mediumPriceResto);
+      console.log(data.highPriceResto);
+      setMediumPriceResto(data.mediumPriceResto);
+      setHighPriceResto(data.highPriceResto);
       setData(res.data);
       setResults(res.data);
       setLoading(true);
@@ -72,80 +83,47 @@ const Recherche = ({ navigation }) => {
   };
   //<Text style={styles.statCount}>{restoResults.length}</Text>;
   ///////////////////////price overage///////////////////////////////////////////////////////////////////
-  const [selected, setSelected] = React.useState([]);
-
+  const [selectedValue, setSelectedValue] = useState("0");
   const data = [
     { key: "1", value: "0" },
     { key: "2", value: "00" },
     { key: "3", value: "000" },
-
     { key: "4", value: "0000", disabled: true },
   ];
-  // Helper function to calculate the number of digits
-  const [selectedPriceRange, setSelectedPriceRange] = useState("");
 
-  // Helper function to convert price average to consistent format
-  function convertToConsistentFormat(priceAverage) {
-    const numberOfDigits = Math.ceil(Math.log10(priceAverage + 1));
-    const convertedPrice =
-      "0".repeat(3 - numberOfDigits) +
-      priceAverage.toString().padStart(numberOfDigits, "0");
-    return convertedPrice;
-  }
-  // Example usage and logging for testing the conversion
-  const examplePriceAverage = 200;
-  const convertedPriceAverage = convertToConsistentFormat(examplePriceAverage);
-  console.log(`Original Price Average: ${examplePriceAverage}`);
-  console.log(`Converted Price Average: ${convertedPriceAverage}`);
-  console.log(
-    `Converted Price Average Length: ${convertedPriceAverage.length}`
-  );
-
-  // Rest of your code...
-  // Handler function for selecting price range
-  const handleSelect = (value) => {
-    setSelectedPriceRange(value);
+  const renderRestoList = () => {
+    if (selectedValue === "0") {
+      return lowPriceResto.map((resto) => (
+        <Text key={resto._id}>{resto.name}</Text>
+        // Render other resto details as needed
+      ));
+    } else if (selectedValue === "00") {
+      return mediumPriceResto.map((resto) => (
+        <Text key={resto._id}>{resto.name}</Text>
+        // Render other resto details as needed
+      ));
+    } else if (selectedValue === "000") {
+      return highPriceResto.map((resto) => (
+        <Text key={resto._id}>{resto.name}</Text>
+        // Render other resto details as needed
+      ));
+    } else {
+      return null;
+    }
   };
 
-  // Convert the price_average values to consistent format
-  const convertedRestos = restoResults.map((resto) => {
-    const convertedPriceAverage = convertToConsistentFormat(
-      resto.price_average
-    );
-    return { ...resto, price_average: convertedPriceAverage };
-  });
-  alert(convertedRestos[0].price_average);
-
-  // Filtered restaurants based on selected price range
-  const filteredRestos =
-    selectedPriceRange !== ""
-      ? convertedRestos.filter((resto) => {
-          const priceAverage = resto.price_average;
-          if (selectedPriceRange === "000") {
-            alert(resto);
-            return priceAverage === "000";
-          } else if (selectedPriceRange === "00") {
-            return priceAverage === "00";
-          } else if (selectedPriceRange === "0") {
-            return priceAverage === "0";
-          }
-          return false;
-        })
-      : convertedRestos;
-
-  console.log(filteredRestos);
   ////////////////////////////////////////////////////////////////////
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const buttons = [
-    `All (${restoResults.length +
-      categoryResults.length +
-      itemResults.length +
-      cuisineResults.length})`,
-    `Restos (${restoResults.length})`,
-    `Categories (${categoryResults.length})`,
-    `Items (${itemResults.length})`,
-    `cuisines(${cuisineResults.length})`,
+    `All (${restoResults?.length +
+      categoryResults?.length +
+      itemResults?.length +
+      cuisineResults?.length})`,
+    `Restos (${restoResults?.length})`,
+    `Categories (${categoryResults?.length})`,
+    `Items (${itemResults?.length})`,
+    `cuisines(${cuisineResults?.length})`,
   ];
 
   const updateIndex = (index) => {
@@ -365,16 +343,24 @@ const Recherche = ({ navigation }) => {
     } else if (selectedIndex === 1) {
       return (
         <View>
-          <MultipleSelectList
-            setSelected={handleSelect}
-            data={data}
-            save="value"
-            // onSelect={() => alert(selected)}
-            label="prix moyen"
-            placeholder="choisissez le prix moyen"
-            fontFamily="Poppins-Medium"
-          />
-
+          <View style={styles.container}>
+            <Picker
+              selectedValue={selectedValue}
+              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              style={styles.picker}
+              itemStyle={styles.pickerItem}
+            >
+              <Picker.Item label="prix moyen" value="" color="#999999" />
+              {data.map((item) => (
+                <Picker.Item
+                  key={item.key}
+                  label={item.value}
+                  value={item.value}
+                />
+              ))}
+            </Picker>
+            {renderRestoList()}
+          </View>
           {restoResults?.map((resto) => (
             <Animated.View
               key={resto.id}
@@ -634,9 +620,6 @@ const Recherche = ({ navigation }) => {
       </View>
 
       <ScrollView style={{ marginHorizontal: 0, marginBottom: 200 }}>
-        {filteredRestos.map((resto) => (
-          <Text>{resto.name}</Text>
-        ))}
         {renderSelectedView()}
       </ScrollView>
     </View>
@@ -644,3 +627,22 @@ const Recherche = ({ navigation }) => {
 };
 
 export default Recherche;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  picker: {
+    width: 200,
+    height: 50,
+    backgroundColor: "#eaeaea",
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  pickerItem: {
+    color: "#333333",
+    fontSize: 16,
+  },
+});

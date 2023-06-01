@@ -24,7 +24,7 @@ import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
 
 import WelcomeScreen from "../screens/day001/WelcomeScreen";
-import Drawernav from "./Drawernav";
+//import Drawernav from "./Drawernav";
 import HomeScreen from "../screens/day001/HomeScreen";
 import LoginScreen from "../screens/day001/LoginScreen";
 import SignUpScreen from "../screens/day001/SignUpScreen";
@@ -38,7 +38,7 @@ import Profile from "../screens/UserProfile";
 import EditProfile from "../screens/EditProfile";
 
 import ProfilResto from "../screens/ProfilResto";
-import Bottomnav from "./Bottomnav";
+import Drawernav from "./Drawernav";
 import TokenContext from "../store/tokencontext";
 
 import UIUserProfile from "../screens/UIProfile";
@@ -111,8 +111,8 @@ export default function Authnav() {
           }}
         />
         <Stack.Screen
-          name="Bottomnav"
-          component={Bottomnav}
+          name="Drawernav"
+          component={Drawernav}
           options={{
             headerShown: false,
           }}

@@ -15,6 +15,7 @@ import {
   Dimensions,
   Button,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import axios from "axios";
 import { Modal } from "react-native";
@@ -39,7 +40,16 @@ export default function Home({ navigation }) {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
   const [isconnected, setIsconnected] = useState(0);
-  useEffect(() => {
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  /* useEffect(() => {
     const fetchUser = async () => {
       try {
         const sessionData = await AsyncStorage.getItem("session");
@@ -56,7 +66,7 @@ export default function Home({ navigation }) {
           if (user) {
             setIsconnected(1);
             setUserId(user._id);
-            alert(user._id);
+
             handleJoin(user._id);
           }
         }
@@ -66,8 +76,8 @@ export default function Home({ navigation }) {
     };
 
     fetchUser();
-
-    /*
+*/
+  /*
     const getData = async () => {
       const unsubscribe = navigation.addListener("focus", async () => {
         const sessionString = await AsyncStorage.getItem("session");
@@ -83,7 +93,7 @@ export default function Home({ navigation }) {
 
       return unsubscribe;
     };
-    getData();*/
+    getData();
   }, [navigation]);
   const getUserProfile = async (token) => {
     try {
@@ -98,7 +108,47 @@ export default function Home({ navigation }) {
       console.log(error);
       alert("no");
     }
+  };*/
+  const fetchUser = async () => {
+    try {
+      const sessionData = await AsyncStorage.getItem("session");
+      if (sessionData) {
+        const { token } = JSON.parse(sessionData);
+        setToken(token);
+        const response = await fetch(`${API_URL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = await response.json();
+        setUserData(user);
+        if (user) {
+          setIsconnected(1);
+          setUserId(user._id);
+          handleJoin(user._id);
+        }
+      }
+    } catch (error) {
+      console.log(error + "vous n'estes pas connecté");
+    }
   };
+
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchUser();
+    };
+
+    const unsubscribe = navigation.addListener("focus", handleFocus);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
+  // Additional effect for handling page refresh
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -156,7 +206,13 @@ export default function Home({ navigation }) {
         receivedNotification={receivedNotification}
         notificationCount={notificationCount}
       />
-      <ScrollView>
+
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={{ flex: 1, backgroundColor: "white" }}></View>
         <View style={{ flex: 1 }}>
           <View style={{ padding: 12, backgroundColor: "white" }}>
