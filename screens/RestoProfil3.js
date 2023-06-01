@@ -133,10 +133,11 @@ export default function Resto({ route, navigation }) {
           setIsfollowing(
             profileData.followers.some((follower) => follower._id === userId)
           );
-          console.log(userId + "====" + profileData.owner._id);
+          alert(profileData.owner);
+          console.log(userId + "====" + profileData.owner);
 
-          if (userId && userId === profileData.owner._id) {
-            alert("owner");
+          if (userId && userId === profileData.owner) {
+            alert(profileData.owner);
             setDisplay("owner");
           }
         }

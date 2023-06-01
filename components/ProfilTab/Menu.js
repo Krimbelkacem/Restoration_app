@@ -16,6 +16,7 @@ import axios from "axios";
 export default function Menu({ idR, navigation, display }) {
   const restoId = idR;
   const isowner = display;
+  alert("0000000000" + display);
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function Menu({ idR, navigation, display }) {
       const response = await axios.get(
         `${API_URL}/getMenuResto?restoId=${restoId}`
       );
-      console.log(response.data);
+      console.log(".................." + response.data);
       setMenu(response.data);
       return response.data;
     } catch (error) {
