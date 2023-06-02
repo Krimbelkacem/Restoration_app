@@ -77,13 +77,15 @@ export default function MenuResto({
       })
       .then((response) => {
         // Handle the response if needed
-
-        console.log("Delete request successful:", response.data);
         getMenuResto(idR);
+        console.log("Delete request successful:", response.data);
+        selectedItems.length = 0;
       })
       .catch((error) => {
+        getMenuResto(idR);
         // Handle any errors that occur during the request
         console.error("Error in delete request:", error);
+        selectedItems.length = 0;
       });
   };
 
@@ -107,26 +109,14 @@ export default function MenuResto({
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-between",
-          padding: 10,
+          justifyContent: "center",
+          paddingTop: 20,
+          alignItems: "center",
         }}
       >
-        <Text
-          style={{
-            fontFamily: "Poppins-Medium",
-            fontSize: 25,
-            marginTop: 5,
-            color: "#686869",
-          }}
-        >
+        <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
           {menu?.name}
         </Text>
-
-        <MaterialCommunityIcons
-          name="dots-horizontal"
-          size={30}
-          color="#686869"
-        />
       </View>
       {display ? (
         <View>
@@ -251,7 +241,21 @@ export default function MenuResto({
             ))}
           </View>
           {isButtonVisible && (
-            <Button onPress={postSelectedItems} title="suprimer" />
+            <Button
+              onPress={postSelectedItems}
+              title="suprimer"
+              icon={
+                <MaterialCommunityIcons
+                  name="delete-alert"
+                  color="red"
+                  size={30}
+                />
+              }
+              buttonStyle={{
+                minHeight: "100%",
+                backgroundColor: "lightblue",
+              }}
+            />
           )}
         </View>
       ) : (

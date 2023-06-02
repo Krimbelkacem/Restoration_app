@@ -86,12 +86,6 @@ export default function Avis({ idR, idU, display }) {
         >
           commentaires
         </Text>
-
-        <MaterialCommunityIcons
-          name="dots-horizontal"
-          size={30}
-          color="#686869"
-        />
       </View>
 
       <ScrollView
@@ -102,7 +96,7 @@ export default function Avis({ idR, idU, display }) {
           <Animated.View
             key={item.id}
             style={{
-              backgroundColor: "lightgray",
+              backgroundColor: "black",
               padding: 20,
               borderRadius: 20,
               marginBottom: 20,
@@ -126,7 +120,7 @@ export default function Avis({ idR, idU, display }) {
                   style={{
                     fontFamily: "Poppins-Medium",
                     fontSize: 14,
-                    color: "#686869",
+                    color: "white",
                   }}
                 >
                   {item?.user?.username}
@@ -135,7 +129,7 @@ export default function Avis({ idR, idU, display }) {
                   style={{
                     fontFamily: "Poppins-Regular",
                     fontSize: 12,
-                    color: "#686869",
+                    color: "white",
                     marginTop: -5,
                   }}
                 >
@@ -148,7 +142,7 @@ export default function Avis({ idR, idU, display }) {
               style={{
                 fontFamily: "Poppins-Regular",
                 fontSize: 15,
-                color: "black",
+                color: "white",
                 marginTop: 10,
               }}
             >

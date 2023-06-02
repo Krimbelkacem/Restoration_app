@@ -45,6 +45,7 @@ export default function Details({ Resto }) {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               }}
+              scrollEnabled={false} // Désactive le défilement de la carte
             >
               <Marker
                 coordinate={{

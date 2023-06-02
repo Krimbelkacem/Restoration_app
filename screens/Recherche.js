@@ -424,7 +424,10 @@ const Recherche = ({ navigation }) => {
 
           {categoryResults?.map((category) => (
             <TouchableOpacity>
-              <Card key={category._id} style={{ margin: 16, elevation: 4 }}>
+              <Card
+                key={category.categoryId}
+                style={{ margin: 16, elevation: 4 }}
+              >
                 <Card.Content>
                   <Title
                     style={{
@@ -433,7 +436,7 @@ const Recherche = ({ navigation }) => {
                       marginBottom: 8,
                     }}
                   >
-                    {category}
+                    {category.name}
                   </Title>
                 </Card.Content>
               </Card>
@@ -594,7 +597,10 @@ const Recherche = ({ navigation }) => {
         <View>
           {categoryResults?.map((category) => (
             <TouchableOpacity>
-              <Card key={category._id} style={{ margin: 16, elevation: 4 }}>
+              <Card
+                key={category.categoryId}
+                style={{ margin: 16, elevation: 4 }}
+              >
                 <Card.Content>
                   <Title
                     style={{
@@ -603,11 +609,10 @@ const Recherche = ({ navigation }) => {
                       marginBottom: 8,
                     }}
                   >
-                    {category}
+                    {category.name}
                   </Title>
                   <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    This is a beautiful card view created using React Native
-                    Paper.
+                    {category.restoName}
                   </Paragraph>
                 </Card.Content>
               </Card>

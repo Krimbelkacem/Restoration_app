@@ -1,8 +1,17 @@
-import React from "react";
-import { View, ScrollView, Image, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import { API_URL } from "../../utils/config";
 
 const Pub = ({ Resto }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const renderPhotoItems = () => {
     const photos = Resto.photos.slice(0, 20);
 
@@ -17,6 +26,7 @@ const Pub = ({ Resto }) => {
               style={{
                 marginRight: 10,
               }}
+              onPress={() => setSelectedImage(photo)}
             >
               <Image
                 source={{
@@ -42,6 +52,26 @@ const Pub = ({ Resto }) => {
       }}
     >
       {renderPhotoItems()}
+
+      {/* Modal to display the selected image */}
+      <Modal visible={selectedImage !== null} transparent>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <TouchableOpacity
+            onPress={() => setSelectedImage(null)}
+            style={{ position: "absolute", top: 20, right: 20 }}
+          >
+            <Text style={{ color: "white", fontSize: 18 }}>Close</Text>
+          </TouchableOpacity>
+          <Image
+            source={{
+              uri: `${API_URL}/${selectedImage}`,
+            }}
+            style={{ width: "80%", height: "80%", resizeMode: "contain" }}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
