@@ -149,7 +149,10 @@ function MenuSetting({ route, navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ flexDirection: "row", marginTop: 20 }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", marginTop: 20 }}
+              onPress={() => navigation.navigate("OpeningHoursForm")}
+            >
               <View
                 style={{
                   backgroundColor: "#1b344c",
