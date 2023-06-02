@@ -22,7 +22,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
-
+import OpeningHoursForm from "../screens/RestoSetting/Horairesettings";
 import WelcomeScreen from "../screens/day001/WelcomeScreen";
 //import Drawernav from "./Drawernav";
 import HomeScreen from "../screens/day001/HomeScreen";
@@ -75,6 +75,7 @@ export default function Authnav() {
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="OpeningHoursForm" component={OpeningHoursForm} />
         <Stack.Screen name="MenuSetting" component={MenuSetting} />
 
         <Stack.Screen name="DetailsSettings" component={DetailsSettings} />

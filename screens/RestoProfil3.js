@@ -11,6 +11,7 @@ import {
   Text,
   StyleSheet,
   Alert,
+  RefreshControl,
 } from "react-native";
 
 import Animated, {
@@ -45,6 +46,16 @@ import { Button } from "react-native-elements";
 import axios from "axios";
 import ModalResto from "../components/menuresto/ModalResto";
 export default function Resto({ route, navigation }) {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getRestoProfile(Resto._id);
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const [display, setDisplay] = useState(null);
 
   const [isfollowing, setIsfollowing] = useState(false);
@@ -70,9 +81,13 @@ export default function Resto({ route, navigation }) {
       case "Details":
         return <Details idR={idR} Resto={Resto} />;
       case "Menu":
-        return <Menu idR={idR} display={display} />;
+        return (
+          <Menu idR={idR} display={display} getRestoProfile={getRestoProfile} />
+        );
       case "Publication":
-        return <Pub idR={idR} Resto={Resto} onFunctionCall={getRestoProfile} />;
+        return (
+          <Pub idR={idR} Resto={Resto} getRestoProfile={getRestoProfile} />
+        );
       case "Reservation":
         return (
           <ReservationList
@@ -80,6 +95,7 @@ export default function Resto({ route, navigation }) {
             UserId={UserId}
             display={display}
             owner={Resto.owner}
+            getRestoProfile={getRestoProfile}
           />
         );
       case "Avis":
@@ -133,11 +149,10 @@ export default function Resto({ route, navigation }) {
           setIsfollowing(
             profileData.followers.some((follower) => follower._id === userId)
           );
-          alert(profileData.owner);
+
           console.log(userId + "====" + profileData.owner);
 
           if (userId && userId === profileData.owner) {
-            alert(profileData.owner);
             setDisplay("owner");
           }
         }
@@ -237,7 +252,11 @@ export default function Resto({ route, navigation }) {
       ) : (
         <Text></Text>
       )}
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View>
           {/*showReservation && (
             <Reservation restoId={Resto._id} onClose={toggleReservation} />

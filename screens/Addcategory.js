@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { Input, Button, Layout } from "@ui-kitten/components";
 import { Picker } from "@react-native-picker/picker";
@@ -22,6 +23,7 @@ import {
   MaterialCommunityIcons,
   Ionicons,
 } from "react-native-vector-icons";
+//import { ScrollView } from "react-native-gesture-handler";
 
 export default function Addmenuitem({ navigation, route }) {
   const [cats, setCats] = useState([]);
@@ -112,7 +114,7 @@ export default function Addmenuitem({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.container2}>
         <View style={styles.container3}>
           <TouchableOpacity onPress={pickImage}>
@@ -226,7 +228,7 @@ export default function Addmenuitem({ navigation, route }) {
           </Button>
         </View>
       </Layout>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -234,8 +236,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   picker: {
     width: 200,

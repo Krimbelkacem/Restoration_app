@@ -145,40 +145,7 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                menucategories
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{ flexDirection: "row", marginTop: 20 }}
-              onPress={() =>
-                navigation.navigate("Addmenuitem", {
-                  idresto: idR,
-                })
-              }
-            >
-              <View
-                style={{
-                  backgroundColor: "#3b242f",
-                  width: 40,
-                  height: 40,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 25,
-                }}
-              >
-                <MaterialIcons name="chat" size={20} color={"#ff4339"} />
-              </View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: "Poppins-Regular",
-                  color: "black",
-                  alignSelf: "center",
-                  marginLeft: 10,
-                }}
-              >
-                Menuitems
+                Menu
               </Text>
             </TouchableOpacity>
 
@@ -208,33 +175,7 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                Help
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{ flexDirection: "row", marginTop: 20 }}>
-              <View
-                style={{
-                  backgroundColor: "#253b1f",
-                  width: 40,
-                  height: 40,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 25,
-                }}
-              >
-                <MaterialIcons name="report" size={20} color={"#91ec1d"} />
-              </View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: "Poppins-Regular",
-                  color: "black",
-                  alignSelf: "center",
-                  marginLeft: 10,
-                }}
-              >
-                Report
+                Horaires d'ouvertures
               </Text>
             </TouchableOpacity>
 
@@ -249,11 +190,7 @@ function MenuSetting({ route, navigation }) {
                   borderRadius: 25,
                 }}
               >
-                <MaterialIcons
-                  name="notifications-none"
-                  size={20}
-                  color={"#fe00f9"}
-                />
+                <MaterialIcons name="delete" size={20} color={"#fe00f9"} />
               </View>
               <Text
                 style={{
@@ -264,7 +201,7 @@ function MenuSetting({ route, navigation }) {
                   marginLeft: 10,
                 }}
               >
-                Logout
+                suprimer mon Resto
               </Text>
             </TouchableOpacity>
           </View>

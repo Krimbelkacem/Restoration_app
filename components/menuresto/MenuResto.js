@@ -37,7 +37,13 @@ import {
   MaterialCommunityIcons,
 } from "react-native-vector-icons";
 
-export default function MenuResto({ navigation, menu, display }) {
+export default function MenuResto({
+  navigation,
+  menu,
+  display,
+  idR,
+  getMenuResto,
+}) {
   const { width, height } = Dimensions.get("window");
 
   const slicedCategories = menu?.categories;
@@ -62,18 +68,37 @@ export default function MenuResto({ navigation, menu, display }) {
 
   const postSelectedItems = () => {
     const selectedItemIds = selectedItems.map((item) => item._id);
-
+    console.log("delete");
     console.log(selectedItemIds);
-    /*  axios
-      .post("/your-endpoint", { selectedItemIds })
+
+    axios
+      .delete(`${API_URL}/deleteitems?idR=${idR}`, {
+        data: { selectedItemIds }, // Send the array as part of the request body
+      })
       .then((response) => {
         // Handle the response if needed
+
+        console.log("Delete request successful:", response.data);
+        getMenuResto(idR);
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error("Error in delete request:", error);
+      });
+  };
+
+  const deleteCategory = (idC) => {
+    axios
+      .post(`${API_URL}/deleteCategory?idR=${idR}&idC=${idC}  `)
+      .then((response) => {
+        // Handle the r((esponse if needed
+        getMenuResto(idR);
         console.log("Post request successful:", response.data);
       })
       .catch((error) => {
         // Handle any errors that occur during the request
         console.error("Error in post request:", error);
-      });*/
+      });
   };
   const isButtonVisible = selectedItems.length > 0;
 
@@ -113,7 +138,7 @@ export default function MenuResto({ navigation, menu, display }) {
                     leftContent={(reset) => (
                       <Button
                         title="Delete"
-                        onPress={() => reset()}
+                        onPress={() => deleteCategory(category._id)}
                         icon={
                           <MaterialCommunityIcons
                             name="delete-alert"
@@ -130,7 +155,7 @@ export default function MenuResto({ navigation, menu, display }) {
                     rightContent={(reset) => (
                       <Button
                         title="Delete"
-                        onPress={() => reset()}
+                        onPress={() => deleteCategory(category._id)}
                         icon={
                           <MaterialCommunityIcons
                             name="delete-alert"

@@ -13,10 +13,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MenuResto from "../menuresto/MenuResto";
 import { API_URL } from "../../utils/config";
 import axios from "axios";
-export default function Menu({ idR, navigation, display }) {
+export default function Menu({ idR, navigation, display, getRestoProfile }) {
   const restoId = idR;
   const isowner = display;
-  alert("0000000000" + display);
+
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
@@ -47,7 +47,13 @@ export default function Menu({ idR, navigation, display }) {
   };
   return (
     <ScrollView style={{ minHeight: 300 }}>
-      <MenuResto navigation={navigation} menu={menu.menu} display={display} />
+      <MenuResto
+        navigation={navigation}
+        menu={menu.menu}
+        display={display}
+        idR={restoId}
+        getMenuResto={getMenuResto}
+      />
     </ScrollView>
   );
 }

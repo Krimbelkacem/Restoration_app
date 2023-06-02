@@ -88,27 +88,254 @@ const Recherche = ({ navigation }) => {
     { key: "1", value: "0" },
     { key: "2", value: "00" },
     { key: "3", value: "000" },
-    { key: "4", value: "0000", disabled: true },
+    { key: "4", value: "null", disabled: true },
   ];
 
   const renderRestoList = () => {
     if (selectedValue === "0") {
       return lowPriceResto.map((resto) => (
-        <Text key={resto._id}>{resto.name}</Text>
-        // Render other resto details as needed
+        <Animated.View
+          key={resto.id}
+          entering={FadeInRight.delay(300).duration(400)}
+        >
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 12 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                // rest: resto,
+                idR: resto._id,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+              }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 20,
+                resizeMode: "cover",
+              }}
+            />
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 16,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.name}
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                Prix moyen: {resto.price_average} da
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.address}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
       ));
     } else if (selectedValue === "00") {
       return mediumPriceResto.map((resto) => (
-        <Text key={resto._id}>{resto.name}</Text>
-        // Render other resto details as needed
+        <Animated.View
+          key={resto.id}
+          entering={FadeInRight.delay(300).duration(400)}
+        >
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 12 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                // rest: resto,
+                idR: resto._id,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+              }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 20,
+                resizeMode: "cover",
+              }}
+            />
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 16,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.name}
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                Prix moyen: {resto.price_average} da
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.address}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
       ));
     } else if (selectedValue === "000") {
       return highPriceResto.map((resto) => (
-        <Text key={resto._id}>{resto.name}</Text>
-        // Render other resto details as needed
+        <Animated.View
+          key={resto.id}
+          entering={FadeInRight.delay(300).duration(400)}
+        >
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 12 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                // rest: resto,
+                idR: resto._id,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+              }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 20,
+                resizeMode: "cover",
+              }}
+            />
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 16,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.name}
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                Prix moyen: {resto.price_average} da
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.address}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
       ));
     } else {
-      return null;
+      return restoResults.map((resto) => (
+        <Animated.View
+          key={resto.id}
+          entering={FadeInRight.delay(300).duration(400)}
+        >
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 12 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                // rest: resto,
+                idR: resto._id,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+              }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 20,
+                resizeMode: "cover",
+              }}
+            />
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 16,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.name}
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                Prix moyen: {resto.price_average} da
+              </Text>
+              <Text
+                style={{
+                  color: "#263238",
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontWeight: "bold",
+                }}
+              >
+                {resto.address}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
+      ));
     }
   };
 
@@ -134,9 +361,6 @@ const Recherche = ({ navigation }) => {
     if (selectedIndex === 0) {
       return (
         <View style={{ flex: 1, backgroundColor: "#ffffff", padding: 12 }}>
-          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
-            Restaurants
-          </Text>
           {restoResults?.map((resto) => (
             <Animated.View
               key={resto.id}
@@ -169,8 +393,6 @@ const Recherche = ({ navigation }) => {
                       fontSize: 16,
                       marginLeft: 10,
                       fontWeight: "bold",
-
-                      textAlign: "center",
                     }}
                   >
                     {resto.name}
@@ -181,11 +403,9 @@ const Recherche = ({ navigation }) => {
                       fontSize: 12,
                       marginLeft: 10,
                       fontWeight: "bold",
-
-                      textAlign: "center",
                     }}
                   >
-                    Prix moyen: {resto.price_average}
+                    Prix moyen: {resto.price_average} da
                   </Text>
                   <Text
                     style={{
@@ -193,8 +413,6 @@ const Recherche = ({ navigation }) => {
                       fontSize: 12,
                       marginLeft: 10,
                       fontWeight: "bold",
-
-                      textAlign: "center",
                     }}
                   >
                     {resto.address}
@@ -221,30 +439,45 @@ const Recherche = ({ navigation }) => {
               </Card>
             </TouchableOpacity>
           ))}
-          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
-            Menu_items
-          </Text>
+
           {itemResults?.map((item) => (
             <View>
               <Animated.View entering={FadeInDown.delay(400).duration(400)}>
-                <Text
-                  style={{
-                    fontFamily: "Poppins-Regular",
-                    color: "#000",
-                    fontSize: 18,
-                  }}
-                >
-                  {item.restoName}
-                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    source={{
+                      uri: `${API_URL}/${item.restoAvatar
+                        ?.replace("public", "")
+                        .replace(/\\/g, "/")}`,
+                    }}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      backgroundColor: "#a93246",
+                      borderRadius: 25,
+                      marginRight: 20,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      color: "#d9d9d9",
+                      fontSize: 18,
+                    }}
+                  >
+                    {item.restoName}
+                  </Text>
+                </View>
+
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("ProfileView", {
+                    navigation.navigate("Resto", {
                       idR: item.restaurantId,
                     })
                   }
                   style={{
                     flexDirection: "row",
-                    backgroundColor: "#FFF",
+                    backgroundColor: "lightgrey",
                     borderRadius: 10,
                     marginTop: 10,
                   }}
@@ -254,18 +487,11 @@ const Recherche = ({ navigation }) => {
                     style={{
                       padding: 18,
                       // backgroundColor: "#ffe8e8",
-                      backgroundColor: "lightblue",
+                      borderColor: "grey",
                       borderTopLeftRadius: 10,
                       borderBottomLeftRadius: 10,
                     }}
-                  >
-                    <Image
-                      source={{
-                        uri: `${API_URL}/${item.itemImage}`,
-                      }}
-                      style={{ width: 35, height: 35 }}
-                    />
-                  </View>
+                  ></View>
                   <View
                     style={{
                       flexDirection: "row",
@@ -359,41 +585,8 @@ const Recherche = ({ navigation }) => {
                 />
               ))}
             </Picker>
-            {renderRestoList()}
           </View>
-          {restoResults?.map((resto) => (
-            <Animated.View
-              key={resto.id}
-              entering={FadeInRight.delay(300).duration(300)}
-            >
-              <TouchableOpacity
-                style={{ flexDirection: "row", marginTop: 12 }}
-                onPress={() =>
-                  navigation.navigate("ProfileView", {
-                    // rest: resto,
-                    idR: resto._id,
-                  })
-                }
-              >
-                <Image
-                  source={{
-                    uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
-                  }}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 20,
-                    resizeMode: "cover",
-                  }}
-                />
-                <Text
-                  style={{ color: "#263238", fontSize: 20, marginLeft: 10 }}
-                >
-                  {resto.name}
-                </Text>
-              </TouchableOpacity>
-            </Animated.View>
-          ))}
+          {renderRestoList()}
         </View>
       );
     } else if (selectedIndex === 2) {
@@ -428,24 +621,41 @@ const Recherche = ({ navigation }) => {
           {itemResults?.map((item) => (
             <View>
               <Animated.View entering={FadeInDown.delay(400).duration(400)}>
-                <Text
-                  style={{
-                    fontFamily: "Poppins-Regular",
-                    color: "#000",
-                    fontSize: 18,
-                  }}
-                >
-                  {item.restoName}
-                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    source={{
+                      uri: `${API_URL}/${item.restoAvatar
+                        ?.replace("public", "")
+                        .replace(/\\/g, "/")}`,
+                    }}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      backgroundColor: "#a93246",
+                      borderRadius: 25,
+                      marginRight: 20,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      color: "#d9d9d9",
+                      fontSize: 18,
+                    }}
+                  >
+                    {item.restoName}
+                  </Text>
+                </View>
+
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("ProfileView", {
+                    navigation.navigate("Resto", {
                       idR: item.restaurantId,
                     })
                   }
                   style={{
                     flexDirection: "row",
-                    backgroundColor: "#FFF",
+                    backgroundColor: "lightgrey",
                     borderRadius: 10,
                     marginTop: 10,
                   }}
@@ -455,18 +665,11 @@ const Recherche = ({ navigation }) => {
                     style={{
                       padding: 18,
                       // backgroundColor: "#ffe8e8",
-                      backgroundColor: "lightblue",
+                      borderColor: "grey",
                       borderTopLeftRadius: 10,
                       borderBottomLeftRadius: 10,
                     }}
-                  >
-                    <Image
-                      source={{
-                        uri: `${API_URL}/${item.itemImage}`,
-                      }}
-                      style={{ width: 35, height: 35 }}
-                    />
-                  </View>
+                  ></View>
                   <View
                     style={{
                       flexDirection: "row",
