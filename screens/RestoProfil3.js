@@ -46,12 +46,28 @@ import { Button } from "react-native-elements";
 import axios from "axios";
 import ModalResto from "../components/menuresto/ModalResto";
 export default function Resto({ route, navigation }) {
+  const [status, setStatus] = useState("Loading...");
+
+  const fetchStatus = async () => {
+    try {
+      const id = route.params.idR; // Replace with the actual restaurant ID
+      const response = await axios.get(`${API_URL}/isRestaurantOpen?id=${id}`);
+
+      const { status: restaurantStatus } = response.data;
+      setStatus(restaurantStatus);
+    } catch (error) {
+      console.error("Error retrieving restaurant status:", error);
+      setStatus("Error");
+    }
+  };
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      getRestoProfile(Resto._id);
+      getRestoProfile(route.params.idR);
+      fetchStatus();
       setRefreshing(false);
     }, 2000);
   }, []);
@@ -112,6 +128,7 @@ export default function Resto({ route, navigation }) {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       const idR = route.params.idR;
+      fetchStatus();
       getRestoProfile(idR);
       console.log("actualiser1");
     });
@@ -122,6 +139,7 @@ export default function Resto({ route, navigation }) {
   useEffect(() => {
     const idR = route.params.idR;
     console.log("idR: " + idR);
+    fetchStatus();
     getRestoProfile(idR);
     console.log("actualiser2");
   }, [navigation]);
@@ -139,7 +157,7 @@ export default function Resto({ route, navigation }) {
 
         setfollowerss(profileData.followers);
         setRestoReservations(profileData.reservations);
-
+        console.log("opening", profileData.openingHours.day);
         setSlicedPhotos(sliced);
 
         const sessionData = await AsyncStorage.getItem("session");
@@ -388,13 +406,23 @@ export default function Resto({ route, navigation }) {
             <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
               {Resto.name}
             </Text>
-
+            <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
+              {status === "Open" ? (
+                <Text style={styles.openText}>Ouvert</Text>
+              ) : (
+                <Text style={styles.closedText}>Fermé</Text>
+              )}
+            </Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
               <Ionicons name="location-outline" size={20} /> {Resto.address}
             </Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
               <Ionicons name="ios-restaurant-outline" size={20} />
-              {Resto.cuisines}
+              {Resto.cuisines?.map((cuisine, index) => (
+                <View key={index}>
+                  <Text>{cuisine.name}</Text>
+                </View>
+              ))}
             </Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
               <FontAwesome name="money" size={20} />
@@ -561,5 +589,13 @@ const styles = {
   },
   friendsScroll: {
     paddingBottom: 10,
+  },
+  openText: {
+    fontSize: 20,
+    color: "green",
+  },
+  closedText: {
+    fontSize: 20,
+    color: "red",
   },
 };

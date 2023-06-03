@@ -68,15 +68,13 @@ const DetailsSettings = ({ navigation, route }) => {
     };
 
     fetchData();
-  }, []);
+  }, [navigation]);
 
   const submit = async () => {
     const restoid = route.params.idR;
 
     const formData = new FormData();
-    if (text) {
-      formData.append("openingHours", text);
-    }
+
     if (name) {
       formData.append("name", name);
     }
@@ -190,18 +188,6 @@ const DetailsSettings = ({ navigation, route }) => {
             returnKeyType="next"
             blurOnSubmit={false}
             leftIcon={<MaterialIcons name="phone" size={24} color="black" />}
-          />
-          <Text style={styles.label}>Heures d'ouverture :</Text>
-          <TextInput
-            style={[styles.input, { height: Math.max(80) }]}
-            multiline
-            onChangeText={setText}
-            returnKeyType="next"
-            blurOnSubmit={false}
-            value={text}
-            placeholder=" Dimanche - Jeudi : 9h00 - 18h00
-            Samedi : 10h00 - 15h00
-            Vendredi : Fermé"
           />
         </View>
 

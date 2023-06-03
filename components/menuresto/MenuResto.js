@@ -241,21 +241,27 @@ export default function MenuResto({
             ))}
           </View>
           {isButtonVisible && (
-            <Button
+            <TouchableOpacity
               onPress={postSelectedItems}
-              title="suprimer"
-              icon={
-                <MaterialCommunityIcons
-                  name="delete-alert"
-                  color="red"
-                  size={30}
-                />
-              }
-              buttonStyle={{
-                minHeight: "100%",
-                backgroundColor: "lightblue",
+              style={{
+                backgroundColor: "black",
+                width: 350,
+                borderRadius: 10,
+                marginTop: 20,
+                paddingVertical: 15,
               }}
-            />
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "#FFF",
+                  textAlign: "center",
+                  fontFamily: "Poppins-Bold",
+                }}
+              >
+                supprimer
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       ) : (

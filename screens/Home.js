@@ -194,6 +194,18 @@ export default function Home({ navigation }) {
     // Send a notification to the server
     socket.emit('notification', { userId, message: notificationMessage });
   };*/
+  const [topRestos, setTopRestos] = useState([]);
+
+  const fetchTopRestos = async () => {
+    try {
+      // Replace with your API endpoint
+      const response = await axios.get(`${API_URL}/top-restaurants`);
+      setTopRestos(response.data);
+      console.log("0000000000000000000");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View>
@@ -216,7 +228,7 @@ export default function Home({ navigation }) {
         <View style={{ flex: 1, backgroundColor: "white" }}></View>
         <View style={{ flex: 1 }}>
           <View style={{ padding: 12, backgroundColor: "white" }}>
-            <Top navigation={navigation} />
+            <Top navigation={navigation} fetchTopRestos={fetchTopRestos} />
           </View>
           <View style={{ flex: 1 }}></View>
           <View style={{ padding: 12, backgroundColor: "white" }}>

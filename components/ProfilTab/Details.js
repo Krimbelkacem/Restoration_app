@@ -93,19 +93,24 @@ export default function Details({ Resto }) {
           <Text
             style={{ fontFamily: "Poppins-Bold", fontSize: 16, marginTop: 20 }}
           >
-            prix
+            prixMoyenn
           </Text>
           <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            500
+            {Resto.price_average}
           </Text>
           <Text
             style={{ fontFamily: "Poppins-Bold", fontSize: 16, marginTop: 20 }}
           >
             Heures d'ouverture
           </Text>
-          <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-            17h
-          </Text>
+          {Resto.openingHours?.map((hour, index) => (
+            <View key={index} style={styles.row}>
+              <Text style={styles.day}>{hour.day}:</Text>
+              <Text style={styles.time}>
+                {hour.startTime} / {hour.endTime}
+              </Text>
+            </View>
+          ))}
         </View>
 
         <Text variant="bodyMedium"> </Text>
@@ -141,5 +146,18 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderRadius: 5,
     padding: 5,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  day: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  time: {
+    flex: 1,
+    marginLeft: 10,
   },
 });

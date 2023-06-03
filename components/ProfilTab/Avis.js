@@ -142,7 +142,7 @@ export default function Avis({ idR, idU, display }) {
               style={{
                 fontFamily: "Poppins-Regular",
                 fontSize: 15,
-                color: "white",
+                color: "white ",
                 marginTop: 10,
               }}
             >
