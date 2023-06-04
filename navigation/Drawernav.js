@@ -80,6 +80,7 @@ const CustomDrawer = (props, { navigation }) => {
       // userData(null);
       setIsconnected(0);
       // navigation.navigate("Login");
+      navigation.navigate("LoginScreen");
     } catch (error) {
       console.log(error);
     }
@@ -89,14 +90,7 @@ const CustomDrawer = (props, { navigation }) => {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         {isconnected === 0 ? (
-          <View>
-            <Text onPress={() => navigation.navigate("SignUpScreen")}>
-              sign up
-            </Text>
-            <Text onPress={() => navigation.navigate("LoginScreen")}>
-              log in
-            </Text>
-          </View>
+          <View></View>
         ) : (
           <View>
             <View
@@ -124,20 +118,37 @@ const CustomDrawer = (props, { navigation }) => {
         )}
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          right: 0,
-          left: 0,
-          bottom: 50,
-          backgroundColor: "#f6f6f6",
-          padding: 20,
-        }}
-        onPress={handleLogout}
-      >
-        <Text>Log Out</Text>
-      </TouchableOpacity>
+      {isconnected === 0 ? (
+        <View>
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 0,
+              left: 0,
+              bottom: 50,
+              backgroundColor: "#f6f6f6",
+              padding: 20,
+            }}
+            onPress={() => navigation.navigate("LoginScreen")}
+          >
+            <Text>connection</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            right: 0,
+            left: 0,
+            bottom: 50,
+            backgroundColor: "#f6f6f6",
+            padding: 20,
+          }}
+          onPress={handleLogout}
+        >
+          <Text>deconnection</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

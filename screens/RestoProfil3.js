@@ -112,6 +112,8 @@ export default function Resto({ route, navigation }) {
             display={display}
             owner={Resto.owner}
             getRestoProfile={getRestoProfile}
+            idR={idR}
+            Resto={Resto}
           />
         );
       case "Avis":
@@ -251,7 +253,8 @@ export default function Resto({ route, navigation }) {
               onPress={() =>
                 navigation.navigate("ToReservation", {
                   restoId: Resto._id,
-                  owner: Resto.owner._id,
+                  owner: Resto.owner,
+                  Resto: Resto,
                 })
               }
               style={{

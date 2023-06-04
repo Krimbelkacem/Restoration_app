@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import FadeIn from "./day001/components/FadeIn";
 import {
@@ -22,7 +22,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import io from "socket.io-client";
 import { Calendar } from "react-native-calendars";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from "moment"; // Importing moment library
 import Animated, {
   FadeInDown,
   FadeInRight,
@@ -44,6 +43,7 @@ import {
 const ToReservation = ({ route }) => {
   const restoId = route.params.restoId;
   const owner = route.params.owner;
+  alert(restoId);
 
   /*
   const [UserId, setUserId] = useState(null);
@@ -77,7 +77,7 @@ const ToReservation = ({ route }) => {
     const notification = {
       senderId: userId, // ID de l'expéditeur
       receiverId: owner, // Remplacez par l'ID du destinataire
-      message: `nouvelle demande de reservation Resto: ${route.params.Resto.name}`,
+      message: "new demande reservation",
     };
     // Send a notification to the server
     console.log("Send a notification to the server");
@@ -96,8 +96,9 @@ const ToReservation = ({ route }) => {
     const sessionData = await AsyncStorage.getItem("session");
     if (sessionData) {
       const { userId } = JSON.parse(sessionData);
-      alert(userId);
+
       if (userId) {
+        alert(dateR);
         try {
           const response = await axios.post(
             `${API_URL}/newReservation?userId=${userId}&restoId=${restoId}`,
@@ -209,42 +210,8 @@ const ToReservation = ({ route }) => {
     </View>
   );
 
-  /////////////////////check if heure ///////////////////////////
+  ////////////////////////////////////////////////
 
-  const [isRestaurantOpen, setRestaurantOpen] = useState(false);
-
-  useEffect(() => {
-    // Vérification si le restaurant est ouvert lors de la sélection du jour et de l'heure
-    Restoopeninghours = route.params.Resto.openingHours;
-    console.log("Restoopeninghours", Restoopeninghours);
-    if (selectedDay && selectedTime) {
-      const selectedDayOfWeek = moment(selectedDay).format("dddd");
-      const selectedDateTime = moment(selectedTime, "hh:mm A");
-
-      const openingHour = Restoopeninghours.find(
-        (hour) => hour.day === selectedDayOfWeek
-      );
-
-      if (openingHour) {
-        const startTime = moment(openingHour.startTime, "hh:mm A");
-        const endTime = moment(openingHour.endTime, "hh:mm A");
-
-        if (selectedDateTime.isBetween(startTime, endTime)) {
-          setRestaurantOpen(true);
-        } else {
-          setRestaurantOpen(false);
-          alert("Le restaurant est fermé à cette heure.");
-        }
-      } else {
-        setRestaurantOpen(false);
-        alert("Le restaurant est fermé ce jour-là.");
-      }
-    } else {
-      setRestaurantOpen(false);
-    }
-  }, [selectedDay, selectedTime]);
-
-  ///////////////////////////////////////////////////////
   const markedDates = {
     [selectedDay]: { selected: true, selectedColor: "black" },
   };
@@ -370,31 +337,29 @@ const ToReservation = ({ route }) => {
           </View>
         </FadeIn>
         <FadeIn delay={1200}>
-          {isRestaurantOpen && (
-            <TouchableOpacity
+          <TouchableOpacity
+            style={{
+              width: 250,
+              backgroundColor: "#313131",
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 10,
+              alignSelf: "center",
+              marginTop: 10,
+            }}
+            onPress={handlesubmit}
+          >
+            <Text
               style={{
-                width: 250,
-                backgroundColor: "#313131",
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                alignSelf: "center",
-                marginTop: 10,
+                fontSize: 16,
+                fontFamily: "Poppins-Medium",
+                color: "#FFF",
               }}
-              onPress={handlesubmit}
             >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Poppins-Medium",
-                  color: "#FFF",
-                }}
-              >
-                Réserver
-              </Text>
-            </TouchableOpacity>
-          )}
+              Reserver
+            </Text>
+          </TouchableOpacity>
         </FadeIn>
       </View>
     </ScrollView>

@@ -101,7 +101,11 @@ function MenuSetting({ route, navigation }) {
                   borderRadius: 25,
                 }}
               >
-                <MaterialIcons name="lock-open" size={20} color={"#8300ff"} />
+                <MaterialIcons
+                  name="add-circle-outline"
+                  size={20}
+                  color={"#8300ff"}
+                />
               </View>
               <Text
                 style={{
@@ -134,7 +138,11 @@ function MenuSetting({ route, navigation }) {
                   borderRadius: 25,
                 }}
               >
-                <MaterialIcons name="security" size={20} color={"#32b1b7"} />
+                <MaterialIcons
+                  name="add-circle-outline"
+                  size={20}
+                  color={"#32b1b7"}
+                />
               </View>
               <Text
                 style={{
@@ -167,11 +175,7 @@ function MenuSetting({ route, navigation }) {
                   borderRadius: 25,
                 }}
               >
-                <MaterialIcons
-                  name="notifications-none"
-                  size={20}
-                  color={"#097fc3"}
-                />
+                <MaterialIcons name="add-alarm" size={20} color={"#097fc3"} />
               </View>
               <Text
                 style={{
@@ -186,7 +190,14 @@ function MenuSetting({ route, navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ flexDirection: "row", marginTop: 20 }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", marginTop: 20 }}
+              onPress={() =>
+                navigation.navigate("DeleteRestaurantScreen", {
+                  idR: idR,
+                })
+              }
+            >
               <View
                 style={{
                   backgroundColor: "#3b194b",

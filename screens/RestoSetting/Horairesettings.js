@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Table, Row } from "react-native-table-component";
 import { API_URL } from "../../utils/config";
 import axios from "axios";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Button } from "react-native-elements";
+
 const OpeningHoursForm = ({ route }) => {
   const [openingHours, setOpeningHours] = useState([
     { day: "Monday", startTime: "", endTime: "" },
@@ -81,8 +90,10 @@ const OpeningHoursForm = ({ route }) => {
                   value={hour.startTime}
                   editable={false}
                 />
-                <Button
-                  title="Select"
+                <Icon
+                  name="clock-o"
+                  size={20}
+                  color="#000000"
                   onPress={() => showTimePicker(index, "startTime")}
                 />
               </View>,
@@ -92,8 +103,10 @@ const OpeningHoursForm = ({ route }) => {
                   value={hour.endTime}
                   editable={false}
                 />
-                <Button
-                  title="Select"
+                <Icon
+                  name="clock-o"
+                  size={20}
+                  color="#000000"
                   onPress={() => showTimePicker(index, "endTime")}
                 />
               </View>,
@@ -103,8 +116,13 @@ const OpeningHoursForm = ({ route }) => {
           />
         ))}
       </Table>
-      <Button title="Submit" onPress={handleSubmit} />
 
+      <TouchableOpacity
+        style={[styles.submitBtn, styles.touchableOpacity]}
+        onPress={handleSubmit}
+      >
+        <Text style={styles.buttonText}>Mise a jour</Text>
+      </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
@@ -119,10 +137,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginTop: 20,
+    marginBottom: 20,
+    backgroundColor: "white",
   },
+
   tableBorder: {
     borderWidth: 1,
-    borderColor: "#000000",
+    borderColor: "grey",
   },
   tableHeader: {
     height: 40,
@@ -133,11 +155,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tableRow: {
-    height: 40,
+    height: 50,
   },
   tableRowText: {
     textAlign: "center",
+    fontSize: 16,
   },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -147,8 +171,24 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: "white",
     borderRadius: 4,
+  },
+  submitBtn: {
+    backgroundColor: "#000000",
+    alignSelf: "center",
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  touchableOpacity: {
+    alignSelf: "center",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

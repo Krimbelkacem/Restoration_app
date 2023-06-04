@@ -41,7 +41,7 @@ const Addcuisine = ({ navigation, route }) => {
   };
 
   const submit = async () => {
-    const restoid = "646f5aae9e9cc6eeb853bf7e";
+    const restoid = route.params.idR;
     if (!userName || !imageUri) {
       alert("nom et la photo sont obligatoire");
       return;
@@ -62,7 +62,7 @@ const Addcuisine = ({ navigation, route }) => {
 
     try {
       const response = await axios.post(
-        `${API_URL}/addCuisine?id=${restoid}`,
+        `${API_URL}/addCuisine?idR=${restoid}`,
         formData,
         {
           headers: {
@@ -130,7 +130,11 @@ const Addcuisine = ({ navigation, route }) => {
             onChangeText={(userName) => setuserName(userName)}
             placeholder="name"
             leftIcon={
-              <FontAwesome name="resataurant" size={24} color="black" />
+              <MaterialCommunityIcons
+                name="food-turkey"
+                size={24}
+                color="black"
+              />
             }
           />
           <View></View>

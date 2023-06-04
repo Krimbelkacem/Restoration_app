@@ -55,6 +55,7 @@ import ToReservation from "../screens/ToReservation";
 import RestoSetting from "../screens/RestoSetting/RestoSetting";
 import DetailsSettings from "../screens/RestoSetting/DetailsSettings";
 import MenuSetting from "../screens/RestoSetting/MenuSettings";
+import DeleteRestaurantScreen from "../screens/RestoSetting/DeleteResto";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,13 +72,17 @@ export default function Authnav() {
     <TokenContext.Provider value={{ token, setToken }}>
       <Stack.Navigator>
         <Stack.Screen
-          name=" WelcomeScreen"
+          name="WelcomeScreen"
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="OpeningHoursForm" component={OpeningHoursForm} />
-        <Stack.Screen name="MenuSetting" component={MenuSetting} />
 
+        <Stack.Screen name="OpeningHoursForm" component={OpeningHoursForm} />
+        <Stack.Screen
+          name="DeleteRestaurantScreen"
+          component={DeleteRestaurantScreen}
+        />
+        <Stack.Screen name="MenuSetting" component={MenuSetting} />
         <Stack.Screen name="DetailsSettings" component={DetailsSettings} />
 
         <Stack.Screen

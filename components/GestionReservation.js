@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Card } from "react-native-elements";
 import { Avatar } from "react-native-paper";
 import { API_URL } from "../utils/config";
 import axios from "axios";
 import io from "socket.io-client";
-const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
+import Icon from "react-native-vector-icons/FontAwesome";
+const ReservationList = ({
+  RestoReservation,
+  UserId,
+  display,
+  owner,
+  getRestoProfile,
+  idR,
+  Resto,
+}) => {
   const [reservations, setReservations] = useState([]);
   const socket = io(`${API_URL}`);
 
@@ -16,6 +32,7 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
         alert("Accepted");
         console.log("reciver" + response.data.user);
         handleSendNotification(response.data.user);
+        getRestoProfile(idR);
       }
     } catch (error) {
       throw error;
@@ -27,6 +44,7 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
       if (response) {
         alert("refused");
         handleSendNotification2(response.data.user);
+        getRestoProfile(idR);
       }
     } catch (error) {
       throw error;
@@ -37,7 +55,7 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
     const notification = {
       senderId: owner, // ID de l'expéditeur
       receiverId: userId, // Remplacez par l'ID du destinataire
-      message: "new accepted reservation",
+      message: `reservation accepter Resto: ${Resto.name}`,
     };
     // Send a notification to the server
     console.log("Send a notification to the server");
@@ -48,7 +66,7 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
     const notification = {
       senderId: owner, // ID de l'expéditeur
       receiverId: userId, // Remplacez par l'ID du destinataire
-      message: "new rejected reservation",
+      message: `reservation rejeter Resto: Resto: ${Resto.name}`,
     };
     // Send a notification to the server
     console.log("Send a notification to the server");
@@ -89,6 +107,22 @@ const ReservationList = ({ RestoReservation, UserId, display, owner }) => {
                       onPress={() => rejectReservation(reservation._id)}
                     />
                   </View>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => acceptReservation(reservation._id)}
+                    >
+                      <Icon name="check" size={20} color="white" />
+                      <Text style={styles.buttonText}>Accept</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => rejectReservation(reservation._id)}
+                    >
+                      <Icon name="times" size={20} color="white" />
+                      <Text style={styles.buttonText}>Reject</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
             </Card>
@@ -114,6 +148,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 10,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "grey",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonText: {
+    color: "white",
+    marginLeft: 5,
   },
 });
 

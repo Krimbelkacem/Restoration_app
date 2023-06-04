@@ -35,7 +35,6 @@ export default function Top({ navigation, menu }) {
       // Replace with your API endpoint
       const response = await axios.get(`${API_URL}/top-restaurants`);
       setTopRestos(response.data);
-      console.log("0000000000000000000");
     } catch (error) {
       console.error(error);
     }

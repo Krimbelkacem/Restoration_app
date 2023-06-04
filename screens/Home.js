@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
-  }, []);
+  }, [navigation]);
   /* useEffect(() => {
     const fetchUser = async () => {
       try {
