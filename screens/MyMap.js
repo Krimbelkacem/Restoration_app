@@ -41,8 +41,8 @@ export default function MyMap({ navigation }) {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 36.531870221739275, // Use the restaurant's latitude
-          longitude: 3.829410932958126, // Use the restaurant's longitude
+          latitude: 36.69620746716127, // Use the restaurant's latitude
+          longitude: 4.055869169533253, // Use the restaurant's longitude
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -57,7 +57,7 @@ export default function MyMap({ navigation }) {
             title={restaurant.name}
             style={styles.marker}
           >
-            <Ionicons name="ios-restaurant" size={12} color="white" />
+            <Ionicons name="ios-restaurant" size={15} color="white" />
             <Callout
               onPress={() =>
                 navigation.navigate("ProfileView", {

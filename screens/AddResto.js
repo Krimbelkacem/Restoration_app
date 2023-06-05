@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  StatusBar,Text
+  StatusBar,
+  Text,
 } from "react-native";
 import {
   EvilIcons,
@@ -26,10 +27,6 @@ import { Icon, Input, Button } from "@rneui/themed";
 import { API_URL } from "../utils/config";
 
 export default function AddResto({ navigation, route }) {
-
-
-
-
   const id = route.params.id;
   const [imageUri, setImageUri] = useState(null);
   const [restoName, setrestoName] = useState("");
@@ -48,20 +45,17 @@ export default function AddResto({ navigation, route }) {
   };
   const { latitude, longitude } = route.params;
 
-const[UserId,setUserId]=useState('');
+  const [UserId, setUserId] = useState("");
 
   const uploadImage = async () => {
-
     const sessionData = await AsyncStorage.getItem("session");
 
     if (sessionData) {
       // Parse the JSON string to an object
       const session = JSON.parse(sessionData);
-    
+
       // Access the userId property
       setUserId(session.userId.toString());
-    
-      
     } else {
       console.log("No session data found");
     }
@@ -70,17 +64,23 @@ const[UserId,setUserId]=useState('');
       alert("Please fill Name");
       return;
     }
-alert(UserId)
+    alert(UserId);
     const formData = new FormData();
     formData.append("name", restoName);
     formData.append("address", restoaddress);
-    if(latitude){ formData.append("latitude", latitude.toString());}
-    if(longitude){ formData.append("longitude", longitude.toString());}
-   if(imageUri){ formData.append("image", {
-      uri: imageUri,
-      type: "image/jpeg",
-      name: "image.jpg",
-    });}
+    if (latitude) {
+      formData.append("latitude", latitude.toString());
+    }
+    if (longitude) {
+      formData.append("longitude", longitude.toString());
+    }
+    if (imageUri) {
+      formData.append("image", {
+        uri: imageUri,
+        type: "image/jpeg",
+        name: "image.jpg",
+      });
+    }
 
     try {
       const response = await axios.post(
@@ -98,12 +98,9 @@ alert(UserId)
       navigation.navigate("Profile");
     } catch (error) {
       console.log(error);
-      alert('no added resto');
+      alert("resto non ajouter ");
     }
   };
-
- 
-
 
   return (
     <View style={styles.container}>
@@ -158,7 +155,7 @@ alert(UserId)
         placeholder="name"
         leftIcon={<Ionicons name="restaurant" size={24} color="grey" />}
       />
-       <Input
+      <Input
         value={restoaddress}
         style={styles.inp}
         returnKeyType="next"
@@ -168,32 +165,32 @@ alert(UserId)
         leftIcon={<Entypo name="address" size={24} color="grey" />}
       />
 
-<Text>ADD Localisation</Text>    
+      <Text>ADD Localisation</Text>
 
-     <Input
-  style={styles.inp}
-  returnKeyType="next"
-  value={longitude?.toString()}
-  blurOnSubmit={false}
-
-  placeholder="longitude"
- 
-  rightIcon={<Entypo name="location" size={24} color="grey" onPress={() => navigation.navigate("Mapviewer")}/>}
-  onPressRightIcon={() => navigation.navigate("Map")}
-/>
       <Input
-  style={styles.inp}
-  returnKeyType="next"
-  value={latitude?.toString()}
-  blurOnSubmit={false}
-
-  placeholder="latitude"
-  
-
-  onPressRightIcon={() => navigation.navigate("Map")}
-/>
-     
-
+        style={styles.inp}
+        returnKeyType="next"
+        value={longitude?.toString()}
+        blurOnSubmit={false}
+        placeholder="longitude"
+        rightIcon={
+          <Entypo
+            name="location"
+            size={24}
+            color="grey"
+            onPress={() => navigation.navigate("Mapviewer")}
+          />
+        }
+        onPressRightIcon={() => navigation.navigate("Map")}
+      />
+      <Input
+        style={styles.inp}
+        returnKeyType="next"
+        value={latitude?.toString()}
+        blurOnSubmit={false}
+        placeholder="latitude"
+        onPressRightIcon={() => navigation.navigate("Map")}
+      />
 
       <StatusBar style="auto" />
 

@@ -23,23 +23,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 
-export default function Recents({ navigation, menu }) {
-  const [topRestos, setTopRestos] = useState([]);
-
-  useEffect(() => {
-    const fetchTopRestos = async () => {
-      try {
-        // Replace with your API endpoint
-        const response = await axios.get(`${API_URL}/recents-restaurants`);
-        setTopRestos(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTopRestos();
-  }, []);
-
+export default function Recents({ navigation, menu, recentsRestos }) {
   return (
     <View>
       <View style={{ marginTop: 20 }}>
@@ -62,7 +46,7 @@ export default function Recents({ navigation, menu }) {
         </View>
 
         <ScrollView horizontal style={{ height: 150 }}>
-          {topRestos?.map((resto) => (
+          {recentsRestos?.map((resto) => (
             <TouchableOpacity
               key={resto._id}
               style={{ alignItems: "center", marginLeft: 10 }}

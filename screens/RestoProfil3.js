@@ -409,7 +409,10 @@ export default function Resto({ route, navigation }) {
             <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
               {Resto.name}
             </Text>
-            <Text style={{ fontFamily: "Poppins-Bold", fontSize: 25 }}>
+            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+              {Resto.description}
+            </Text>
+            <Text style={{ fontFamily: "Poppins-Bold", fontSize: 18 }}>
               {status === "Open" ? (
                 <Text style={styles.openText}>Ouvert</Text>
               ) : (
@@ -417,7 +420,8 @@ export default function Resto({ route, navigation }) {
               )}
             </Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-              <Ionicons name="location-outline" size={20} /> {Resto.address}
+              <Ionicons name="location-outline" size={20} />
+              <Text> {Resto.address}</Text>
             </Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
               <Ionicons name="ios-restaurant-outline" size={20} />
@@ -427,8 +431,9 @@ export default function Resto({ route, navigation }) {
                 </View>
               ))}
             </Text>
-            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
+            <Text style={{ fontFamily: "Poppins-Regular", fontSize: 20 }}>
               <FontAwesome name="money" size={20} />
+              <Text> {Resto.price_average}</Text>
             </Text>
           </View>
           <TouchableOpacity

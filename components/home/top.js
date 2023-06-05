@@ -23,23 +23,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 
-export default function Top({ navigation, menu }) {
-  const [topRestos, setTopRestos] = useState([]);
-
-  useEffect(() => {
-    fetchTopRestos();
-  }, []);
-
-  const fetchTopRestos = async () => {
-    try {
-      // Replace with your API endpoint
-      const response = await axios.get(`${API_URL}/top-restaurants`);
-      setTopRestos(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+export default function Top({ navigation, menu, topRestos }) {
   const slicedCategories = menu?.categories?.slice(0, 2);
   const slicedItems = slicedCategories?.flatMap((category) =>
     category.items.slice(0, 5)

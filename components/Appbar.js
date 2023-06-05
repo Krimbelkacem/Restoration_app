@@ -71,7 +71,7 @@ export default function MyAppbar({
   return (
     <View>
       <Appbar.Header>
-        <Appbar.BackAction onPress={_goBack} />
+        <Avatar.Image size={60} source={require("../assets/002.jpg")} />
         <Appbar.Content title="ElMida" />
         <View
           style={{

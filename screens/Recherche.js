@@ -424,21 +424,29 @@ const Recherche = ({ navigation }) => {
           ))}
 
           {categoryResults?.map((category) => (
-            <TouchableOpacity key={category.categoryId}>
+            <TouchableOpacity
+              styles={{ marginVertical: 20 }}
+              key={category.categoryId}
+              onPress={() =>
+                navigation.navigate("Resto", {
+                  idR: category.restaurantId,
+                })
+              }
+            >
               <View
                 style={{
                   backgroundColor: "#fff",
                   borderRadius: 10,
-                  marginVertical: 20,
-                  shadowColor: "#000",
+
+                  shadowColor: "white",
                   shadowOffset: {
                     width: 0,
-                    height: 2,
+                    height: 0,
                   },
                   shadowOpacity: 0.25,
                   shadowRadius: 3.84,
-                  elevation: 5,
-                  marginBottom: 20,
+                  elevation: 1,
+                  marginVertical: 20,
                 }}
               >
                 <Animated.View entering={FadeInDown.delay(400).duration(400)}>
@@ -461,7 +469,7 @@ const Recherche = ({ navigation }) => {
                       <Text
                         style={{
                           fontFamily: "Poppins-Regular",
-                          color: "#d9d9d9",
+                          color: "black",
                           fontSize: 18,
                           fontWeight: "bold",
                         }}
@@ -471,12 +479,7 @@ const Recherche = ({ navigation }) => {
                     </View>
                   </View>
 
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("Resto", {
-                        idR: category.restaurantId,
-                      })
-                    }
+                  <View
                     style={{
                       flexDirection: "row",
 
@@ -556,7 +559,7 @@ const Recherche = ({ navigation }) => {
                         </View>
                       ))}
                     </View>
-                  </TouchableOpacity>
+                  </View>
                 </Animated.View>
               </View>
             </TouchableOpacity>
@@ -598,7 +601,7 @@ const Recherche = ({ navigation }) => {
                     <Text
                       style={{
                         fontFamily: "Poppins-Regular",
-                        color: "#d9d9d9",
+                        color: "black",
                         fontSize: 18,
                         fontWeight: "bold",
                       }}
@@ -608,7 +611,7 @@ const Recherche = ({ navigation }) => {
                   </View>
                 </View>
 
-                <TouchableOpacity
+                <View
                   onPress={() =>
                     navigation.navigate("Resto", {
                       idR: item.restaurantId,
@@ -663,7 +666,7 @@ const Recherche = ({ navigation }) => {
                       {item.itemPrice} da
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </View>
               </Animated.View>
             </View>
           ))}
@@ -737,26 +740,144 @@ const Recherche = ({ navigation }) => {
       return (
         <View>
           {categoryResults?.map((category) => (
-            <TouchableOpacity>
-              <Card
-                key={category.categoryId}
-                style={{ margin: 16, elevation: 4 }}
+            <TouchableOpacity
+              styles={{ marginVertical: 20 }}
+              key={category.categoryId}
+              onPress={() =>
+                navigation.navigate("Resto", {
+                  idR: category.restaurantId,
+                })
+              }
+            >
+              <View
+                style={{
+                  backgroundColor: "#fff",
+                  borderRadius: 10,
+
+                  shadowColor: "white",
+                  shadowOffset: {
+                    width: 0,
+                    height: 0,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                  elevation: 1,
+                  marginVertical: 20,
+                }}
               >
-                <Card.Content>
-                  <Title
+                <Animated.View entering={FadeInDown.delay(400).duration(400)}>
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${category.restoAvatar
+                          ?.replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: "#a93246",
+                        borderRadius: 25,
+                        marginRight: 20,
+                      }}
+                    />
+                    <View style={{ justifyContent: "center" }}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {category.restoName}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      marginBottom: 8,
+                      flexDirection: "row",
+
+                      borderRadius: 10,
+                      marginTop: 10,
                     }}
+                    key={category.categoryId}
                   >
-                    {category.name}
-                  </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 24 }}>
-                    {category.restoName}
-                  </Paragraph>
-                </Card.Content>
-              </Card>
+                    <View
+                      style={{
+                        padding: 18,
+                        borderColor: "grey",
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        flex: 1,
+                        padding: 10,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                          textTransform: "uppercase",
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#d9d9d9",
+                        }}
+                      >
+                        {category.name}
+                      </Text>
+
+                      {category.items.map((item) => (
+                        <View
+                          key={item.id}
+                          style={{
+                            flexDirection: "row",
+                            backgroundColor: "lightgray",
+                            borderRadius: 10,
+                            marginTop: 10,
+                            justifyContent: "space-between",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            flex: 1,
+                            padding: 20,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontFamily: "Poppins-Regular",
+                              color: "#000",
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                              borderBottomWidth: 1,
+                              borderBottomColor: "#d9d9d9",
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                          <Text
+                            style={{
+                              fontFamily: "Poppins-Regular",
+                              color: "#000",
+                              fontSize: 18,
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {item.price} da
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                </Animated.View>
+              </View>
             </TouchableOpacity>
           ))}
         </View>
@@ -765,7 +886,21 @@ const Recherche = ({ navigation }) => {
       return (
         <View>
           {itemResults?.map((item) => (
-            <View>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 10,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginBottom: 20,
+              }}
+            >
               <Animated.View entering={FadeInDown.delay(400).duration(400)}>
                 <View style={{ flexDirection: "row" }}>
                   <Image
@@ -782,18 +917,21 @@ const Recherche = ({ navigation }) => {
                       marginRight: 20,
                     }}
                   />
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      color: "#d9d9d9",
-                      fontSize: 18,
-                    }}
-                  >
-                    {item.restoName}
-                  </Text>
+                  <View style={{ justifyContent: "center" }}>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "black",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {item.restoName}
+                    </Text>
+                  </View>
                 </View>
 
-                <TouchableOpacity
+                <View
                   onPress={() =>
                     navigation.navigate("Resto", {
                       idR: item.restaurantId,
@@ -829,6 +967,10 @@ const Recherche = ({ navigation }) => {
                         fontFamily: "Poppins-Regular",
                         color: "#000",
                         fontSize: 18,
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#d9d9d9",
                       }}
                     >
                       {item.itemName}
@@ -838,12 +980,13 @@ const Recherche = ({ navigation }) => {
                         fontFamily: "Poppins-Regular",
                         color: "#000",
                         fontSize: 18,
+                        fontWeight: "bold",
                       }}
                     >
                       {item.itemPrice} da
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </View>
               </Animated.View>
             </View>
           ))}

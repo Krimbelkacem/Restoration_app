@@ -23,26 +23,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 
-export default function Cuisines({ navigation, menu }) {
-  const [topRestos, setTopRestos] = useState([]);
-
-  useEffect(() => {
-    const fetchTopRestos = async () => {
-      try {
-        // Replace with your API endpoint
-        const response = await axios.get(`${API_URL}/random-cuisines`);
-        if (response) {
-          setTopRestos(response.data);
-          console.log(response.data);
-        }
-      } catch (error) {
-        console.log(error + "cuisines");
-      }
-    };
-
-    fetchTopRestos();
-  }, []);
-
+export default function Cuisines({ navigation, menu, cuisinesRestos }) {
   return (
     <View>
       <View style={{ marginTop: 20 }}>
@@ -65,7 +46,7 @@ export default function Cuisines({ navigation, menu }) {
         </View>
 
         <ScrollView horizontal style={{ height: 150 }}>
-          {topRestos?.map((cuisine) => (
+          {cuisinesRestos?.map((cuisine) => (
             <TouchableOpacity
               key={cuisine._id}
               style={{ alignItems: "center", marginLeft: 10 }}

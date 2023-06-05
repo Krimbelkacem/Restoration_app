@@ -84,7 +84,7 @@ const DetailsSettings = ({ navigation, route }) => {
     if (description) {
       formData.append("description", description);
     }
-    console.log(name);
+ 
 
     if (imageUri) {
       formData.append("image", {
