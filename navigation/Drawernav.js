@@ -43,31 +43,37 @@ const CustomDrawer = (props) => {
   const [userData, setUserData] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const sessionData = await AsyncStorage.getItem("session");
-        if (sessionData) {
-          const { token } = JSON.parse(sessionData);
-          const response = await fetch(`${API_URL}/profile`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  const fetchUser = async () => {
+    try {
+      const sessionData = await AsyncStorage.getItem("session");
+      if (sessionData) {
+        const { token } = JSON.parse(sessionData);
+        const response = await fetch(`${API_URL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          const user = await response.json();
+        const user = await response.json();
 
-          setUserData(user);
-          setIsConnected(true);
-          console.log(user);
-        }
-      } catch (error) {
-        console.log(error);
+        setUserData(user);
+        setIsConnected(true);
+        console.log(user);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    fetchUser();
-  }, []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchUser();
+    });
+
+    fetchUser(); // Fetch user data initially
+
+    return unsubscribe; // Cleanup the listener on unmount
+  }, [navigation]); // Add navigation as a dependency
 
   const handleLogout = async () => {
     try {
@@ -306,7 +312,7 @@ const CustomDrawer = (props) => {
                   Mes reservations
                 </Text>
               </TouchableOpacity>
-              {userData.Restos.length > 0 ? (
+              {userData?.Restos?.length > 0 ? (
                 <TouchableOpacity
                   style={{ flexDirection: "row", marginTop: 20 }}
                   onPress={() =>
