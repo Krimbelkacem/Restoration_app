@@ -18,7 +18,7 @@ import {
 import { Button, Dialog, Portal, Provider } from "react-native-paper";
 import { API_URL } from "../utils/config";
 import axios from "axios";
-export default FollowersList = ({ route }) => {
+const FollowersList = ({ route }) => {
   const followers = route.params.followers;
   const idR = route.params.idR;
   const display = route.params.display;
@@ -156,3 +156,4 @@ const styles = StyleSheet.create({
     width: 28,
   },
 });
+export default FollowersList;

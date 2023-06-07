@@ -181,73 +181,7 @@ export default function Home({ navigation }) {
     socket.emit("join", userId);
   };
 
-  /* const handleSendNotification = () => {
-    // Send a notification to the server
-    socket.emit('notification', { userId, message: notificationMessage });
-  };*/
-
-  ////////////////////////////////////////////////////// fin des notifications
-
-  /* useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const sessionData = await AsyncStorage.getItem("session");
-        if (sessionData) {
-          const { token } = JSON.parse(sessionData);
-          setToken(token);
-          const response = await fetch(`${API_URL}/profile`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const user = await response.json();
-          setUserData(user);
-          if (user) {
-            setIsconnected(1);
-            setUserId(user._id);
-
-            handleJoin(user._id);
-          }
-        }
-      } catch (error) {
-        console.log(error + "vous n estes pqs connecter");
-      }
-    };
-
-    fetchUser();
-*/
-  /*
-    const getData = async () => {
-      const unsubscribe = navigation.addListener("focus", async () => {
-        const sessionString = await AsyncStorage.getItem("session");
-        if (sessionString) {
-          const sessionData = JSON.parse(sessionString);
-          setUserId(sessionData.userId);
-          setToken(sessionData.token);
-        }
-        if (token) {
-          getUserProfile(token);
-        }
-      });
-
-      return unsubscribe;
-    };
-    getData();
-  }, [navigation]);
-  const getUserProfile = async (token) => {
-    try {
-      const response = await axios.get(`${API_URL}/profile`, {
-        headers: { Authorization: "Bearer " + token },
-      });
-      console.log("ok");
-      console.log(response.data);
-      setUserData(response.data);
-      // setIsconnected(1);
-    } catch (error) {
-      console.log(error);
-      alert("no");
-    }
-  };*/
+  /////////////////////////////////////////////////////////////////////
   const [isOpen, setIsOpen] = useState(false);
   const drawerAnimation = useRef(new Animated.Value(0)).current;
 

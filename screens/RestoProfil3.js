@@ -398,8 +398,11 @@ export default function Resto({ route, navigation }) {
               )}
             </View>
           ) : (
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>veuillez creer un compte</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              <Text style={styles.buttonText}>veuillez se connecter</Text>
             </TouchableOpacity>
           )}
         </View>

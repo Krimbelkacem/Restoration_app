@@ -18,30 +18,25 @@ import {
   MaterialCommunityIcons,
   FontAwesome5,
 } from "react-native-vector-icons";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Mapviewer from "../components/addresto/Mapview";
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
 import OpeningHoursForm from "../screens/RestoSetting/Horairesettings";
 import WelcomeScreen from "../screens/day001/WelcomeScreen";
-//import Drawernav from "./Drawernav";
 import HomeScreen from "../screens/day001/HomeScreen";
 import LoginScreen from "../screens/day001/LoginScreen";
 import SignUpScreen from "../screens/day001/SignUpScreen";
-
 import AddResto from "../screens/AddResto";
 import Addmenuitem from "../screens/Addcategory";
 import Addmenu from "../screens/Addmenu";
 import Addcuisine from "../screens/Addcuisine";
-
 import Profile from "../screens/UserProfile";
 import EditProfile from "../screens/EditProfile";
-
 import ProfilResto from "../screens/ProfilResto";
 import Drawernav from "./Drawernav";
 import TokenContext from "../store/tokencontext";
-
-import UIUserProfile from "../screens/UIProfile";
 import UIOnboarding from "../screens/uionboarding";
 import ProfileView from "../screens/RestoProfil2";
 import Resto from "../screens/RestoProfil3";
@@ -50,13 +45,17 @@ import CategoryList from "../screens/MenuList";
 import Menu from "../screens/Menu";
 import Openninghours from "../components/Openinghours";
 import FollowersLit from "../components/FollowersList";
-import MyTopTabs from "../navigation/MyTopTabs";
 import ToReservation from "../screens/ToReservation";
 import RestoSetting from "../screens/RestoSetting/RestoSetting";
 import DetailsSettings from "../screens/RestoSetting/DetailsSettings";
 import MenuSetting from "../screens/RestoSetting/MenuSettings";
 import DeleteRestaurantScreen from "../screens/RestoSetting/DeleteResto";
-
+/////////////////////
+import ContactAdmin from "../components/Drawerpages/ContactAdmin";
+import DrawerReservation from "../components/Drawerpages/DrawerReservation";
+import Following from "../components/Drawerpages/Following";
+import Informations from "../components/Drawerpages/Informations";
+import MyRestos from "../components/Drawerpages/MyRestos";
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
@@ -71,6 +70,39 @@ export default function Authnav() {
   return (
     <TokenContext.Provider value={{ token, setToken }}>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Drawernav"
+          component={Drawernav}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ContactAdmin"
+          component={ContactAdmin}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DrawerReservation"
+          component={DrawerReservation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Following"
+          component={Following}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Informations"
+          component={Informations}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyRestos"
+          component={MyRestos}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -116,13 +148,7 @@ export default function Authnav() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="Drawernav"
-          component={Drawernav}
-          options={{
-            headerShown: false,
-          }}
-        />
+
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}

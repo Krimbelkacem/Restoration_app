@@ -1042,7 +1042,7 @@ const Recherche = ({ navigation }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "#FFF", padding: 12 }}>
+    <View style={{ backgroundColor: "white", padding: 12 }}>
       <View
         style={{
           backgroundColor: "#f3f3f3",

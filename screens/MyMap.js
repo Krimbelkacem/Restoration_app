@@ -60,7 +60,7 @@ export default function MyMap({ navigation }) {
             <Ionicons name="ios-restaurant" size={15} color="white" />
             <Callout
               onPress={() =>
-                navigation.navigate("ProfileView", {
+                navigation.navigate("Resto", {
                   idR: restaurant._id,
                 })
               }
@@ -78,9 +78,10 @@ export default function MyMap({ navigation }) {
               >
                 <Image
                   source={{
-                    uri: `${API_URL}/${restaurant.avatar
-                      ?.replace("public", "")
-                      .replace(/\\/g, "/")}`,
+                    uri: `${API_URL}/${restaurant.avatar.replace(
+                      "public",
+                      ""
+                    )}`,
                   }}
                   style={{ width: 80, height: 80, borderRadius: 10 }}
                 />
