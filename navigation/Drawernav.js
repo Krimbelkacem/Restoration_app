@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Image, Text, Dimensions } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  Dimensions,
+  RefreshControl,
+  ScrollView,
+} from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -42,6 +50,17 @@ const CustomDrawer = (props) => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchUser();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, [navigation]);
 
   const fetchUser = async () => {
     try {
@@ -87,7 +106,12 @@ const CustomDrawer = (props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView
+      style={{ flex: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       {!isConnected ? (
         <FadeIn delay={300}>
           <View
@@ -654,7 +678,7 @@ const CustomDrawer = (props) => {
           </FadeIn>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
