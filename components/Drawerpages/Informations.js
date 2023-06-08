@@ -15,6 +15,8 @@ import { Button, ButtonGroup, withTheme } from "@rneui/themed";
 import { API_URL } from "../../utils/config";
 import FadeIn from "../../screens/day001/components/FadeIn";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
+import { FadeInDown } from "react-native-reanimated";
 
 export default function Informations({ navigation, route }) {
   const userData = route.params.userData;
