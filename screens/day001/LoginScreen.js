@@ -57,11 +57,16 @@ const LoginScreen = ({ navigation }) => {
         }
       } catch (error) {
         console.error(error);
-
-        if (error.response && error.response.status === 400) {
-          alert("Invalid email or password");
+        if (error.response) {
+          if (error.response.status === 400) {
+            alert("Invalide email ou mot de passe");
+          } else if (error.response.status === 402) {
+            alert("veulliez confirmer votre compte depuis gmail");
+          } else {
+            alert("Probleme de connexion");
+          }
         } else {
-          alert("An error occurred. Please try again later.");
+          alert("Probleme de connexion");
         }
       }
     }
@@ -84,10 +89,10 @@ const LoginScreen = ({ navigation }) => {
             textAlign: "center",
             marginTop: 40,
           }}
-        >{`Hello!`}</Text>
+        >{`  `}</Text>
         <Text
           style={{ fontSize: 20, color: "#353045", textAlign: "center" }}
-        >{`Create an account!`}</Text>
+        >{`Connection`}</Text>
       </FadeIn>
 
       <FadeIn delay={500}>
@@ -152,7 +157,7 @@ const LoginScreen = ({ navigation }) => {
               textAlign: "center",
               marginTop: 25,
             }}
-          >{`Already have an account?`}</Text>
+          >{`vous n'avez pas encors de compte ?`}</Text>
         </TouchableOpacity>
       </FadeIn>
 

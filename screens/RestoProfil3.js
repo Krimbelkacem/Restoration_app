@@ -302,7 +302,7 @@ export default function Resto({ route, navigation }) {
 
         <View style={styles.sectionfriends}>
           <Text style={styles.statCount}>{followerss.length}</Text>
-          <Text style={styles.statLabel}>Followers</Text>
+          <Text style={styles.statLabel}>abonnées</Text>
         </View>
         <View style={styles.sectionfriends}>
           <View>

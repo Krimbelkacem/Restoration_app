@@ -88,7 +88,7 @@ export default function Addmenu({ navigation, route }) {
 
       console.log(response.data);
       fetchData();
-      alert("added");
+      alert("ajouter avec succes");
     } catch (error) {
       console.log(error);
       alert(error);
@@ -100,7 +100,7 @@ export default function Addmenu({ navigation, route }) {
 
   async function fetchData() {
     const restoid = route.params.idresto;
-    alert(restoid);
+
     const response = await axios.get(`${API_URL}/category?id=${restoid}`);
     const categories = response.data;
     setCats(categories);
@@ -141,7 +141,7 @@ export default function Addmenu({ navigation, route }) {
         }
       );
       console.log(response.data);
-      alert("added item");
+      alert("element ajouter avec succes");
     } catch (error) {
       console.error(error);
     }

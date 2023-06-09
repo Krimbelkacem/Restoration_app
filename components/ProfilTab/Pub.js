@@ -13,14 +13,14 @@ const Pub = ({ Resto }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const renderPhotoItems = () => {
-    const photos = Resto.photos.slice(0, 20);
+    const photos = Resto?.photos?.slice(0, 20);
 
     const rows = [];
     for (let i = 0; i < photos.length; i += 3) {
-      const rowPhotos = photos.slice(i, i + 3);
+      const rowPhotos = photos?.slice(i, i + 3);
       const row = (
         <View key={i} style={{ flexDirection: "row", marginBottom: 10 }}>
-          {rowPhotos.map((photo, index) => (
+          {rowPhotos?.map((photo, index) => (
             <TouchableOpacity
               key={index}
               style={{

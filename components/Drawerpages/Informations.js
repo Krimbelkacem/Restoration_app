@@ -47,14 +47,13 @@ export default function Informations({ navigation, route }) {
   };
   const handleDelete = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/deleteprofil?id=${id}`);
-      const data = await response.data;
-      console.log(data);
-      alert("deleted");
-      navigation.navigate("Login");
+      const response = await axios.post(`${API_URL}/deleteprofil?idU=${id}`);
+
+      console.log(response.data);
+      alert("utilisateur archiver");
+      navigation.navigate("LoginScreen");
     } catch (err) {
       console.log(err);
-      alert("no deleted");
     }
   };
   return (

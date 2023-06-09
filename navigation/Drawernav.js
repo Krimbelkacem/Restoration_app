@@ -704,6 +704,7 @@ function Drawernav() {
       <Drawer.Screen
         name="Bottomnav"
         options={{
+          headerShown: false,
           drawerLabel: "",
           drawerActiveBackgroundColor: "white",
           drawerItemStyle: {

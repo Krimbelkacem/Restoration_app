@@ -86,7 +86,7 @@ const ReservationList = ({
               <Avatar.Image
                 size={40}
                 source={{
-                  uri: `${API_URL}/${reservation.user.picture}`,
+                  uri: `${API_URL}/${reservation?.user.picture}`,
                 }}
               />
               <Text>User: {reservation.user.username}</Text>

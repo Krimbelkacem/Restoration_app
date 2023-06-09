@@ -40,24 +40,29 @@ export default function Login({ navigation }) {
       console.log(data.password);
       try {
         const res = await axios.post(`${API_URL}/login`, data);
-if(res){  const token = res.data.token;
-  const idU = res.data.idU;
+        if (res) {
+          const token = res.data.token;
+          const idU = res.data.idU;
 
-  setToken(token);
-  await AsyncStorage.setItem(
-    "session",
-    JSON.stringify({ userId: idU, token: token })
-  );
-  // await AsyncStorage.setItem("token", "token");
-  navigation.navigate("Bottomnav", { token: token });}
-      
+          setToken(token);
+          await AsyncStorage.setItem(
+            "session",
+            JSON.stringify({ userId: idU, token: token })
+          );
+          // await AsyncStorage.setItem("token", "token");
+          navigation.navigate("Bottomnav", { token: token });
+        }
       } catch (error) {
         console.error(error);
 
-        if (error.response && error.response.status === 400) {
-          alert("Invalid email or password");
-        } else {
-          alert("An error occurred. Please try again later.");
+        if (error.response) {
+          if (error.response.status === 400) {
+            alert("Invalid email or password");
+          } else if (error.response.status === 402) {
+            alert("veulliez verifier votre compte gmail");
+          } else {
+            alert("Probleme de connexion");
+          }
         }
       }
     }

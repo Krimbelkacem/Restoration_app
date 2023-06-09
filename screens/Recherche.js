@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
   TextInput,
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -57,7 +58,7 @@ const Recherche = ({ navigation }) => {
   const [lowPriceResto, setLowPriceResto] = useState([]);
   const [mediumPriceResto, setMediumPriceResto] = useState([]);
   const [highPriceResto, setHighPriceResto] = useState([]);
-
+  const [priceItems, setPriceItems] = useState([]);
   const getDataUsingSimpleGetCall = async () => {
     try {
       const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
@@ -73,6 +74,8 @@ const Recherche = ({ navigation }) => {
       //  console.log(data.highPriceResto);
       setMediumPriceResto(data.mediumPriceResto);
       setHighPriceResto(data.highPriceResto);
+      setPriceItems(data.numericResults);
+      console.log("priceitems", data.numericResults);
       setData(res.data);
       setResults(res.data);
       setLoading(true);
@@ -341,16 +344,25 @@ const Recherche = ({ navigation }) => {
   };
 
   ////////////////////////////////////////////////////////////////////
+
+  const totalLength =
+    restoResults?.length +
+    categoryResults?.length +
+    itemResults?.length +
+    cuisineResults?.length +
+    (priceItems?.length !== undefined ? priceItems?.length : 0);
+
+  const itemLength =
+    itemResults?.length +
+    (priceItems?.length !== undefined ? priceItems?.length : 0);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const buttons = [
-    `All (${restoResults?.length +
-      categoryResults?.length +
-      itemResults?.length +
-      cuisineResults?.length})`,
+    `All (${totalLength})`,
     `Restos (${restoResults?.length})`,
     `Categories (${categoryResults?.length})`,
-    `Items (${itemResults?.length})`,
+    `Items (${itemLength})`,
     `cuisines(${cuisineResults?.length})`,
   ];
 
@@ -397,6 +409,16 @@ const Recherche = ({ navigation }) => {
                     }}
                   >
                     {resto.name}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#263238",
+                      fontSize: 12,
+                      marginLeft: 10,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {resto.description}
                   </Text>
                   <Text
                     style={{
@@ -582,34 +604,150 @@ const Recherche = ({ navigation }) => {
               }}
             >
               <Animated.View entering={FadeInDown.delay(400).duration(400)}>
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    source={{
-                      uri: `${API_URL}/${item.restoAvatar
-                        ?.replace("public", "")
-                        .replace(/\\/g, "/")}`,
-                    }}
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("Resto", {
+                      idR: item.restaurantId,
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.restoAvatar
+                          ?.replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: "#a93246",
+                        borderRadius: 25,
+                        marginRight: 20,
+                      }}
+                    />
+                    <View style={{ justifyContent: "center" }}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.restoName}
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: "lightgrey",
+                    borderRadius: 10,
+                    marginTop: 10,
+                  }}
+                  key={item.itemId}
+                >
+                  <View
                     style={{
-                      width: 50,
-                      height: 50,
-                      backgroundColor: "#a93246",
-                      borderRadius: 25,
-                      marginRight: 20,
+                      padding: 18,
+                      // backgroundColor: "#ffe8e8",
+                      borderColor: "grey",
+                      borderTopLeftRadius: 10,
+                      borderBottomLeftRadius: 10,
                     }}
-                  />
-                  <View style={{ justifyContent: "center" }}>
+                  ></View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flex: 1,
+                      padding: 20,
+                    }}
+                  >
                     <Text
                       style={{
                         fontFamily: "Poppins-Regular",
-                        color: "black",
+                        color: "#000",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#d9d9d9",
+                      }}
+                    >
+                      {item.itemName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        color: "#000",
                         fontSize: 18,
                         fontWeight: "bold",
                       }}
                     >
-                      {item.restoName}
+                      {item.itemPrice} da
                     </Text>
                   </View>
                 </View>
+              </Animated.View>
+            </View>
+          ))}
+
+          {priceItems?.map((item) => (
+            <View
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 10,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginBottom: 20,
+              }}
+            >
+              <Animated.View entering={FadeInDown.delay(400).duration(400)}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("Resto", {
+                      idR: item.restaurantId,
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.restaurantPhoto
+                          ?.replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: "#a93246",
+                        borderRadius: 25,
+                        marginRight: 20,
+                      }}
+                    />
+                    <View style={{ justifyContent: "center" }}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.restaurantName}
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
 
                 <View
                   onPress={() =>
@@ -885,6 +1023,120 @@ const Recherche = ({ navigation }) => {
     } else if (selectedIndex === 3) {
       return (
         <View>
+          {priceItems?.map((item) => (
+            <View
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 10,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginBottom: 20,
+              }}
+            >
+              <Animated.View entering={FadeInDown.delay(400).duration(400)}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("Resto", {
+                      idR: item.restaurantId,
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.restaurantPhoto
+                          ?.replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: "#a93246",
+                        borderRadius: 25,
+                        marginRight: 20,
+                      }}
+                    />
+                    <View style={{ justifyContent: "center" }}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.restaurantName}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
+                    onPress={() =>
+                      navigation.navigate("Resto", {
+                        idR: item.restaurantId,
+                      })
+                    }
+                    style={{
+                      flexDirection: "row",
+                      backgroundColor: "lightgrey",
+                      borderRadius: 10,
+                      marginTop: 10,
+                    }}
+                    key={item.itemId}
+                  >
+                    <View
+                      style={{
+                        padding: 18,
+                        // backgroundColor: "#ffe8e8",
+                        borderColor: "grey",
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        flex: 1,
+                        padding: 20,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                          textTransform: "uppercase",
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#d9d9d9",
+                        }}
+                      >
+                        {item.itemName}
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.itemPrice} da
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
+              </Animated.View>
+            </View>
+          ))}
+
           {itemResults?.map((item) => (
             <View
               style={{
@@ -902,91 +1154,99 @@ const Recherche = ({ navigation }) => {
               }}
             >
               <Animated.View entering={FadeInDown.delay(400).duration(400)}>
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    source={{
-                      uri: `${API_URL}/${item.restoAvatar
-                        ?.replace("public", "")
-                        .replace(/\\/g, "/")}`,
-                    }}
-                    style={{
-                      width: 50,
-                      height: 50,
-                      backgroundColor: "#a93246",
-                      borderRadius: 25,
-                      marginRight: 20,
-                    }}
-                  />
-                  <View style={{ justifyContent: "center" }}>
-                    <Text
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        color: "black",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {item.restoName}
-                    </Text>
-                  </View>
-                </View>
-
-                <View
+                <Pressable
                   onPress={() =>
                     navigation.navigate("Resto", {
                       idR: item.restaurantId,
                     })
                   }
-                  style={{
-                    flexDirection: "row",
-                    backgroundColor: "lightgrey",
-                    borderRadius: 10,
-                    marginTop: 10,
-                  }}
-                  key={item.itemId}
                 >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${item.restoAvatar
+                          ?.replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: "#a93246",
+                        borderRadius: 25,
+                        marginRight: 20,
+                      }}
+                    />
+                    <View style={{ justifyContent: "center" }}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "black",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.restoName}
+                      </Text>
+                    </View>
+                  </View>
+
                   <View
-                    style={{
-                      padding: 18,
-                      // backgroundColor: "#ffe8e8",
-                      borderColor: "grey",
-                      borderTopLeftRadius: 10,
-                      borderBottomLeftRadius: 10,
-                    }}
-                  ></View>
-                  <View
+                    onPress={() =>
+                      navigation.navigate("Resto", {
+                        idR: item.restaurantId,
+                      })
+                    }
                     style={{
                       flexDirection: "row",
-                      justifyContent: "space-between",
-                      flex: 1,
-                      padding: 20,
+                      backgroundColor: "lightgrey",
+                      borderRadius: 10,
+                      marginTop: 10,
                     }}
+                    key={item.itemId}
                   >
-                    <Text
+                    <View
                       style={{
-                        fontFamily: "Poppins-Regular",
-                        color: "#000",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                        borderBottomWidth: 1,
-                        borderBottomColor: "#d9d9d9",
+                        padding: 18,
+                        // backgroundColor: "#ffe8e8",
+                        borderColor: "grey",
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        flex: 1,
+                        padding: 20,
                       }}
                     >
-                      {item.itemName}
-                    </Text>
-                    <Text
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        color: "#000",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {item.itemPrice} da
-                    </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                          textTransform: "uppercase",
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#d9d9d9",
+                        }}
+                      >
+                        {item.itemName}
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.itemPrice} da
+                      </Text>
+                    </View>
                   </View>
-                </View>
+                </Pressable>
               </Animated.View>
             </View>
           ))}

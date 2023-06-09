@@ -84,7 +84,6 @@ const DetailsSettings = ({ navigation, route }) => {
     if (description) {
       formData.append("description", description);
     }
- 
 
     if (imageUri) {
       formData.append("image", {
@@ -107,10 +106,10 @@ const DetailsSettings = ({ navigation, route }) => {
       );
 
       console.log(response.data);
-      alert("cuisine ajouer");
+      alert("Restaurant mise ajour avec succes");
     } catch (error) {
       console.log(error);
-      alert(error);
+      alert("Probleme de connexion ");
     }
   };
   return (

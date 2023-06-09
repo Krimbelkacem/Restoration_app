@@ -50,16 +50,17 @@ export default function EditProfile({ navigation, route }) {
   };
   const handleDelete = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/deleteprofil?id=${id}`);
+      const response = await axios.post(`${API_URL}/deleteprofil?id=${id}`);
       const data = await response.data;
       console.log(data);
       alert("deleted");
-      navigation.navigate("Login");
+      navigation.navigate("LoginScreen");
     } catch (err) {
       console.log(err);
       alert("no deleted");
     }
   };
+
   return (
     <ScrollView>
       <View style={styles.container}>

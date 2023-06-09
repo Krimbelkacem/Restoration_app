@@ -64,11 +64,15 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/signup`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/signup?API_URL=${API_URL}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log(response.data);
       alert("user created");
