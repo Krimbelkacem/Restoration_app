@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -19,7 +20,16 @@ import {
   FlatList,
 } from "react-native";
 import { Drawer } from "react-native-paper";
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  MaterialIcons,
+  SimpleLineIcons,
+  EvilIcons,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import { Appbar, Avatar, Badge, IconButton } from "react-native-paper";
 import { API_URL } from "../utils/config";
 //import Modal from "react-native-modal";
@@ -31,6 +41,11 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base";
+import Animated, {
+  FadeInRight,
+  FadeInLeft,
+  FadeInDown,
+} from "react-native-reanimated";
 
 export default function MyAppbar({
   isconnected,
@@ -67,9 +82,89 @@ export default function MyAppbar({
   const closeModal = () => {
     setIsModalVisible(false);
   };
+  const handleTextChange = (newText) => {
+    navigation.navigate("Recherche");
+  };
+
+  const handleKeyboardShow = () => {
+    navigation.navigate("Recherche");
+  };
 
   return (
     <View>
+      <View style={{ backgroundColor: "white", padding: 20, marginTop: 30 }}>
+        <Animated.View entering={FadeInDown.delay(300).duration(300)}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <FontAwesome5
+              name="bars"
+              size={24}
+              color="black"
+              onPress={() => alert("0000000000")}
+            />
+            <TouchableOpacity
+              onPress={handleTextChange}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                backgroundColor: "white",
+                paddingVertical: 8,
+                paddingHorizontal: 10,
+                borderRadius: 20,
+                marginHorizontal: 10,
+                flex: 1,
+                fontFamily: "Poppins-Regular",
+                borderWidth: 1,
+                borderColor: "black",
+              }}
+            >
+              <TextInput
+                placeholder="Search Product"
+                placeholderTextColor="#737373"
+                style={{ flex: 1, fontFamily: "Poppins-Regular" }}
+                onTouchStart={handleTextChange}
+              />
+              <FontAwesome5 name="search" size={24} color="black" />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                borderRadius: 25,
+                backgroundColor: "white",
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center",
+              }}
+            >
+              {notificationCount > 0 ? (
+                <Badge
+                  size={16}
+                  style={{
+                    width: 12,
+                    height: 16,
+                    backgroundColor: "#27bc5c",
+                    borderRadius: 6,
+                    position: "absolute",
+                    right: 0,
+                    top: 5,
+                    borderWidth: 1,
+                    zIndex: 2,
+                    borderColor: "#2f3038",
+                  }}
+                >
+                  {notificationCount}
+                </Badge>
+              ) : null}
+              <FontAwesome5
+                name="bell"
+                size={25}
+                color="black"
+                onPress={handleNotes}
+              />
+            </View>
+          </View>
+        </Animated.View>
+      </View>
+      {/*
       <Appbar.Header>
         <Avatar.Image size={60} source={require("../assets/002.jpg")} />
         <Appbar.Content title="ElMida" />
@@ -139,7 +234,7 @@ export default function MyAppbar({
           )}
         </View>
       </Appbar.Header>
-
+          */}
       <View>
         <View style={{ flex: 1, height: 500 }}>
           <NativeBaseProvider>

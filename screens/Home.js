@@ -14,10 +14,25 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   Button,
+  Row,
+  ContainerImage,
   FlatList,
+  TextInput,
   RefreshControl,
-  Animated,
 } from "react-native";
+import {
+  SimpleLineIcons,
+  EvilIcons,
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Feather,
+  FontAwesome,
+} from "react-native-vector-icons";
+import { ButtonGroup } from "react-native-elements";
+import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
+
 import axios from "axios";
 import { Modal } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,7 +44,7 @@ import MyAppbar from "../components/Appbar";
 import Top from "../components/home/top";
 import Recents from "../components/home/recents";
 import Cuisines from "../components/home/cuisines";
-import { Stack, TextInput, IconButton } from "@react-native-material/core";
+import { Stack, IconButton } from "@react-native-material/core";
 import { Ionicons } from "@expo/vector-icons";
 import io from "socket.io-client";
 //import MyModal from "../components/Modal";
@@ -207,9 +222,62 @@ export default function Home({ navigation }) {
     inputRange: [0, 1],
     outputRange: [300, 0],
   });
+  const handleButtonPress = () => {
+    // Handle button press here
+  };
+
+  const ContainerImage = ({
+    source,
+    size,
+    width,
+    height,
+    mode,
+    circle,
+    style,
+  }) => {
+    return (
+      <TouchableOpacity
+        style={[
+          {
+            width: size || width || 25,
+            height: size || height || 25,
+            borderRadius: circle ? size / 2 : 0,
+          },
+          style,
+        ]}
+      >
+        <Image
+          source={require("../assets/01.jpg")}
+          style={{
+            width: "100%",
+            height: "100%",
+            resizeMode: mode || "contain",
+            borderRadius: circle ? size / 2 : 0,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const Row = ({ children, style, space }) => {
+    return (
+      <View
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: space || "flex-start",
+          },
+          style,
+        ]}
+      >
+        {children}
+      </View>
+    );
+  };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View styles={{ flex: 1 }}>
       <MyAppbar
         isconnected={isconnected}
         userData={userData}
@@ -226,10 +294,52 @@ export default function Home({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
+        <View style={{ marginBottom: 15 }}>
+          <Row style={{ paddingHorizontal: 10, paddingVertical: 10 }}>
+            <Row style={{ flex: 1 }}>
+              <ContainerImage
+                source={require("../assets/01.jpg")}
+                size={40}
+                circle
+                style={{ marginRight: 5 }}
+              />
+              <View>
+                <Row>
+                  <Text
+                    style={{
+                      marginHorizontal: 5,
+                      fontSize: 12,
+                      fontWeight: "500",
+                    }}
+                  >
+                    larbi
+                  </Text>
+                </Row>
+                <Text
+                  style={{
+                    marginHorizontal: 5,
+                    marginTop: 2,
+                    fontSize: 11,
+                    fontWeigth: "300",
+                  }}
+                >
+                  freha
+                </Text>
+              </View>
+            </Row>
+          </Row>
+          <ContainerImage
+            source={require("../assets/01.jpg")}
+            size={windowWidth}
+            mode="cover"
+          />
+          <Row style={{ paddingVertical: 10 }}>
+            <Row style={{ flex: 1 }}></Row>
+          </Row>
+        </View>
+
         <View style={styles.mainContent}>
-          <TouchableOpacity onPress={toggleDrawer}>
-            <Text>Toggle Drawer</Text>
-          </TouchableOpacity>
+          <TouchableOpacity onPress={toggleDrawer}></TouchableOpacity>
         </View>
         <View style={{ flex: 1, backgroundColor: "white" }}></View>
         <View style={{ flex: 1 }}>

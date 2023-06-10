@@ -687,7 +687,6 @@ function Drawernav() {
   return (
     <Drawer.Navigator
       screenOptions={{
-        headerShown: true,
         headerStyle: {
           backgroundColor: "transparent",
           elevation: 0,

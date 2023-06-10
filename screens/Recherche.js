@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import {
   Image,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   ScrollView,
   TextInput,
   Pressable,
+  Keyboard,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -1300,9 +1301,82 @@ const Recherche = ({ navigation }) => {
     }
     return null;
   };
+  const textInputRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      handleKeyboardDidShow
+    );
+
+    const timeoutId = setTimeout(() => {
+      textInputRef.current.focus();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  const handleKeyboardDidShow = () => {
+    // Handle any actions you need when the keyboard is shown
+    // For example, you can update the text input value
+  };
+
+  const handleTextChange = (newText) => {
+    // Handle text change here if needed
+  };
 
   return (
     <View style={{ backgroundColor: "white", padding: 12 }}>
+      <View style={{ backgroundColor: "white", paddingVertical: 30 }}>
+        <Animated.View entering={FadeInDown.delay(300).duration(300)}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                backgroundColor: "white",
+                paddingVertical: 8,
+                paddingHorizontal: 2,
+                borderRadius: 20,
+                marginHorizontal: 2,
+                flex: 1,
+                fontFamily: "Poppins-Regular",
+                borderWidth: 1,
+                borderColor: "black",
+              }}
+            >
+              <TextInput
+                ref={textInputRef}
+                onChangeText={handleTextChange}
+                autoFocus={true}
+                defaultValue=""
+                placeholder="Search Product"
+                placeholderTextColor="black"
+                style={{
+                  flex: 1,
+                  fontFamily: "Poppins-Regular",
+                  marginLeft: 8,
+                  marginTop: 3,
+                }}
+              />
+              <FontAwesome5 name="search" size={24} color="black" />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                borderRadius: 25,
+                backgroundColor: "white",
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center",
+              }}
+            ></View>
+          </View>
+        </Animated.View>
+      </View>
       <View
         style={{
           backgroundColor: "#f3f3f3",
@@ -1322,7 +1396,13 @@ const Recherche = ({ navigation }) => {
           onBlur={getDataUsingSimpleGetCall}
           value={restoName}
           placeholder="Search"
-          style={{ flex: 1, fontSize: 16, marginLeft: 8, marginTop: 3 }}
+          style={{
+            flex: 1,
+            fontSize: 16,
+            marginLeft: 8,
+            marginTop: 3,
+            caretColor: "black",
+          }}
         />
       </View>
 

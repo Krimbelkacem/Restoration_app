@@ -191,7 +191,7 @@ export default function Resto({ route, navigation }) {
   const handleFollow = async () => {
     try {
       const response = await axios.post(
-        `${API_URL}/addfollower?idU=${UserId}&idR=${route.params.idR}  `
+        `${API_URL}/addfollower?idU=${UserId}&idR=${route.params.idR}`
       );
       console.log(response.data);
       // setIsfollowing(true);
