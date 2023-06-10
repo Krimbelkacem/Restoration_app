@@ -24,6 +24,7 @@ import {
 } from "react-native-vector-icons";
 
 export default function Recents({ navigation, menu, recentsRestos }) {
+  console.log(recentsRestos, "eeeeeee");
   return (
     <View>
       <View style={{ marginTop: 20 }}>
@@ -36,46 +37,102 @@ export default function Recents({ navigation, menu, recentsRestos }) {
         >
           <Text
             style={{
-              fontSize: 18,
-              fontFamily: "Poppins-Medium",
-              color: "black",
+              fontFamily: "Poppins-Bold",
+              fontSize: 26,
+              marginBottom: 0,
             }}
           >
-            recents restaurants
+            Les plus recents
           </Text>
         </View>
 
-        <ScrollView horizontal style={{ height: 150 }}>
+        <ScrollView horizontal style={{ height: 250 }}>
           {recentsRestos?.map((resto) => (
             <TouchableOpacity
               key={resto._id}
-              style={{ alignItems: "center", marginLeft: 10 }}
               onPress={() =>
                 navigation.navigate("Resto", {
-                  // rest: resto,
                   idR: resto._id,
                 })
               }
+              style={{
+                width: 180,
+                borderRadius: 10,
+                backgroundColor: "white",
+                shadowColor: "white",
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.36,
+                shadowRadius: 6.68,
+
+                elevation: 11,
+                borderWidth: 1,
+                borderColor: "black",
+                marginHorizontal: 5,
+              }}
             >
-              <Image
-                source={{
-                  uri: `${API_URL}/${resto.avatar
-                    ?.replace("public", "")
-                    .replace(/\\/g, "/")}`,
-                }}
-                style={{ width: 120, height: 120, borderRadius: 15 }}
-              />
-              <Text
+              <View
                 style={{
-                  fontSize: 14,
-                  fontFamily: "Poppins-Regular",
-                  color: "black",
-                  textAlign: "left",
-                  marginTop: 5,
+                  backgroundColor: "white",
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
                 }}
               >
-                {resto.name}
-              </Text>
+                <Image
+                  source={{
+                    uri: `${API_URL}/${resto.avatar
+                      ?.replace("public", "")
+                      .replace(/\\/g, "/")}`,
+                  }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    resizeMode: "cover",
+
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  borderColor: "white",
+                }}
+              />
+              <View style={{ padding: 10 }}>
+                <Text
+                  style={{
+                    fontWeight: 800,
+                    fontSize: 18,
+                    color: "#131313",
+                  }}
+                >
+                  {resto.name}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 14,
+                    color: "#131313",
+                  }}
+                >
+                  {resto.address}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 14,
+                    color: "black",
+                  }}
+                >
+                  Prix moyen : {resto.price_average} DA
+                </Text>
+              </View>
             </TouchableOpacity>
           ))}
         </ScrollView>

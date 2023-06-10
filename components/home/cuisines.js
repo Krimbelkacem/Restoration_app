@@ -34,14 +34,8 @@ export default function Cuisines({ navigation, menu, cuisinesRestos }) {
             alignItems: "center",
           }}
         >
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: "Poppins-Medium",
-              color: "black",
-            }}
-          >
-            cuisines
+          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 26 }}>
+            Cuisines
           </Text>
         </View>
 
@@ -59,8 +53,8 @@ export default function Cuisines({ navigation, menu, cuisinesRestos }) {
               />
               <Text
                 style={{
-                  fontSize: 9,
-                  fontFamily: "Poppins-Regular",
+                  fontSize: 15,
+                  fontFamily: "Poppins-Bold",
                   color: "black",
                   textAlign: "center",
                   marginTop: 5,

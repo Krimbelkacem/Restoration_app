@@ -56,9 +56,16 @@ import DrawerReservation from "../components/Drawerpages/DrawerReservation";
 import Following from "../components/Drawerpages/Following";
 import Informations from "../components/Drawerpages/Informations";
 import MyRestos from "../components/Drawerpages/MyRestos";
+import { useFonts } from "expo-font";
 const Stack = createNativeStackNavigator();
 
 export default function Authnav() {
+  const [fontsLoaded] = useFonts({
+    "Poppins-Bold": require("../assets/fonts/poppins/Poppins-Bold.ttf"),
+    "Poppins-Medium": require("../assets/fonts/poppins/Poppins-Medium.ttf"),
+    "Poppins-Regular": require("../assets/fonts/poppins/Poppins-Regular.ttf"),
+  });
+
   const searchHeader = () => (
     <View>
       <ProfileView />

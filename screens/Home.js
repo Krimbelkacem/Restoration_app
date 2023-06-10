@@ -44,10 +44,12 @@ import MyAppbar from "../components/Appbar";
 import Top from "../components/home/top";
 import Recents from "../components/home/recents";
 import Cuisines from "../components/home/cuisines";
+import Populaire from "../components/home/Populaire";
 import { Stack, IconButton } from "@react-native-material/core";
 import { Ionicons } from "@expo/vector-icons";
 import io from "socket.io-client";
 //import MyModal from "../components/Modal";
+
 export default function Home({ navigation }) {
   const [userData, setUserData] = useState(null);
 
@@ -62,6 +64,7 @@ export default function Home({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    fetchpub();
     fetchUser();
     fetchTopRestos();
     fetchRecentssRestos();
@@ -74,6 +77,7 @@ export default function Home({ navigation }) {
   useEffect(() => {
     const handleFocus = () => {
       fetchUser();
+      fetchpub();
     };
 
     const unsubscribe = navigation.addListener("focus", handleFocus);
@@ -100,6 +104,18 @@ export default function Home({ navigation }) {
       // navigation.navigate("Login");
     } catch (error) {
       console.log(error);
+    }
+  };
+  /////////////////////////////////////////////////
+  const [homePub, setHomepub] = useState([]);
+
+  const fetchpub = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/homePub`);
+      setHomepub(response.data);
+      console.log("homePub", homePub);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -225,6 +241,80 @@ export default function Home({ navigation }) {
   const handleButtonPress = () => {
     // Handle button press here
   };
+  ///////////////////////////////
+
+  /////////////////////
+
+  const renderHomePub = () => {
+    const firstSection = homePub.slice(0, 2);
+    const secondSection = homePub.slice(2, 4);
+
+    return (
+      <View>
+        <View>{renderSection(firstSection)}</View>
+        <View>{renderSection(secondSection)}</View>
+      </View>
+    );
+  };
+
+  const renderSection = (section) => {
+    return section.map((resto) => (
+      <View style={{ backgroundColor: "white" }} key={resto.restoId}>
+        <TouchableOpacity
+          style={{
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+          onPress={() =>
+            navigation.navigate("Resto", {
+              idR: resto.restoId,
+            })
+          }
+        >
+          <ContainerImage
+            source={{
+              uri: `${API_URL}/${resto.avatar}`,
+            }}
+            size={40}
+            circle
+            style={{ marginRight: 5 }}
+          />
+          <View>
+            <Text
+              style={{
+                marginHorizontal: 5,
+                fontSize: 12,
+                fontWeight: "800",
+                fontFamily: "Poppins-Bold",
+
+                marginBottom: 0,
+              }}
+            >
+              {resto.name}
+            </Text>
+            <Text
+              style={{
+                marginHorizontal: 5,
+                marginTop: 2,
+                fontSize: 11,
+                fontWeight: "300",
+              }}
+            >
+              {resto.address}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <ContainerImage
+          source={{
+            uri: `${API_URL}/${resto.photo}`,
+          }}
+          size={windowWidth - 5}
+        />
+      </View>
+    ));
+  };
 
   const ContainerImage = ({
     source,
@@ -236,7 +326,7 @@ export default function Home({ navigation }) {
     style,
   }) => {
     return (
-      <TouchableOpacity
+      <View
         style={[
           {
             width: size || width || 25,
@@ -247,37 +337,21 @@ export default function Home({ navigation }) {
         ]}
       >
         <Image
-          source={require("../assets/01.jpg")}
+          source={source}
           style={{
             width: "100%",
             height: "100%",
             resizeMode: mode || "contain",
-            borderRadius: circle ? size / 2 : 0,
+            borderRadius: circle ? size / 2 : 10,
+            marginLeft: 2,
           }}
         />
-      </TouchableOpacity>
-    );
-  };
-
-  const Row = ({ children, style, space }) => {
-    return (
-      <View
-        style={[
-          {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: space || "flex-start",
-          },
-          style,
-        ]}
-      >
-        {children}
       </View>
     );
   };
-
+  /////////////////////////////////////
   return (
-    <View styles={{ flex: 1 }}>
+    <View styles={{ flex: 1, backgroundColor: "white" }}>
       <MyAppbar
         isconnected={isconnected}
         userData={userData}
@@ -289,74 +363,54 @@ export default function Home({ navigation }) {
       />
 
       <ScrollView
-        contentContainerStyle={styles.scrollView}
+        contentContainerStyle={{ backgroundColor: "white" }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        style={{ marginBottom: 100 }}
       >
-        <View style={{ marginBottom: 15 }}>
-          <Row style={{ paddingHorizontal: 10, paddingVertical: 10 }}>
-            <Row style={{ flex: 1 }}>
-              <ContainerImage
-                source={require("../assets/01.jpg")}
-                size={40}
-                circle
-                style={{ marginRight: 5 }}
-              />
-              <View>
-                <Row>
-                  <Text
-                    style={{
-                      marginHorizontal: 5,
-                      fontSize: 12,
-                      fontWeight: "500",
-                    }}
-                  >
-                    larbi
-                  </Text>
-                </Row>
-                <Text
-                  style={{
-                    marginHorizontal: 5,
-                    marginTop: 2,
-                    fontSize: 11,
-                    fontWeigth: "300",
-                  }}
-                >
-                  freha
-                </Text>
-              </View>
-            </Row>
-          </Row>
-          <ContainerImage
-            source={require("../assets/01.jpg")}
-            size={windowWidth}
-            mode="cover"
-          />
-          <Row style={{ paddingVertical: 10 }}>
-            <Row style={{ flex: 1 }}></Row>
-          </Row>
+        <View
+          style={{ flex: 1, backgroundColor: "white", paddingHorizontal: 20 }}
+        >
+          <Populaire navigation={navigation} recentsRestos={topRestos} />
         </View>
+        <View
+          style={{
+            paddingHorizontal: 12,
+            backgroundColor: "white",
+            borderBottomColor: "#6e7e87",
+            borderBottomWidth: 0.5,
+            paddingBottom: 10,
+          }}
+        >
+          <Cuisines cuisinesRestos={cuisinesRestos} />
+        </View>
+        <View
+          style={{
+            paddingHorizontal: 12,
+            backgroundColor: "white",
+            borderBottomColor: "#6e7e87",
+            borderBottomWidth: 0.5,
+            paddingBottom: 10,
+          }}
+        >
+          <Top navigation={navigation} topRestos={topRestos} />
+        </View>
+        <View>{renderSection(homePub.slice(0, 2))}</View>
 
         <View style={styles.mainContent}>
           <TouchableOpacity onPress={toggleDrawer}></TouchableOpacity>
         </View>
         <View style={{ flex: 1, backgroundColor: "white" }}></View>
         <View style={{ flex: 1 }}>
-          <View style={{ padding: 12, backgroundColor: "white" }}>
-            <Top navigation={navigation} topRestos={topRestos} />
-          </View>
-
           <View style={{ flex: 1 }}></View>
           <View style={{ padding: 12, backgroundColor: "white" }}>
             <Recents navigation={navigation} recentsRestos={recentsRestos} />
           </View>
-          <View style={{ padding: 12, backgroundColor: "white" }}>
-            <Cuisines cuisinesRestos={cuisinesRestos} />
-          </View>
         </View>
+        <View>{renderSection(homePub.slice(3, 8))}</View>
       </ScrollView>
-      {isOpen && (
+      {/*isOpen && (
         <TouchableOpacity style={styles.overlay} onPress={closeDrawer}>
           <Animated.View
             style={[
@@ -364,7 +418,7 @@ export default function Home({ navigation }) {
               { transform: [{ translateY: drawerTranslateY }] },
             ]}
           >
-            {/* Drawer content */}
+    
             <View style={styles.drawerContent}>
               <TouchableOpacity
                 style={styles.closeButton}
@@ -379,11 +433,11 @@ export default function Home({ navigation }) {
                 <Ionicons name="log-out" size={24} color="#000" />
                 <Text style={styles.logoutText}>Logout</Text>
               </TouchableOpacity>
-              {/* Add your drawer content components here */}
+        
             </View>
           </Animated.View>
         </TouchableOpacity>
-      )}
+          )*/}
     </View>
 
     /*<Carousel

@@ -32,12 +32,20 @@ import {
 } from "react-native-vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useFonts } from "expo-font";
 const Tab = createBottomTabNavigator();
+
 //const Tab = createMaterialBottomTabNavigator();
 export default function Bottomnav({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [value, setValue] = React.useState("");
+
+  const [fontsLoaded] = useFonts({
+    "Poppins-Bold": require("../assets/fonts/poppins/Poppins-Bold.ttf"),
+    "Poppins-Medium": require("../assets/fonts/poppins/Poppins-Medium.ttf"),
+    "Poppins-Regular": require("../assets/fonts/poppins/Poppins-Regular.ttf"),
+  });
 
   const searchHeader = () => (
     <View style={styles.container}>
@@ -143,7 +151,7 @@ export default function Bottomnav({ navigation }) {
         options={{
           //header: searchHeader,
           headerShown: false,
-     
+
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <AntDesign name="home" color={color} size={26} />
@@ -179,7 +187,6 @@ export default function Bottomnav({ navigation }) {
           ),
         }}
       />
-      
     </Tab.Navigator>
   );
 }

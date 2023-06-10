@@ -30,7 +30,11 @@ export default function Top({ navigation, menu, topRestos }) {
   );
 
   return (
-    <View style={{ marginTop: 20 }}>
+    <View
+      style={{
+        marginTop: 0,
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -39,18 +43,102 @@ export default function Top({ navigation, menu, topRestos }) {
         }}
       >
         <Text
-          style={{
-            fontSize: 18,
-            fontFamily: "Poppins-Medium",
-            color: "black",
-          }}
+          style={{ fontFamily: "Poppins-Bold", fontSize: 26, marginBottom: 0 }}
         >
-          meilleurs restaurants
+          Meilleurs restaurants
         </Text>
       </View>
 
-      <ScrollView horizontal style={{ height: 150 }}>
+      <ScrollView horizontal style={{ height: 250 }}>
         {topRestos?.map((resto) => (
+          <TouchableOpacity
+            key={resto._id}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                idR: resto._id,
+              })
+            }
+            style={{
+              width: 180,
+              borderRadius: 10,
+              backgroundColor: "white",
+              shadowColor: "white",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.36,
+              shadowRadius: 6.68,
+
+              elevation: 11,
+              borderWidth: 1,
+              borderColor: "black",
+              marginHorizontal: 7,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+              }}
+            >
+              <Image
+                source={{
+                  uri: `${API_URL}/${resto.avatar
+                    ?.replace("public", "")
+                    .replace(/\\/g, "/")}`,
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  resizeMode: "cover",
+
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                borderColor: "white",
+              }}
+            />
+            <View style={{ padding: 10 }}>
+              <Text
+                style={{
+                  fontWeight: 800,
+                  fontSize: 18,
+                  color: "#131313",
+                }}
+              >
+                {resto.name}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 14,
+                  color: "#131313",
+                }}
+              >
+                {resto.address}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 14,
+                  color: "black",
+                }}
+              >
+                Prix moyen : {resto.price_average} DA
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          /*
           <TouchableOpacity
             key={resto._id}
             style={{ alignItems: "center", marginLeft: 10 }}
@@ -67,21 +155,21 @@ export default function Top({ navigation, menu, topRestos }) {
                   ?.replace("public", "")
                   .replace(/\\/g, "/")}`,
               }}
-              style={{ width: 120, height: 120, borderRadius: 15 }}
+              style={{ width: 150, height: 150, borderRadius: 15 }}
             />
             <Text
               style={{
-                fontSize: 14,
-                fontFamily: "Poppins-Regular",
+                fontSize: 15,
+                fontFamily: "Poppins-Bold",
                 color: "black",
-                textAlign: "left",
+                textAlign: "center",
                 marginTop: 5,
               }}
             >
               {resto.name}
               {resto.price_average}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>*/
         ))}
       </ScrollView>
 

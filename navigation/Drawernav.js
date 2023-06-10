@@ -27,6 +27,7 @@ import {
   Ionicons,
   AntDesign,
 } from "react-native-vector-icons";
+import { useFonts } from "expo-font";
 import Reservation from "../components/ProfilTab/Reservation";
 const Drawer = createDrawerNavigator();
 
@@ -104,7 +105,11 @@ const CustomDrawer = (props) => {
       console.log(error);
     }
   };
-
+  const [fontsLoaded] = useFonts({
+    "Poppins-Bold": require("../assets/fonts/poppins/Poppins-Bold.ttf"),
+    "Poppins-Medium": require("../assets/fonts/poppins/Poppins-Medium.ttf"),
+    "Poppins-Regular": require("../assets/fonts/poppins/Poppins-Regular.ttf"),
+  });
   return (
     <ScrollView
       style={{ flex: 1 }}
