@@ -110,7 +110,7 @@ export default function MenuResto({
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          paddingTop: 20,
+
           alignItems: "center",
         }}
       >
@@ -208,18 +208,6 @@ export default function MenuResto({
                             >
                               {item.name}
                             </Text>
-                            <Text
-                              style={{
-                                fontSize: 20,
-                                fontFamily: "Poppins-Regular",
-                                color: "black",
-                                marginTop: 4,
-                                marginLeft: 12,
-                                marginTop: -5,
-                              }}
-                            >
-                              {item.name}
-                            </Text>
                           </View>
                           <Text
                             style={{
@@ -245,10 +233,13 @@ export default function MenuResto({
               onPress={postSelectedItems}
               style={{
                 backgroundColor: "black",
-                width: 350,
+                width: "100%",
                 borderRadius: 10,
                 marginTop: 20,
                 paddingVertical: 15,
+
+                justifyContent: "center", // Center the text vertically
+                alignItems: "center", // Center the text horizontally
               }}
             >
               <Text

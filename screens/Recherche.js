@@ -820,7 +820,7 @@ const Recherche = ({ navigation }) => {
                 onPress={() =>
                   navigation.navigate("Resto", {
                     // rest: resto,
-                    idR: resto._id,
+                    idR: cuisine.restaurantId,
                   })
                 }
               >
@@ -831,7 +831,7 @@ const Recherche = ({ navigation }) => {
                   style={{
                     width: 100,
                     height: 100,
-                    borderRadius: 20,
+                    borderRadius: 50,
                     resizeMode: "cover",
                   }}
                 />
@@ -841,7 +841,9 @@ const Recherche = ({ navigation }) => {
                     fontSize: 16,
                     marginLeft: 10,
                     fontWeight: "bold",
-
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
                     textAlign: "center",
                   }}
                 >
@@ -1277,7 +1279,7 @@ const Recherche = ({ navigation }) => {
                   style={{
                     width: 100,
                     height: 100,
-                    borderRadius: 20,
+                    borderRadius: 50,
                     resizeMode: "cover",
                   }}
                 />
@@ -1288,6 +1290,9 @@ const Recherche = ({ navigation }) => {
                     marginLeft: 10,
                     fontWeight: "bold",
 
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
                     textAlign: "center",
                   }}
                 >
@@ -1350,10 +1355,15 @@ const Recherche = ({ navigation }) => {
             >
               <TextInput
                 ref={textInputRef}
-                onChangeText={handleTextChange}
+                onChangeText={(restoName) => setrestoName(restoName)}
+                blurOnSubmit={false}
+                onSubmitEditing={getDataUsingSimpleGetCall}
+                returnKeyType="next"
+                onBlur={getDataUsingSimpleGetCall}
+                value={restoName}
+                placeholder=" Restaurant , Menu ,Une cuisine"
                 autoFocus={true}
                 defaultValue=""
-                placeholder="Search Product"
                 placeholderTextColor="black"
                 style={{
                   flex: 1,
@@ -1377,7 +1387,7 @@ const Recherche = ({ navigation }) => {
           </View>
         </Animated.View>
       </View>
-      <View
+      {/* <View
         style={{
           backgroundColor: "#f3f3f3",
           flexDirection: "row",
@@ -1403,13 +1413,10 @@ const Recherche = ({ navigation }) => {
             marginTop: 3,
             caretColor: "black",
           }}
-        />
-      </View>
+        /> 
+      </View>*/}
 
-      <View style={{ marginTop: 10 }}>
-        <Text style={{ fontFamily: "Poppins-Regular", fontSize: 18 }}>
-          Filter:
-        </Text>
+      <View style={{ marginTop: 0, backgroundColor: "white" }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <ButtonGroup
             buttons={buttons}
@@ -1465,6 +1472,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "white",
   },
   picker: {
     width: 200,

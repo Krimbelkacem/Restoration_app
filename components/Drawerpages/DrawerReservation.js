@@ -18,22 +18,18 @@ import { Button, ButtonGroup, withTheme } from "@rneui/themed";
 import { API_URL } from "../../utils/config";
 import FadeIn from "../../screens/day001/components/FadeIn";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import Header from "./DrawerHeader";
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
 export default function DrawerReservation({ route }) {
   reservations = route.params?.reservations;
   console.log(reservations);
   return (
-    <View>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
+      <Header title="Mes Reservations" />
       {reservations?.length > 0 ? (
         <View>
-          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
-            Restaurants suivies
-          </Text>
-
           <View>
-            <Text>mes Reservations:</Text>
             <FlatList
               data={reservations}
               keyExtractor={(item) => item._id}
@@ -55,21 +51,36 @@ export default function DrawerReservation({ route }) {
                     elevation: 3,
                   }}
                 >
-                  <Text style={{ fontSize: 16, marginBottom: 5 }}>
-                    Date: {item.date}
-                  </Text>
-                  <Text>Time: {item.time}</Text>
-                  <Text>Guests: {item.guests}</Text>
-                  <Text>Restaurant: {item.Resto.name}</Text>
-                  <Avatar.Image
-                    size={40}
-                    source={{
-                      uri: `${API_URL}${item.Resto.avatar
-                        .replace("public", "")
-                        .replace(/\\/g, "/")}`,
+                  <View style={styles.container}>
+                    <Avatar.Image
+                      size={40}
+                      source={{
+                        uri: `${API_URL}${item.Resto.avatar
+                          .replace("public", "")
+                          .replace(/\\/g, "/")}`,
+                      }}
+                    />
+                    <Text style={styles.restaurantName}>{item.Resto.name}</Text>
+                  </View>
+                  <View
+                    style={{
+                      paddingVertical: 12,
+                      paddingHorizontal: 16,
                     }}
-                  />
-                  <Text>Status: {item.state}</Text>
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Date: {item.date}
+                    </Text>
+                    <Text>temps : {item.time}</Text>
+                    <Text>nombres de places: {item.guests}</Text>
+
+                    <Text>Status: {item.state}</Text>
+                  </View>
                 </View>
               )}
             />
@@ -81,3 +92,15 @@ export default function DrawerReservation({ route }) {
     </View>
   );
 }
+const styles = {
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  restaurantName: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
+};

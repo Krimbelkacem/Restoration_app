@@ -18,62 +18,98 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
+import Header from "./DrawerHeader";
 export default function Following({ route, navigation }) {
   const followings = route.params.followings;
   console.log(followings);
   return (
-    <View>
-      {followings?.length > 0 ? (
-        <View>
-          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
-            Restaurants suivies
-          </Text>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
+      <Header title="Mes abonnements" />
+      <View>
+        {followings?.length > 0 ? (
           <View>
-            {followings?.map((resto) => (
-              <Animated.View
-                key={resto.id}
-                entering={FadeInRight.delay(300).duration(400)}
-              >
-                <TouchableOpacity
-                  style={{ flexDirection: "row", marginTop: 12 }}
-                  onPress={() =>
-                    navigation.navigate("Resto", {
-                      // rest: resto,
-                      idR: resto._id,
-                    })
-                  }
+            <View>
+              {followings?.map((resto) => (
+                <Animated.View
+                  key={resto.id}
+                  entering={FadeInRight.delay(300).duration(400)}
                 >
-                  <Image
-                    source={{
-                      uri: `${API_URL}/${resto.avatar}`,
-                    }}
+                  <TouchableOpacity
                     style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: 20,
-                      resizeMode: "cover",
+                      flexDirection: "row",
+                      marginVertical: 15,
+                      marginHorizontal: 15,
                     }}
-                  />
-                  <Text
-                    style={{
-                      color: "#263238",
-                      fontSize: 16,
-                      marginLeft: 10,
-                      fontWeight: "bold",
-
-                      textAlign: "center",
-                    }}
+                    onPress={() =>
+                      navigation.navigate("Resto", {
+                        // rest: resto,
+                        idR: resto._id,
+                      })
+                    }
                   >
-                    {resto.name}
-                  </Text>
-                </TouchableOpacity>
-              </Animated.View>
-            ))}
+                    <Image
+                      source={{
+                        uri: `${API_URL}/${resto.avatar}`,
+                      }}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 20,
+                        resizeMode: "cover",
+                      }}
+                    />
+                    <View style={{ flexDirection: "column", marginTop: 5 }}>
+                      <Text
+                        style={{
+                          color: "#263238",
+                          fontSize: 16,
+                          marginLeft: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {resto.name}
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#263238",
+                          fontSize: 12,
+                          marginLeft: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {resto.description}
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#263238",
+                          fontSize: 14,
+                          marginLeft: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {resto.address}
+                      </Text>
+
+                      <Text
+                        style={{
+                          color: "#263238",
+                          fontSize: 14,
+                          marginLeft: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {resto.price_average} :prixMoyenn
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </Animated.View>
+              ))}
+            </View>
           </View>
-        </View>
-      ) : (
-        <Text> </Text>
-      )}
+        ) : (
+          <Text> </Text>
+        )}
+      </View>
     </View>
   );
 }

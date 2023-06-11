@@ -18,15 +18,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
+import Header from "./DrawerHeader";
 export default function MyRestos({ route, navigation }) {
   const restoData = route.params.Restos;
   return (
     <View>
+      <Header title="Mes Restaurants" />
       {restoData?.length > 0 ? (
         <View>
-          <Text style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}>
-            Restaurants ajouter
-          </Text>
           <View>
             {restoData.map((resto) => (
               <Animated.View
@@ -34,7 +33,11 @@ export default function MyRestos({ route, navigation }) {
                 entering={FadeInRight.delay(300).duration(400)}
               >
                 <TouchableOpacity
-                  style={{ flexDirection: "row", marginTop: 12 }}
+                  style={{
+                    flexDirection: "row",
+                    marginVertical: 15,
+                    marginHorizontal: 15,
+                  }}
                   onPress={() =>
                     navigation.navigate("Resto", {
                       // rest: resto,
@@ -44,7 +47,7 @@ export default function MyRestos({ route, navigation }) {
                 >
                   <Image
                     source={{
-                      uri: `${API_URL}/${resto.avatar.replace("public", "")}`,
+                      uri: `${API_URL}/${resto.avatar}`,
                     }}
                     style={{
                       width: 100,
@@ -53,18 +56,49 @@ export default function MyRestos({ route, navigation }) {
                       resizeMode: "cover",
                     }}
                   />
-                  <Text
-                    style={{
-                      color: "#263238",
-                      fontSize: 16,
-                      marginLeft: 10,
-                      fontWeight: "bold",
+                  <View style={{ flexDirection: "column", marginTop: 5 }}>
+                    <Text
+                      style={{
+                        color: "#263238",
+                        fontSize: 16,
+                        marginLeft: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {resto.name}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#263238",
+                        fontSize: 12,
+                        marginLeft: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {resto.description}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#263238",
+                        fontSize: 14,
+                        marginLeft: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {resto.address}
+                    </Text>
 
-                      textAlign: "center",
-                    }}
-                  >
-                    {resto.name}
-                  </Text>
+                    <Text
+                      style={{
+                        color: "#263238",
+                        fontSize: 14,
+                        marginLeft: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {resto.price_average} :prixMoyenn
+                    </Text>
+                  </View>
                 </TouchableOpacity>
               </Animated.View>
             ))}

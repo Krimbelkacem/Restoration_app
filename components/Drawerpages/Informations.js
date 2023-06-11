@@ -17,6 +17,7 @@ import FadeIn from "../../screens/day001/components/FadeIn";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Animated, { FadeInRight, FadeInLeft } from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
+import Header from "./DrawerHeader";
 
 export default function Informations({ navigation, route }) {
   const userData = route.params.userData;
@@ -57,88 +58,95 @@ export default function Informations({ navigation, route }) {
     }
   };
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <FadeIn delay={300}>
-          {userData && (
-            <View
-              style={{
-                borderBottomColor: "#6e7e87",
-                borderBottomWidth: 0.5,
-              }}
-            >
+    <View style={{ backgroundColor: "white" }}>
+      <Header title="Mes Informations" />
+      <ScrollView>
+        <View style={styles.container}>
+          <FadeIn delay={300}>
+            {userData && (
               <View
                 style={{
-                  flexDirection: "column",
-                  marginTop: 40,
-                  paddingBottom: 20,
-                  alignItems: "center",
-                  justifyContent: "center",
+                  borderBottomColor: "#6e7e87",
+                  borderBottomWidth: 0.5,
                 }}
               >
-                <View style={{}}>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      fontFamily: "Poppins-Medium",
-                      color: "black",
-                    }}
-                  >
-                    {userData.username}
-                  </Text>
-                </View>
-                <Image
-                  source={{
-                    uri: `${API_URL}/${userData?.picture}`,
-                  }}
+                <View
                   style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 35,
-                    marginTop: 20,
+                    flexDirection: "column",
+                    marginTop: 40,
+                    paddingBottom: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
+                >
+                  <View style={{}}>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        fontFamily: "Poppins-Medium",
+                        color: "black",
+                      }}
+                    >
+                      {userData.username}
+                    </Text>
+                  </View>
+                  <Image
+                    source={{
+                      uri: `${API_URL}/${userData?.picture}`,
+                    }}
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 35,
+                      marginTop: 20,
+                    }}
+                  />
+                </View>
               </View>
-            </View>
-          )}
-        </FadeIn>
+            )}
+          </FadeIn>
 
-        <Text style={styles.label}>Nom Complet:</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} />
-        <Text style={styles.label}>Email:</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} />
-        <Text style={styles.label}>mot de passe:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(userPasse) => setuserPasse(userPasse)}
-        />
-        <Button
-          title="Save Changes"
-          onPress={handleSave}
-          buttonStyle={styles.button}
-          titleStyle={styles.buttonText}
-        />
-        <Text
-          syles={{
-            fontWeight: "bold",
-            marginBottom: 8,
-            fontSize: 20,
-            fontFamily: "Poppins-Medium",
-            color: "black",
-          }}
-        >
-          if you want to delete your compte
-        </Text>
-        <Button
-          title="delete compte"
-          onPress={handleDelete}
-          buttonStyle={[styles.button, styles.deleteButton]}
-          titleStyle={styles.buttonText}
-        />
-      </View>
-    </ScrollView>
+          <Text style={styles.label}>Nom Complet:</Text>
+          <TextInput style={styles.input} value={name} onChangeText={setName} />
+          <Text style={styles.label}>Email:</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Text style={styles.label}>mot de passe:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={(userPasse) => setuserPasse(userPasse)}
+          />
+          <Button
+            title="Save Changes"
+            onPress={handleSave}
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+          />
+          <Text
+            syles={{
+              fontWeight: "bold",
+              marginBottom: 8,
+              fontSize: 20,
+              fontFamily: "Poppins-Medium",
+              color: "black",
+            }}
+          >
+            si vous voulez suprimer votre compte
+          </Text>
+          <Button
+            title="delete compte"
+            onPress={handleDelete}
+            buttonStyle={[styles.button, styles.deleteButton]}
+            titleStyle={styles.buttonText}
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -178,6 +186,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   deleteButton: {
-    backgroundColor: "red",
+    backgroundColor: "lightgrey",
   },
 });
