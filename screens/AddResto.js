@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -47,24 +47,35 @@ export default function AddResto({ navigation, route }) {
 
   const [UserId, setUserId] = useState("");
 
+  useEffect(() => {
+    const getSessionData = async () => {
+      try {
+        const sessionData = await AsyncStorage.getItem("session");
+
+        if (sessionData) {
+          // Parse the JSON string to an object
+          const session = JSON.parse(sessionData);
+
+          // Access the userId property
+          setUserId(session.userId.toString());
+          console.log(session.userId);
+        }
+      } catch (error) {
+        console.log("Error retrieving session data:", error);
+      }
+    };
+
+    const unsubscribe = navigation.addListener("focus", getSessionData);
+
+    return unsubscribe;
+  }, [navigation]);
+
   const uploadImage = async () => {
-    const sessionData = await AsyncStorage.getItem("session");
-
-    if (sessionData) {
-      // Parse the JSON string to an object
-      const session = JSON.parse(sessionData);
-
-      // Access the userId property
-      setUserId(session.userId.toString());
-    } else {
-      console.log("No session data found");
-    }
-
-    if (!restoName) {
+    if (!restoName || !UserId) {
       alert("Please fill Name");
       return;
     }
-    alert(UserId);
+
     const formData = new FormData();
     formData.append("name", restoName);
     formData.append("address", restoaddress);
@@ -94,8 +105,8 @@ export default function AddResto({ navigation, route }) {
       );
 
       console.log(response.data);
-      alert("resto added succesful");
-      navigation.navigate("Profile");
+      alert("restaurant ajouter avec succes");
+      navigation.navigate("Drawernav");
     } catch (error) {
       console.log(error);
       alert("resto non ajouter ");
@@ -165,7 +176,7 @@ export default function AddResto({ navigation, route }) {
         leftIcon={<Entypo name="address" size={24} color="grey" />}
       />
 
-      <Text>ADD Localisation</Text>
+      <Text>ajouter la localisation</Text>
 
       <Input
         style={styles.inp}
@@ -198,12 +209,12 @@ export default function AddResto({ navigation, route }) {
         <Button
           title="ajouter un restaurant"
           buttonStyle={{
-            backgroundColor: "rgba(111, 202, 186, 1)",
+            backgroundColor: "black",
             //borderRadius: 5,
             //  backgroundColor: "black",
             // backgroundColor: "rgba(244, 244, 244, 1)",
             borderWidth: 1,
-            borderColor: "lightgrey",
+            borderColor: "black",
             borderRadius: 30,
           }}
           onPress={uploadImage}
