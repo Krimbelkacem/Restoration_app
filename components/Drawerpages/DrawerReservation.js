@@ -24,16 +24,23 @@ import { FadeInDown } from "react-native-reanimated";
 export default function DrawerReservation({ route }) {
   reservations = route.params?.reservations;
   console.log(reservations);
+
+  const dateStr = "2023-06-11T00:00:00.000+00:00";
+  const date = new Date(dateStr);
+  const formattedDate = date.toISOString().split("T")[0];
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <Header title="Mes Reservations" />
       {reservations?.length > 0 ? (
         <View>
-          <View>
-            <FlatList
-              data={reservations}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
+          <FlatList
+            data={reservations}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+              const reservationDate = new Date(item.date);
+              const formattedDate = reservationDate.toLocaleDateString();
+
+              return (
                 <View
                   style={{
                     backgroundColor: "#fff",
@@ -74,7 +81,7 @@ export default function DrawerReservation({ route }) {
                         marginBottom: 5,
                       }}
                     >
-                      Date: {item.date}
+                      Date: {formattedDate}
                     </Text>
                     <Text>temps : {item.time}</Text>
                     <Text>nombres de places: {item.guests}</Text>
@@ -82,12 +89,13 @@ export default function DrawerReservation({ route }) {
                     <Text>Status: {item.state}</Text>
                   </View>
                 </View>
-              )}
-            />
-          </View>
+              );
+            }}
+          />
         </View>
       ) : (
-        <Text> </Text>
+        // Render alternative content if reservations is empty
+        <Text>No reservations found</Text>
       )}
     </View>
   );
