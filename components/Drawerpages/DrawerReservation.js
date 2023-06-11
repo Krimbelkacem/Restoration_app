@@ -83,7 +83,7 @@ export default function DrawerReservation({ route }) {
                     >
                       Date: {formattedDate}
                     </Text>
-                    <Text>temps : {item.time}</Text>
+                    <Text>heure: {item.time}</Text>
                     <Text>nombres de places: {item.guests}</Text>
 
                     <Text>Status: {item.state}</Text>
@@ -95,7 +95,7 @@ export default function DrawerReservation({ route }) {
         </View>
       ) : (
         // Render alternative content if reservations is empty
-        <Text>No reservations found</Text>
+        <Text>acun reservations a aficher </Text>
       )}
     </View>
   );

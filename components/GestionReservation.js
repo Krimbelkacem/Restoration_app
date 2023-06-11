@@ -80,51 +80,61 @@ const ReservationList = ({
           <Text>Reservations</Text>
           {RestoReservation?.map((reservation) => (
             <Card key={reservation._id} containerStyle={styles.card}>
-              <Text>Date: {reservation.date}</Text>
-              <Text>Time: {reservation.time}</Text>
-              <Text>Guests: {reservation.guests}</Text>
-              <Avatar.Image
-                size={40}
-                source={{
-                  uri: `${API_URL}/${reservation?.user.picture}`,
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingVertical: 12,
+                  paddingHorizontal: 16,
                 }}
-              />
-              <Text>User: {reservation.user.username}</Text>
-
-              <Text>
-                Status :
-                <Text style={{ color: "grey" }}>{reservation.state}</Text>
-              </Text>
-              {reservation.state === "pending" && (
-                <View>
-                  <View style={styles.buttonContainer}>
-                    <Button
-                      title="Accept"
-                      onPress={() => acceptReservation(reservation._id)}
-                    />
-                    <Button
-                      title="Reject"
-                      onPress={() => rejectReservation(reservation._id)}
-                    />
-                  </View>
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => acceptReservation(reservation._id)}
-                    >
-                      <Icon name="check" size={20} color="white" />
-                      <Text style={styles.buttonText}>Accept</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => rejectReservation(reservation._id)}
-                    >
-                      <Icon name="times" size={20} color="white" />
-                      <Text style={styles.buttonText}>Reject</Text>
-                    </TouchableOpacity>
-                  </View>
+              >
+                <Avatar.Image
+                  size={40}
+                  source={{
+                    uri: `${API_URL}/${reservation?.user.picture}`,
+                  }}
+                />
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                    paddingVertical: 12,
+                    paddingHorizontal: 16,
+                  }}
+                >
+                  <Text style={{ marginLeft: 8, fontSize: 16 }}>
+                    User: {reservation.user.username}
+                  </Text>
                 </View>
-              )}
+                <Text>Date: {reservation.date}</Text>
+                <Text>Heure: {reservation.time}</Text>
+                <Text>Nombres de places: {reservation.guests}</Text>
+
+                <Text>
+                  Status :
+                  <Text style={{ color: "grey" }}>{reservation.state}</Text>
+                </Text>
+                {reservation.state === "pending" && (
+                  <View>
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => acceptReservation(reservation._id)}
+                      >
+                        <Icon name="check" size={20} color="white" />
+                        <Text style={styles.buttonText}>accepter</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => rejectReservation(reservation._id)}
+                      >
+                        <Icon name="times" size={20} color="white" />
+                        <Text style={styles.buttonText}>rejeter</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              </View>
             </Card>
           ))}
         </View>

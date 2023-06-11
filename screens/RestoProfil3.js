@@ -258,14 +258,15 @@ export default function Resto({ route, navigation }) {
                 })
               }
               style={{
-                backgroundColor: "#2f95dc",
+                // backgroundColor: "#2f95dc",
+                backgroundColor: "black",
                 borderRadius: 50,
                 paddingVertical: 12,
                 paddingHorizontal: 16,
               }}
             >
               <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
-                new Reservation
+                Reserver Maintenant
               </Text>
             </TouchableOpacity>
           )}

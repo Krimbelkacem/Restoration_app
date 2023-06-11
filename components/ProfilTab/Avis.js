@@ -61,8 +61,7 @@ export default function Avis({ idR, idU, display }) {
     }
   };
 
-  const text =
-    "You all guys asking for the source code, yes I know😬😬. I will share all the source code when hit day 100/100 which mean last 19 post.💛🚀";
+  const text = "Youwhich";
   const { width, height } = Dimensions.get("window");
 
   const [isVisible, setIsVisible] = React.useState(false);
