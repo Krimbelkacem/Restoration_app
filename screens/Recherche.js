@@ -61,28 +61,30 @@ const Recherche = ({ navigation }) => {
   const [highPriceResto, setHighPriceResto] = useState([]);
   const [priceItems, setPriceItems] = useState([]);
   const getDataUsingSimpleGetCall = async () => {
-    try {
-      const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
-      const data = res.data;
-      setRestoResults(data.restoResults);
+    if (restoName.trim() !== "") {
+      try {
+        const res = await axios.post(`${API_URL}/search?keyword=${restoName}`);
+        const data = res.data;
+        setRestoResults(data.restoResults);
 
-      setCategoryResults(data.categoryResults);
-      setItemResults(data.itemResults);
-      setCuisineResults(data.cuisineResults);
-      setLowPriceResto(data.lowPriceResto);
-      console.log(data.categoryResults.items);
-      // console.log(data.mediumPriceResto);
-      //  console.log(data.highPriceResto);
-      setMediumPriceResto(data.mediumPriceResto);
-      setHighPriceResto(data.highPriceResto);
-      setPriceItems(data.numericResults);
-      console.log("priceitems", data.numericResults);
-      setData(res.data);
-      setResults(res.data);
-      setLoading(true);
-    } catch (error) {
-      console.log(error);
-      alert("no");
+        setCategoryResults(data.categoryResults);
+        setItemResults(data.itemResults);
+        setCuisineResults(data.cuisineResults);
+        setLowPriceResto(data.lowPriceResto);
+        console.log(data.categoryResults.items);
+        // console.log(data.mediumPriceResto);
+        //  console.log(data.highPriceResto);
+        setMediumPriceResto(data.mediumPriceResto);
+        setHighPriceResto(data.highPriceResto);
+        setPriceItems(data.numericResults);
+        console.log("priceitems", data.numericResults);
+        setData(res.data);
+        setResults(res.data);
+        setLoading(true);
+      } catch (error) {
+        console.log(error);
+        alert("no");
+      }
     }
   };
 
@@ -1306,32 +1308,15 @@ const Recherche = ({ navigation }) => {
     }
     return null;
   };
-  const textInputRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      handleKeyboardDidShow
-    );
+  const inputRef = useRef(null);
 
-    const timeoutId = setTimeout(() => {
-      textInputRef.current.focus();
-    }, 100);
-
-    return () => {
-      clearTimeout(timeoutId);
-      keyboardDidShowListener.remove();
-    };
+  useEffect(() => {
+    // Ouvrir le clavier lors du chargement de la page
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, []);
-
-  const handleKeyboardDidShow = () => {
-    // Handle any actions you need when the keyboard is shown
-    // For example, you can update the text input value
-  };
-
-  const handleTextChange = (newText) => {
-    // Handle text change here if needed
-  };
 
   return (
     <View style={{ backgroundColor: "white", padding: 12 }}>
@@ -1354,7 +1339,8 @@ const Recherche = ({ navigation }) => {
               }}
             >
               <TextInput
-                ref={textInputRef}
+                ref={inputRef}
+                autoFocus={true}
                 onChangeText={(restoName) => setrestoName(restoName)}
                 blurOnSubmit={false}
                 onSubmitEditing={getDataUsingSimpleGetCall}
@@ -1362,7 +1348,6 @@ const Recherche = ({ navigation }) => {
                 onBlur={getDataUsingSimpleGetCall}
                 value={restoName}
                 placeholder=" Restaurant , Menu ,Une cuisine"
-                autoFocus={true}
                 defaultValue=""
                 placeholderTextColor="black"
                 style={{

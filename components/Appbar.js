@@ -19,6 +19,8 @@ import {
   Modal,
   FlatList,
 } from "react-native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+
 import { Drawer } from "react-native-paper";
 import {
   FontAwesome5,
@@ -89,6 +91,9 @@ export default function MyAppbar({
   const handleKeyboardShow = () => {
     navigation.navigate("Recherche");
   };
+  const handleOpenDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
 
   return (
     <View>
@@ -99,10 +104,10 @@ export default function MyAppbar({
               name="bars"
               size={24}
               color="black"
-              onPress={() => alert("0000000000")}
+              onPress={handleOpenDrawer}
             />
+
             <TouchableOpacity
-              onPress={handleTextChange}
               style={{
                 flex: 1,
                 flexDirection: "row",

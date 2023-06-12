@@ -137,6 +137,7 @@ export default function Home({ navigation }) {
           setIsconnected(1);
           setUserId(user._id);
           handleJoin(user._id);
+          fetchRestaurantslogique(user._id);
         }
       }
     } catch (error) {
@@ -210,6 +211,25 @@ export default function Home({ navigation }) {
     console.log("envoie de id user connecter");
     // Send the user ID to the server
     socket.emit("join", userId);
+  };
+
+  /////////////////////////////////////////////////////////////////
+  const [homeLogique, setHomeLogique] = useState([]);
+  const fetchRestaurantslogique = async (userId) => {
+    try {
+      if (userId) {
+        // If the user is not logged in
+        const response = await axios.post(
+          `${API_URL}/homeLogique?iduser=${userId}`
+        );
+        setHomeLogique(response.data);
+      } else {
+        const response = await axios.post(`${API_URL}/homeLogique`);
+        setHomeLogique(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   /////////////////////////////////////////////////////////////////////
@@ -372,7 +392,7 @@ export default function Home({ navigation }) {
         <View
           style={{ flex: 1, backgroundColor: "white", paddingHorizontal: 20 }}
         >
-          <Populaire navigation={navigation} recentsRestos={topRestos} />
+          <Populaire navigation={navigation} recentsRestos={homeLogique} />
         </View>
         <View
           style={{
@@ -398,9 +418,6 @@ export default function Home({ navigation }) {
         </View>
         <View>{renderSection(homePub.slice(0, 2))}</View>
 
-        <View style={styles.mainContent}>
-          <TouchableOpacity onPress={toggleDrawer}></TouchableOpacity>
-        </View>
         <View style={{ flex: 1, backgroundColor: "white" }}></View>
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1 }}></View>
