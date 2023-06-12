@@ -340,7 +340,7 @@ export default function Home({ navigation }) {
           source={source}
           style={{
             width: "100%",
-            height: "100%",
+            height: "90%",
             resizeMode: mode || "contain",
             borderRadius: circle ? size / 2 : 10,
             marginLeft: 2,
