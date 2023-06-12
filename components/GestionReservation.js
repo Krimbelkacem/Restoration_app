@@ -77,43 +77,47 @@ const ReservationList = ({
     <ScrollView contentContainerStyle={styles.container}>
       {display ? (
         <View>
-          <Text>Reservations</Text>
-          {RestoReservation?.map((reservation) => (
-            <Card key={reservation._id} containerStyle={styles.card}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingVertical: 12,
-                  paddingHorizontal: 16,
-                }}
-              >
-                <Avatar.Image
-                  size={40}
-                  source={{
-                    uri: `${API_URL}/${reservation?.user.picture}`,
-                  }}
-                />
+          {RestoReservation?.map((reservation) => {
+            const reservationDate = new Date(reservation.date);
+            const formattedDate = reservationDate.toLocaleDateString();
+
+            return (
+              <Card key={reservation._id} containerStyle={styles.card}>
                 <View
                   style={{
-                    flexDirection: "column",
+                    flexDirection: "row",
                     alignItems: "center",
                     paddingVertical: 12,
                     paddingHorizontal: 16,
                   }}
                 >
+                  <Avatar.Image
+                    size={40}
+                    source={{
+                      uri: `${API_URL}/${reservation?.user.picture}`,
+                    }}
+                  />
                   <Text style={{ marginLeft: 8, fontSize: 16 }}>
                     User: {reservation.user.username}
                   </Text>
                 </View>
-                <Text>Date: {reservation.date}</Text>
-                <Text>Heure: {reservation.time}</Text>
-                <Text>Nombres de places: {reservation.guests}</Text>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    paddingVertical: 12,
+                    paddingHorizontal: 16,
+                  }}
+                >
+                  <Text>Date: {formattedDate}</Text>
+                  <Text>Heure: {reservation.time}</Text>
+                  <Text>Nombres de places: {reservation.guests}</Text>
 
-                <Text>
-                  Status :
-                  <Text style={{ color: "grey" }}>{reservation.state}</Text>
-                </Text>
+                  <Text>
+                    Status:
+                    <Text style={{ color: "grey" }}>{reservation.state}</Text>
+                  </Text>
+                </View>
+
                 {reservation.state === "pending" && (
                   <View>
                     <View style={styles.buttonContainer}>
@@ -134,9 +138,9 @@ const ReservationList = ({
                     </View>
                   </View>
                 )}
-              </View>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </View>
       ) : (
         <Text></Text>

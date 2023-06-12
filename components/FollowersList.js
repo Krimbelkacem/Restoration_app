@@ -25,7 +25,7 @@ const FollowersList = ({ route }) => {
 
   //const [UserId, setUserId] = useState(null);
   const handleUnfollow = async (UserId) => {
-    console.log(UserId);
+    alert(UserId);
     console.log(route.params.idR);
     try {
       const response = await axios.post(
@@ -34,7 +34,6 @@ const FollowersList = ({ route }) => {
       console.log(response.data);
 
       setVisible(false);
-      getRestoProfile(idR);
     } catch (error) {
       console.error(error);
       setVisible(false);
@@ -48,12 +47,12 @@ const FollowersList = ({ route }) => {
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Content>
               <Text variant="bodyMedium">
-                do you want to delete :: {item.username}
+                voulez vous vraiment suprimer {item.username}
               </Text>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={hideDialog}>Cancel</Button>
-              <Button onPress={() => handleUnfollow(item._id)}>Ok</Button>
+              <Button onPress={hideDialog}>annuler</Button>
+              <Button onPress={() => handleUnfollow(item._id)}>oui</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
