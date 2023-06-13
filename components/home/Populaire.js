@@ -39,34 +39,42 @@ export default function Populaire({ navigation, menu, recentsRestos }) {
         showsHorizontalScrollIndicator={false}
       >
         {recentsRestos?.map((resto) => (
-          <ImageBackground
+          <Pressable
             key={resto._id}
-            source={{
-              uri: `${API_URL}/${resto.avatar
-                ?.replace("public", "")
-                .replace(/\\/g, "/")}`,
-            }}
-            style={{
-              width: width - 70,
-              height: 200,
-              borderRadius: 20,
-              padding: 20,
-
-              marginHorizontal: 5,
-            }}
-            imageStyle={{ borderRadius: 20 }}
+            onPress={() =>
+              navigation.navigate("Resto", {
+                idR: resto._id,
+              })
+            }
           >
-            <Text
-              style={{
-                fontFamily: "Poppins-Medium",
-                fontSize: 30,
-                color: "#FFF",
-                marginTop: 120,
+            <ImageBackground
+              source={{
+                uri: `${API_URL}/${resto.avatar
+                  ?.replace("public", "")
+                  .replace(/\\/g, "/")}`,
               }}
+              style={{
+                width: width - 70,
+                height: 200,
+                borderRadius: 20,
+                padding: 20,
+
+                marginHorizontal: 5,
+              }}
+              imageStyle={{ borderRadius: 20 }}
             >
-              {resto.name}
-            </Text>
-          </ImageBackground>
+              <Text
+                style={{
+                  fontFamily: "Poppins-Medium",
+                  fontSize: 27,
+                  color: "#FFF",
+                  marginTop: 120,
+                }}
+              >
+                {resto.name}
+              </Text>
+            </ImageBackground>
+          </Pressable>
         ))}
       </ScrollView>
     </Animated.View>

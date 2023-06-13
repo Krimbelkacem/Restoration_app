@@ -31,6 +31,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setuserEmail] = useState("");
   const [userPasse, setuserPasse] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function submit() {
     if (!userEmail || !userPasse) {
@@ -113,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
           <View>
             <TextInput
               placeholder="Password"
-              secureTextEntry={true}
+              secureTextEntry={!showPassword}
               onChangeText={(userPasse) => setuserPasse(userPasse)}
               placeholderTextColor={"#bdb8c0"}
               fontSize={16}
@@ -125,12 +126,16 @@ const LoginScreen = ({ navigation }) => {
                 marginTop: 10,
               }}
             />
-            <FontAwesome5
-              name="eye-slash"
-              size={24}
-              color={"#bdb8c0"}
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
               style={{ position: "absolute", right: 10, top: 25 }}
-            />
+            >
+              <FontAwesome5
+                name={showPassword ? "eye-slash" : "eye"}
+                size={24}
+                color={"#bdb8c0"}
+              />
+            </TouchableOpacity>
           </View>
         </View>
 

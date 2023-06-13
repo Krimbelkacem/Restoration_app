@@ -23,11 +23,40 @@ import {
   MaterialCommunityIcons,
   Ionicons,
 } from "react-native-vector-icons";
+
 const SignUpScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [userName, setuserName] = useState("");
   const [userEmail, setuserEmail] = useState("");
   const [userPasse, setuserPasse] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Veuillez saisir une adresse email valide");
+      return false;
+    }
+    setEmailError("");
+    return true;
+  };
+
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      setPasswordError("Le mot de passe doit comporter au moins 8 caractères");
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setPasswordError(
+        "Le mot de passe doit contenir au moins une lettre majuscule"
+      );
+      return false;
+    }
+    setPasswordError("");
+    return true;
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -44,6 +73,10 @@ const SignUpScreen = ({ navigation }) => {
   const submit = async () => {
     if (!userEmail || !userPasse) {
       alert("email and password are required");
+      return;
+    }
+
+    if (!validateEmail(userEmail) || !validatePassword(userPassword)) {
       return;
     }
 
@@ -137,21 +170,38 @@ const SignUpScreen = ({ navigation }) => {
               style={styles.inp}
               placeholder="email"
               leftIcon={<Icon name="email" size={24} color="black" />}
-              onChangeText={(userEmail) => setuserEmail(userEmail)}
+              onChangeText={(userEmail) => {
+                setuserEmail(userEmail);
+                validateEmail(userEmail);
+              }}
             />
+            {emailError ? (
+              <Text style={styles.errorText}>{emailError}</Text>
+            ) : null}
 
             <Input
               style={styles.inp}
               placeholder="Password"
-              secureTextEntry={true}
-              onChangeText={(userPasse) => setuserPasse(userPasse)}
+              secureTextEntry={!showPassword}
+              onChangeText={(userPasse) => {
+                setuserPasse(userPasse);
+                validatePassword(userPasse);
+              }}
               leftIcon={
                 <MaterialCommunityIcons name="lock" size={24} color="black" />
               }
               rightIcon={
-                <MaterialCommunityIcons name="eye" size={24} color="black" />
+                <MaterialCommunityIcons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="black"
+                  onPress={() => setShowPassword(!showPassword)}
+                />
               }
             />
+            {passwordError ? (
+              <Text style={styles.errorText}>{passwordError}</Text>
+            ) : null}
           </View>
         </View>
 
@@ -331,6 +381,10 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 8,
     width: 200,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 0,
   },
 });
 

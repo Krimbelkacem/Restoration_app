@@ -362,10 +362,10 @@ const Recherche = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const buttons = [
-    `All (${totalLength})`,
+    `Tous (${totalLength})`,
     `Restos (${restoResults?.length})`,
-    `Categories (${categoryResults?.length})`,
-    `Items (${itemLength})`,
+    `Menu  Categories (${categoryResults?.length})`,
+    `Menu   Elements (${itemLength})`,
     `cuisines(${cuisineResults?.length})`,
   ];
 

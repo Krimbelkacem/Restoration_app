@@ -62,6 +62,45 @@ export default function Home({ navigation }) {
 
   const [refreshing, setRefreshing] = React.useState(false);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([
+      fetchpub(),
+      fetchUser(),
+      fetchTopRestos(),
+      fetchRecentssRestos(),
+      fetchcuisines(),
+    ]);
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    const handleFocus = async () => {
+      await Promise.all([fetchUser()]);
+    };
+
+    const unsubscribe = navigation.addListener("focus", handleFocus);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([
+        fetchUser(),
+        fetchTopRestos(),
+        fetchRecentssRestos(),
+        fetchcuisines(),
+        fetchpub(),
+      ]);
+    };
+
+    fetchData();
+  }, []);
+
+  /*
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchpub();
@@ -94,7 +133,7 @@ export default function Home({ navigation }) {
     fetchRecentssRestos();
     fetchcuisines();
   }, []);
-
+*/
   const handleLogout = async () => {
     try {
       alert("nn");
@@ -139,6 +178,8 @@ export default function Home({ navigation }) {
           handleJoin(user._id);
           fetchRestaurantslogique(user._id);
         }
+      } else {
+        fetchRestaurantslogique();
       }
     } catch (error) {
       console.log(error + "vous n'estes pas connecté");
