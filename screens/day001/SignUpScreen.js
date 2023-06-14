@@ -76,7 +76,7 @@ const SignUpScreen = ({ navigation }) => {
       return;
     }
 
-    if (!validateEmail(userEmail) || !validatePassword(userPassword)) {
+    if (!validateEmail(userEmail) || !validatePassword(userPasse)) {
       return;
     }
 
@@ -242,37 +242,7 @@ const SignUpScreen = ({ navigation }) => {
             justifyContent: "space-evenly",
             marginTop: 20,
           }}
-        >
-          <TouchableOpacity
-            style={{
-              width: 80,
-              height: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#e1e4ee",
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#FFF",
-            }}
-          >
-            <FontAwesome5 name={"facebook"} size={24} color={"#353045"} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              width: 80,
-              height: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#e1e4ee",
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#FFF",
-            }}
-          >
-            <FontAwesome5 name={"google"} size={24} color={"#353045"} />
-          </TouchableOpacity>
-        </View>
+        ></View>
       </FadeIn>
     </View>
   );

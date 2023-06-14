@@ -3,10 +3,13 @@ import {
   View,
   Image,
   StyleSheet,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   StatusBar,
   Text,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import {
   EvilIcons,
@@ -27,10 +30,16 @@ import { Icon, Input, Button } from "@rneui/themed";
 import { API_URL } from "../utils/config";
 
 export default function AddResto({ navigation, route }) {
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   const id = route.params.id;
   const [imageUri, setImageUri] = useState(null);
   const [restoName, setrestoName] = useState("");
   const [restoaddress, setrestoAddress] = useState("");
+  const [RestoReference, setRestoReference] = useState("");
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -71,12 +80,13 @@ export default function AddResto({ navigation, route }) {
   }, [navigation]);
 
   const uploadImage = async () => {
-    if (!restoName || !UserId) {
-      alert("Please fill Name");
+    if (!restoName || !UserId || !RestoReference) {
+      alert("veulliez remplire les champs requis");
       return;
     }
 
     const formData = new FormData();
+    formData.append("RestoReference", RestoReference);
     formData.append("name", restoName);
     formData.append("address", restoaddress);
     if (latitude) {
@@ -161,16 +171,21 @@ export default function AddResto({ navigation, route }) {
       <Input
         style={styles.inp}
         returnKeyType="next"
-        blurOnSubmit={false}
         onChangeText={(restoName) => setrestoName(restoName)}
         placeholder="name"
+        leftIcon={<Ionicons name="restaurant" size={24} color="grey" />}
+      />
+      <Input
+        style={styles.inp}
+        returnKeyType="next"
+        onChangeText={(RestoReference) => setRestoReference(RestoReference)}
+        placeholder="Reference"
         leftIcon={<Ionicons name="restaurant" size={24} color="grey" />}
       />
       <Input
         value={restoaddress}
         style={styles.inp}
         returnKeyType="next"
-        blurOnSubmit={false}
         onChangeText={(restoaddress) => setrestoAddress(restoaddress)}
         placeholder="address"
         leftIcon={<Entypo name="address" size={24} color="grey" />}
@@ -182,7 +197,6 @@ export default function AddResto({ navigation, route }) {
         style={styles.inp}
         returnKeyType="next"
         value={longitude?.toString()}
-        blurOnSubmit={false}
         placeholder="longitude"
         rightIcon={
           <Entypo
@@ -198,7 +212,6 @@ export default function AddResto({ navigation, route }) {
         style={styles.inp}
         returnKeyType="next"
         value={latitude?.toString()}
-        blurOnSubmit={false}
         placeholder="latitude"
         onPressRightIcon={() => navigation.navigate("Map")}
       />

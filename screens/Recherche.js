@@ -365,7 +365,7 @@ const Recherche = ({ navigation }) => {
     `Tous (${totalLength})`,
     `Restos (${restoResults?.length})`,
     `Menu  Categories (${categoryResults?.length})`,
-    `Menu   Elements (${itemLength})`,
+    `Plats (${itemLength})`,
     `cuisines(${cuisineResults?.length})`,
   ];
 
@@ -1309,15 +1309,6 @@ const Recherche = ({ navigation }) => {
     return null;
   };
 
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    // Ouvrir le clavier lors du chargement de la page
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-
   return (
     <View style={{ backgroundColor: "white", padding: 12 }}>
       <View style={{ backgroundColor: "white", paddingVertical: 30 }}>
@@ -1339,7 +1330,6 @@ const Recherche = ({ navigation }) => {
               }}
             >
               <TextInput
-                ref={inputRef}
                 autoFocus={true}
                 onChangeText={(restoName) => setrestoName(restoName)}
                 blurOnSubmit={false}

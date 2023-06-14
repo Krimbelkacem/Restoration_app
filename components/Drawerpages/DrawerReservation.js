@@ -35,6 +35,7 @@ export default function DrawerReservation({ route }) {
         <View>
           <FlatList
             data={reservations}
+            style={{ marginBottom: 120 }}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => {
               const reservationDate = new Date(item.date);
@@ -62,9 +63,7 @@ export default function DrawerReservation({ route }) {
                     <Avatar.Image
                       size={40}
                       source={{
-                        uri: `${API_URL}${item.Resto.avatar
-                          .replace("public", "")
-                          .replace(/\\/g, "/")}`,
+                        uri: `${API_URL}/${item.Resto.avatar}`,
                       }}
                     />
                     <Text style={styles.restaurantName}>{item.Resto.name}</Text>

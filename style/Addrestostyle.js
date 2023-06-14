@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     marginBottom: 10,
   },
 
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   },
 
   imgback: {
-    width: 210,
-    height: 210,
+    width: 160,
+    height: 160,
     borderRadius: 5,
     borderWidth: 2,
     borderColor: "lightgray",

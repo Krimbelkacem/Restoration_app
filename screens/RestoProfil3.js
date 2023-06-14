@@ -266,7 +266,7 @@ export default function Resto({ route, navigation }) {
               }}
             >
               <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
-                Reserver Maintenant
+                Reserver maintenant
               </Text>
             </TouchableOpacity>
           )}
@@ -319,6 +319,7 @@ export default function Resto({ route, navigation }) {
                     display: display,
                   })
                 }
+                style={{ flexDirection: "row" }}
               >
                 {followerss?.map(({ picture, _id }) => (
                   <View style={styles.friendCard} key={_id}>
@@ -593,6 +594,7 @@ const styles = {
     height: 50,
     borderRadius: 25,
     marginLeft: 2,
+    flexDirection: "row",
   },
   friendImage: {
     width: 50,
@@ -601,6 +603,7 @@ const styles = {
   },
   friendsScroll: {
     paddingBottom: 10,
+    flexDirection: "row",
   },
   openText: {
     fontSize: 20,

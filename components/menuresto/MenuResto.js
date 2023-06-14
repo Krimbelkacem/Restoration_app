@@ -208,6 +208,18 @@ export default function MenuResto({
                             >
                               {item.name}
                             </Text>
+                            <Text
+                              style={{
+                                fontSize: 15,
+                                fontFamily: "Poppins-Regular",
+                                color: "black",
+                                marginTop: 4,
+                                marginLeft: 12,
+                                marginTop: -5,
+                              }}
+                            >
+                              {item.description}
+                            </Text>
                           </View>
                           <Text
                             style={{
@@ -318,7 +330,7 @@ export default function MenuResto({
                             </Text>
                             <Text
                               style={{
-                                fontSize: 20,
+                                fontSize: 15,
                                 fontFamily: "Poppins-Regular",
                                 color: "black",
                                 marginTop: 4,
@@ -326,7 +338,7 @@ export default function MenuResto({
                                 marginTop: -5,
                               }}
                             >
-                              {item.name}
+                              {item.description}
                             </Text>
                           </View>
                           <Text

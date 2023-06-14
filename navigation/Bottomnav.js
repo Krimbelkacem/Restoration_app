@@ -142,7 +142,7 @@ export default function Bottomnav({ navigation }) {
 
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "skyblue",
+        tabBarActiveTintColor: "black",
       }}
     >
       <Tab.Screen
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderColor: "#ccc",
+    borderColor: "black",
     borderWidth: 1,
     paddingLeft: 10,
     paddingRight: 10,

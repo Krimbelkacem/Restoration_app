@@ -428,7 +428,7 @@ export default function Home({ navigation }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        style={{ marginBottom: 100 }}
+        style={{ marginBottom: 115 }}
       >
         <View
           style={{ flex: 1, backgroundColor: "white", paddingHorizontal: 20 }}

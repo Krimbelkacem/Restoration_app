@@ -162,22 +162,28 @@ export default function Avis({ idR, idU, display }) {
       {display ? (
         <Text></Text>
       ) : (
-        <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
+        <View>
+          {idU ? (
+            <TouchableOpacity
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
 
-            bottom: 50,
-            left: width / 2 - 30,
-            backgroundColor: "black",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onPress={() => setIsVisible(true)}
-        >
-          <MaterialCommunityIcons name="plus" size={50} color="#FFF" />
-        </TouchableOpacity>
+                bottom: 50,
+                left: width / 2 - 30,
+                backgroundColor: "black",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => setIsVisible(true)}
+            >
+              <MaterialCommunityIcons name="plus" size={50} color="#FFF" />
+            </TouchableOpacity>
+          ) : (
+            <Text></Text>
+          )}
+        </View>
       )}
 
       <Modal

@@ -162,7 +162,6 @@ const DetailsSettings = ({ navigation, route }) => {
             placeholder="ajouter nom Restaurant"
             style={styles.inp}
             returnKeyType="next"
-            blurOnSubmit={false}
             leftIcon={
               <Ionicons name="restaurant-outline" size={24} color="black" />
             }
@@ -173,7 +172,6 @@ const DetailsSettings = ({ navigation, route }) => {
             placeholder=" ajouter Description Restaurant "
             style={styles.inp}
             returnKeyType="next"
-            blurOnSubmit={false}
             leftIcon={
               <MaterialIcons name="description" size={24} color="black" />
             }
@@ -185,7 +183,6 @@ const DetailsSettings = ({ navigation, route }) => {
             placeholder="ajouter numero Restaurant "
             style={styles.inp}
             returnKeyType="next"
-            blurOnSubmit={false}
             leftIcon={<MaterialIcons name="phone" size={24} color="black" />}
           />
         </View>
